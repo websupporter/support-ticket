@@ -38,6 +38,8 @@ if (
 		 *
 		 * @return array $post_data The post data.
 		 */
+
+		/* ToDo: proper sanitization should be done on the global scope, not by single actions */
 		$post_data = apply_filters( 'sts-ticket-admin-update-postdata', wp_unslash( $_POST['t'] ), $ticket_id );
 		do_action( 'ticket-admin-update', $post_data, $ticket_id );
 		?><script>location.href='?page=sts&action=single&ID=<?php echo (int) $ticket_id; ?>&updated=1'</script>'<?php
@@ -75,13 +77,14 @@ if (
 	}
 
 	$query = new WP_Query( $args );
-	if( ! $query->have_posts() ):
+	if ( ! $query->have_posts() ) :
 	?>
 	<h1>
-		<img src="<?php echo STS_URL; ?>assetts/logo-small.svg" height="25px" />
+		<img src="<?php echo esc_url( STS_URL ); ?>assetts/logo-small.svg" height="25px" />
 		<?php esc_html_e( 'Ticket not found :/', 'sts' ); ?>
 	</h1>
-	<?php else: 
+	<?php
+	else :
 		$query->the_post();
 
 		//If the assigned ticket agent reads this ticket,
@@ -98,9 +101,9 @@ if (
 		<div id="post-body" class="metabox-holder columns-2">
 			<div id="post-body-content" style="position: relative;">
 
-			<?php 
+			<?php
 				global $post;
-				do_meta_boxes( 'ticket-boxes', 'normal', $post ); 
+				do_meta_boxes( 'ticket-boxes', 'normal', $post );
 			?>
 			</div>
 			<div id="postbox-container-1" class="postbox-container">
