@@ -69,8 +69,8 @@ if (
 		$args['author'] = get_current_user_id();
 	} elseif ( ! current_user_can( 'read_other_tickets' ) ) {
 		$args['meta_query'] = array(
-			'meta_key'   => 'ticket-agent',
-			'meta_value' => get_current_user_id(),
+			'key'   => 'ticket-agent',
+			'value' => get_current_user_id(),
 		);
 	}
 
