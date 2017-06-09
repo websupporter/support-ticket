@@ -90,15 +90,3 @@ function sts_textdomain() {
 	$plugin_dir = basename( STS_ROOT ) . '/assetts/language/';
 	load_plugin_textdomain( 'sts', false, $plugin_dir );
 }
-
-/**
-* Register Scripts & Styles
-* Adds the scripts and styles for the front end
-*
-* @since 	1.0.0
-*/
-add_action( 'wp_enqueue_scripts', 'sts_scripts' );
-function sts_scripts(){
-
-}
-?>
