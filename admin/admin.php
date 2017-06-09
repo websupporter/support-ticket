@@ -131,17 +131,21 @@ function sts_admin_init() {
 	}
 
 	if (
-		! wp_verify_nonce( $_POST['t-nonce'], 'sts-bluk-action')
-		&& 'bulk-action' === sanitize_text_field( wp_unslash( $_POST['sts-action'] ) )
+		(
+			! isset( $_POST['t-nonce'] ) // Input var okay.
+			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['t-nonce'] ) ), 'sts-bluk-action' ) // Input var okay.
+		)
+		&& 'bulk-action' === sanitize_text_field( wp_unslash( $_POST['sts-action'] ) ) // Input var okay.
 	) {
-		wp_die( __( 'Something went wrong :/', 'sts' ) );
+		wp_die( esc_html__( 'Something went wrong :/', 'sts' ) );
 	}
 
-	if( $_POST['action'] == 'delete' && ! current_user_can( 'delete_other_tickets' ) )
-		wp_die( __( 'Something went wrong :/', 'sts' ) );
+	if ( 'delete' === sanitize_text_field( wp_unslash( $_POST['action'] ) ) && ! current_user_can( 'delete_other_tickets' ) ) { // Input var okay.
+		wp_die( esc_html__( 'Something went wrong :/', 'sts' ) );
+	}
 
-	foreach ( $_POST['ticket'] as $ticket ) {
-		$ticket = (int) $ticket;
+	foreach ( wp_unslash( $_POST['ticket'] ) as $raw_ticket ) { // Input var okay.
+		$ticket = (int) $raw_ticket;
 
 		$args = array(
 			'post_type'      => 'ticket',
