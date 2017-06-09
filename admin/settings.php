@@ -1,27 +1,29 @@
 <?php
 require_once( dirname( __FILE__ ) . '/inc/metaboxes.php' );
 require_once( dirname( __FILE__ ) . '/inc/functions-settings.php' );
-add_thickbox(); 
+add_thickbox();
 do_action( 'add_meta_boxes' );
 $sts_settings = new Sts_Settings();
 
-if( isset( $_POST['t-action'] ) && $_POST['t-action'] == 'settings' )
+//ToDo: Validate nonce here too.
+if ( isset( $_POST['t-action'] ) && 'settings' === sanitize_text_field( wp_unslash( $_POST['t-action'] ) ) ) { // Input var okay.
 	$sts_settings->update();
+}
 
-wp_enqueue_script('common');
-wp_enqueue_script('wp-lists');
-wp_enqueue_script('postbox');
+wp_enqueue_script( 'common' );
+wp_enqueue_script( 'wp-lists' );
+wp_enqueue_script( 'postbox' );
 
 ?><div id="sts-wrap" class="wrap">
-	<h2><?php _e( 'Settings', 'sts' ); ?></h2>
+	<h2><?php esc_html_e( 'Settings', 'sts' ); ?></h2>
 	<?php
-		$sts_settings->render_error();
+	$sts_settings->render_error();
+	if ( isset( $_GET['updated'] ) ) : // Input var okay.
 	?>
+	<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Settings updated.', 'sts' ); ?></p></div>
 	<?php
-		if( isset( $_GET['updated'] ) ):
+	endif;
 	?>
-	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Settings updated.', 'sts' ); ?></p></div>
-<?php endif; ?>
 
 	<div id="poststuff">
 		<div id="sts-tabs">
