@@ -53,7 +53,6 @@ register_activation_hook( STS_FILE, 'sts_on_plugin_activation' );
 function sts_metafields( $fields ) {
 
 	$add = get_option( 'sts-metafields', array() );
-	$fields = array();
 
 	foreach ( $add as $field ) {
 		$type = '';

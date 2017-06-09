@@ -58,6 +58,6 @@
 			</tbody>
 		</table>
 	<?php endif; ?>
-	<p><button><?php esc_html__( 'Send', 'sts' ); ?></button></p>
+	<p><button><?php esc_html_e( 'Send', 'sts' ); ?></button></p>
 	<?php endif; ?>
 </form>
