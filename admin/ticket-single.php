@@ -1,50 +1,60 @@
 <?php
-if( ! isset( $_GET['ID'] ) || ! is_numeric( $_GET['ID'] ) || ! sts_current_user_can_read_ticket( $_GET['ID'] ) )
-	wp_die( __( 'Something went wrong :/', 'sts' ) );
+if( ! isset( $_GET['ID'] ) || ! is_numeric( wp_unslash( $_GET['ID'] ) ) ) { // Input var okay.
+	wp_die( esc_html__( 'Something went wrong :/', 'sts' ) );
+}
 
+$ticket_id = (int) wp_unslash( $_GET['ID'] ); // Input var okay.
 
-
-$_GET['ID'] = (int) $_GET['ID'];
-
+if ( ! sts_current_user_can_read_ticket( $ticket_id ) ) {
+	wp_die( esc_html__( 'Something went wrong :/', 'sts' ) );
+}
 
 
 //Add metaboxes functionality
 require_once( dirname( __FILE__ ) . '/inc/metaboxes.php' );
 
 do_action( 'add_meta_boxes' );
-wp_enqueue_script('common');
-wp_enqueue_script('wp-lists');
-wp_enqueue_script('postbox');
+wp_enqueue_script( 'common' );
+wp_enqueue_script( 'wp-lists' );
+wp_enqueue_script( 'postbox' );
 
-if( isset( $_POST["t-action"] ) && $_POST["t-action"] == 'ticket-admin-update' ){
-	if( wp_verify_nonce( $_POST['t-nonce'], 'ticket-admin-update-' . get_current_user_id() ) && isset( $_POST['t'] ) ){
+if (
+	isset( $_POST['t-action'] ) // Input var okay.
+	&& 'ticket-admin-update' === sanitize_text_field( wp_unslash( $_POST['t-action'] ) ) // Input var okay.
+) {
+	if (
+	isset( $_POST['t'] ) // Input var okay.
+	&& isset( $_POST['t-nonce'] ) // Input var okay.
+	&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['t-nonce'] ) ), 'ticket-admin-update-' . get_current_user_id() ) // Input var okay.
+	) {
 
 		/**
-		* Filter the post data before the update
-		*
-		* @since 1.0.0
-		*
-		* @param (array) 	$_POST['t'] 	The post data
-		* @param (int) 		$_GET['ID'] 	The ticket ID
-		* @return (array) 	$post_data 		The post data
-		*/
-		$post_data = apply_filters( 'sts-ticket-admin-update-postdata', $_POST['t'], $_GET['ID'] );
-		do_action( 'ticket-admin-update', $post_data, $_GET['ID'] );
-		?><script>location.href='?page=sts&action=single&ID=<?php echo $_GET['ID']; ?>&updated=1'</script>'<?php
+		 * Filter the post data before the update
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $_POST['t'] The post data.
+		 * @param int   $ticket_id The ticket ID.
+		 *
+		 * @return array $post_data The post data.
+		 */
+		$post_data = apply_filters( 'sts-ticket-admin-update-postdata', wp_unslash( $_POST['t'] ), $ticket_id );
+		do_action( 'ticket-admin-update', $post_data, $ticket_id );
+		?><script>location.href='?page=sts&action=single&ID=<?php echo (int) $ticket_id; ?>&updated=1'</script>'<?php
 	}
-	die();
+	exit;
 }
 
 ?>
-<?php if( isset( $_GET['updated'] ) ): ?>
-<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Ticket updated.', 'sts' ); ?></p></div>
+<?php if ( isset( $_GET['updated'] ) ) : // Input var okay ?>
+<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Ticket updated.', 'sts' ); ?></p></div>
 <?php endif; ?>
-<?php if( isset( $_GET['ticket-new'] ) ): ?>
-<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Ticket created.', 'sts' ); ?></p></div>
+<?php if ( isset( $_GET['ticket-new'] ) ) : // Input var okay ?>
+<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Ticket created.', 'sts' ); ?></p></div>
 <?php endif; ?>
 <form method="post">
-	<?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false ); ?>
-	<?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
+	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+	<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 	<input type="hidden" name="t-action" value="ticket-admin-update" />
 	<?php wp_nonce_field( 'ticket-admin-update-' . get_current_user_id(), 't-nonce' ); ?>
 	
@@ -52,34 +62,36 @@ if( isset( $_POST["t-action"] ) && $_POST["t-action"] == 'ticket-admin-update' )
 	$args = array(
 		'post_type'			=> 'ticket',
 		'post_status'		=> array( 'draft' ),
-		'p'					=> (int) $_GET['ID'],
+		'p'					=> $ticket_id,
 	);
-	
-	if( ! current_user_can( 'read_other_tickets' ) && ! current_user_can( 'read_assigned_tickets' ) )
+
+	if ( ! current_user_can( 'read_other_tickets' ) && ! current_user_can( 'read_assigned_tickets' ) ) {
 		$args['author'] = get_current_user_id();
-	elseif( ! current_user_can( 'read_other_tickets' ) )
+	} elseif ( ! current_user_can( 'read_other_tickets' ) ) {
 		$args['meta_query'] = array(
-			'meta_key' => 'ticket-agent',
-			'meta_value' => get_current_user_id()
+			'meta_key'   => 'ticket-agent',
+			'meta_value' => get_current_user_id(),
 		);
+	}
 
 	$query = new WP_Query( $args );
-	if( !$query->have_posts() ):
+	if( ! $query->have_posts() ):
 	?>
 	<h1>
 		<img src="<?php echo STS_URL; ?>assetts/logo-small.svg" height="25px" />
-		<?php _e( 'Ticket not found :/', 'sts' ); ?>
+		<?php esc_html_e( 'Ticket not found :/', 'sts' ); ?>
 	</h1>
 	<?php else: 
 		$query->the_post();
 
 		//If the assigned ticket agent reads this ticket,
 		//The postmeta information the ticket has been read will be set.
-		if( get_current_user_id() == (int) get_post_meta( get_the_ID(), 'ticket-agent', true ) )
+		if ( get_current_user_id() === (int) get_post_meta( get_the_ID(), 'ticket-agent', true ) ) {
 			update_post_meta( get_the_ID(), 'ticket-read', 1 );
+		}
 	?>
 	<h2>
-		<img src="<?php echo STS_URL; ?>assetts/logo-small.svg" height="25px" />
+		<img src="<?php echo esc_url( STS_URL ); ?>assetts/logo-small.svg" height="25px" />
 		<?php the_title(); ?>
 	</h2>
 	<div id="poststuff">
