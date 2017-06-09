@@ -1,13 +1,13 @@
 <?php
-	/**
-	 * Plugin Name: Support Ticket
-	 * Author: David Remer
-	 * Plugin URI: http://wpsupportticket.com/
-	 * Author URI: http://websupporter.net/
-	 * Version: 1.0.7
-	 * Description: Easy to use support ticket system for WordPress.
-	 * License: GPLv2 or later
-	 * Text Domain: sts
+/**
+ * Plugin Name: Support Ticket
+ * Author: David Remer
+ * Plugin URI: http://wpsupportticket.com/
+ * Author URI: http://websupporter.net/
+ * Version: 1.0.7
+ * Description: Easy to use support ticket system for WordPress.
+ * License: GPLv2 or later
+ * Text Domain: sts
 */
 
 /*
