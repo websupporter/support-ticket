@@ -388,7 +388,7 @@ function sts_current_user_can_read_ticket( $post_id = null ) {
 		$post_id = get_the_ID();
 	}
 
-	if ( $post_id ) {
+	if ( ! $post_id ) {
 		return false;
 	}
 
