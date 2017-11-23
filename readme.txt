@@ -2,7 +2,7 @@
 Contributors: websupporter
 Tags: support,ticket,contact,crm,helpdesk,help
 Requires at least: 4.0
-Tested up to: 4.5
+Tested up to: 4.9
 Stable tag: 1.1
 License: GPLv2 or later
 
