@@ -1,39 +1,113 @@
 <?php
-add_action( 'add_meta_boxes', 'sts_add_meta_boxes' );
+add_action( 'plugins_loaded', 'sts_add_meta_boxes' );
+
+add_action(
+	'add_meta_boxes', function() {
+
+		$repository = new Sts_Metabox_Repository();
+		$repository->wp_register();
+	}
+);
+
 function sts_add_meta_boxes() {
-	//Single Ticket Metaboxes
-	if ( ! isset( $_GET['page'] ) || ! in_array( wp_unslash( $_GET['page'] ), array( 'support-ticket', 'sts-settings' ) ) ) {
-		return;
-	}
 
-	$id   = ( ! isset( $_GET['ID'] ) ) ? 0 : (int) wp_unslash( $_GET['ID'] );
-	$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
-	if ( isset( $_GET['action'] ) && 'single' === wp_unslash( $_GET['action'] ) ) {
+	$repository = new Sts_Metabox_Repository();
 
+	$id = ( isset( $_GET['ID'] ) ) ? (int) wp_unslash( $_GET['ID'] ) : 0;
+	$repository->add(
+		'ticket-message',
 		// translators: %d is the ID of the ticket.
-		add_meta_box( 'ticket-message', sprintf( __( 'Ticket #%d', 'support-ticket' ), $id ), 'sts_metabox_message_render', 'ticket-boxes', 'normal' );
+		sprintf( __( 'Ticket #%d', 'support-ticket' ), $id ),
+		'sts_metabox_message_render',
+		'ticket-boxes',
+		'normal'
+	);
 
-		$metafields = get_option( 'sts-metafields', array() );
-		if ( count( $metafields ) > 0 ) {
-			add_meta_box( 'ticket-metafields', __( 'Metafields', 'support-ticket' ), 'sts_metabox_metafields_render', 'ticket-boxes', 'normal' );
-		}
-
-		add_meta_box( 'ticket-answer', __( 'Answer', 'support-ticket' ), 'sts_metabox_answer_render', 'ticket-boxes', 'normal' );
-		add_meta_box( 'ticket-status', __( 'Status', 'support-ticket' ), 'sts_metabox_status_render', 'ticket-boxes', 'side' );
-
-		if ( current_user_can( 'update_tickets' ) ) {
-			add_meta_box( 'ticket-privatenote', __( 'Private Note', 'support-ticket' ), 'sts_metabox_privatenote_render', 'ticket-boxes', 'side' );
-		}
-	} elseif ( 'sts-settings' === $page ) {
-		//Settings Metaboxes
-		add_meta_box( 'ticket-setting-email-notification', __( 'Email notification', 'support-ticket' ), 'sts_settings_metabox_email_notification_render', 'ticket-settings-email', 'normal' );
-		add_meta_box( 'ticket-setting-user-agent', __( 'Ticket agents', 'support-ticket' ), 'sts_settings_metabox_user_agent_render', 'ticket-settings-user', 'normal' );
-		add_meta_box( 'ticket-setting-user-roles', __( 'Roles & Capabilities', 'support-ticket' ), 'sts_settings_metabox_user_roles_render', 'ticket-settings-user', 'normal' );
-		add_meta_box( 'ticket-setting-email-sender', __( 'Email Sender', 'support-ticket' ), 'sts_settings_metabox_email_sender_render', 'ticket-settings-email', 'normal' );
-		add_meta_box( 'ticket-setting-email-wrapper', __( 'Email wrapper', 'support-ticket' ), 'sts_settings_metabox_email_wrapper_render', 'ticket-settings-email', 'normal' );
-		add_meta_box( 'ticket-setting-ticket-wrapper', __( 'Additional ticket fields', 'support-ticket' ), 'sts_settings_metabox_metafields_render', 'ticket-settings-ticket', 'normal' );
-
+	$metafields = get_option( 'sts-metafields', array() );
+	if ( count( $metafields ) > 0 ) {
+		$repository->add(
+			'ticket-metafields',
+			__( 'Metafields', 'support-ticket' ),
+			'sts_metabox_metafields_render',
+			'ticket-boxes',
+			'normal'
+		);
 	}
+
+	$repository->add(
+		'ticket-answer',
+		__( 'Answer', 'support-ticket' ),
+		'sts_metabox_answer_render',
+		'ticket-boxes',
+		'normal'
+	);
+
+	$repository->add(
+		'ticket-status',
+		__( 'Status', 'support-ticket' ),
+		'sts_metabox_status_render',
+		'ticket-boxes',
+		'side'
+	);
+
+	if ( current_user_can( 'update_tickets' ) ) {
+		$repository->add(
+			'ticket-privatenote',
+			__( 'Private Note', 'support-ticket' ),
+			'sts_metabox_privatenote_render',
+			'ticket-boxes',
+			'side'
+		);
+	}
+
+	//Settings Metaboxes
+	$repository->add(
+		'ticket-setting-email-notification',
+		__( 'Email notification', 'support-ticket' ),
+		'sts_settings_metabox_email_notification_render',
+		'ticket-settings-email',
+		'normal'
+	);
+
+	$repository->add(
+		'ticket-setting-user-agent',
+		__( 'Ticket agents', 'support-ticket' ),
+		'sts_settings_metabox_user_agent_render',
+		'ticket-settings-user',
+		'normal'
+	);
+
+	$repository->add(
+		'ticket-setting-user-roles',
+		__( 'Roles & Capabilities', 'support-ticket' ),
+		'sts_settings_metabox_user_roles_render',
+		'ticket-settings-user',
+		'normal'
+	);
+
+	$repository->add(
+		'ticket-setting-email-sender',
+		__( 'Email Sender', 'support-ticket' ),
+		'sts_settings_metabox_email_sender_render',
+		'ticket-settings-email',
+		'normal'
+	);
+
+	$repository->add(
+		'ticket-setting-email-wrapper',
+		__( 'Email wrapper', 'support-ticket' ),
+		'sts_settings_metabox_email_wrapper_render',
+		'ticket-settings-email',
+		'normal'
+	);
+
+	$repository->add(
+		'ticket-setting-ticket-wrapper',
+		__( 'Additional ticket fields', 'support-ticket' ),
+		'sts_settings_metabox_metafields_render',
+		'ticket-settings-ticket',
+		'normal'
+	);
 }
 
 /**

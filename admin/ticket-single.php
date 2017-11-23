@@ -10,8 +10,6 @@ if ( ! sts_current_user_can_read_ticket( $ticket_id ) ) {
 }
 
 
-//Add metaboxes functionality
-require_once dirname( __FILE__ ) . '/inc/metaboxes.php';
 
 do_action( 'add_meta_boxes' );
 wp_enqueue_script( 'common' );
