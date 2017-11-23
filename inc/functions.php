@@ -185,7 +185,7 @@ function sts_translate_status( $status_index, $type = 'normal' ) {
 		return $status[ (int) $status_index ];
 	}
 
-	return esc_html__( 'Unknown', 'sts' );
+	return esc_html__( 'Unknown', 'support-ticket' );
 }
 
 /**
@@ -307,7 +307,7 @@ function sts_get_create_ticket_form_fields( $location ) {
 	$fields = array();
 	if ( ! is_user_logged_in() || 'edit' === $location ) {
 		$fields[] = array(
-			'label'    => __( 'Name', 'sts' ),
+			'label'    => __( 'Name', 'support-ticket' ),
 			'id'       => 'ticket-user',
 			'tag'      => 'input',
 			'type'     => 'text',
@@ -317,7 +317,7 @@ function sts_get_create_ticket_form_fields( $location ) {
 			'required' => true,
 		);
 		$fields[] = array(
-			'label'    => __( 'Email', 'sts' ),
+			'label'    => __( 'Email', 'support-ticket' ),
 			'id'       => 'ticket-email',
 			'tag'      => 'input',
 			'type'     => 'email',
@@ -328,7 +328,7 @@ function sts_get_create_ticket_form_fields( $location ) {
 		);
 	}
 	$fields[] = array(
-		'label'    => __( 'Subject', 'sts' ),
+		'label'    => __( 'Subject', 'support-ticket' ),
 		'id'       => 'ticket-subject',
 		'tag'      => 'input',
 		'type'     => 'text',
@@ -338,7 +338,7 @@ function sts_get_create_ticket_form_fields( $location ) {
 		'required' => false,
 	);
 	$fields[] = array(
-		'label'    => __( 'Message', 'sts' ),
+		'label'    => __( 'Message', 'support-ticket' ),
 		'id'       => 'ticket-message',
 		'tag'      => 'textarea',
 		'name'     => 'message',
@@ -439,9 +439,9 @@ function sts_get_status_arr() {
 	 */
 	return apply_filters(
 		'sts-status-array', array(
-			esc_html__( 'Open', 'sts' ),
-			esc_html__( 'Pending', 'sts' ),
-			esc_html__( 'Close', 'sts' ),
+			esc_html__( 'Open', 'support-ticket' ),
+			esc_html__( 'Pending', 'support-ticket' ),
+			esc_html__( 'Close', 'support-ticket' ),
 		)
 	);
 }

@@ -21,7 +21,7 @@ function sts_action_ticket_create() {
 		! isset( $_POST['t-nonce'] ) // Input var okay.
 		|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['t-nonce'] ) ), 'ticket-create' ) // Input var okay.
 	) {
-		die( esc_html__( 'Something went wrong :/', 'sts' ) );
+		die( esc_html__( 'Something went wrong :/', 'support-ticket' ) );
 	}
 
 	/**
@@ -44,22 +44,22 @@ function sts_action_ticket_create() {
 	}
 
 	if ( isset( $post_data['user'] ) && empty( $post_data['user'] ) ) {
-		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-user', esc_html__( 'Please enter your name.', 'sts' ) );
+		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-user', esc_html__( 'Please enter your name.', 'support-ticket' ) );
 		return false;
 	}
 
 	if ( isset( $post_data['email'] ) && ! is_email( $post_data['email'] ) ) {
-		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-email', esc_html__( 'Please enter your email address.', 'sts' ) );
+		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-email', esc_html__( 'Please enter your email address.', 'support-ticket' ) );
 		return false;
 	}
 
 	if ( isset( $post_data['subject'] ) && empty( $post_data['subject'] ) ) {
-		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-subject', esc_html__( 'Please enter a subject.', 'sts' ) );
+		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-subject', esc_html__( 'Please enter a subject.', 'support-ticket' ) );
 		return false;
 	}
 
 	if ( isset( $post_data['message'] ) && empty( $post_data['message'] ) ) {
-		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-message', esc_html__( 'Please enter a message.', 'sts' ) );
+		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-message', esc_html__( 'Please enter a message.', 'support-ticket' ) );
 		return false;
 	}
 
@@ -108,7 +108,7 @@ function sts_action_ticket_create() {
 			$user_id         = wp_create_user( $username, $random_password, $post_data['email'] );
 
 			if ( is_wp_error( $user_id ) ) {
-				$_SESSION['tickets']['error'] = new WP_Error( 'ticket-message', esc_html__( 'Could not create user.', 'sts' ) );
+				$_SESSION['tickets']['error'] = new WP_Error( 'ticket-message', esc_html__( 'Could not create user.', 'support-ticket' ) );
 				return false;
 			}
 
@@ -158,19 +158,19 @@ function sts_action_ticket_create() {
 			$user          = wp_signon( $credentials, $secure_cookie );
 
 			// translators: %s is the name of the blog.
-			$welcome_mail_subject = sprintf( __( 'Welcome to %s', 'sts' ), get_bloginfo( 'name' ) );
+			$welcome_mail_subject = sprintf( __( 'Welcome to %s', 'support-ticket' ), get_bloginfo( 'name' ) );
 			// translators: %s is the name of the person, we greet.
-			$welcome_mail_body = sprintf( __( 'Hello %s,', 'sts' ), $usermeta['display_name'] ) . PHP_EOL;
+			$welcome_mail_body = sprintf( __( 'Hello %s,', 'support-ticket' ), $usermeta['display_name'] ) . PHP_EOL;
 			// translators: %s is the name of the blog.
-			$welcome_mail_body .= sprintf( __( "you've just registered on %s and submitted a ticket.", 'sts' ), get_bloginfo( 'name' ) ) . PHP_EOL;
-			$welcome_mail_body .= __( 'You can login using the following informations:', 'sts' ) . PHP_EOL;
+			$welcome_mail_body .= sprintf( __( "you've just registered on %s and submitted a ticket.", 'support-ticket' ), get_bloginfo( 'name' ) ) . PHP_EOL;
+			$welcome_mail_body .= __( 'You can login using the following informations:', 'support-ticket' ) . PHP_EOL;
 			// translators: %s is the login link.
-			$welcome_mail_body .= sprintf( __( 'Loginurl: %s', 'sts' ), '<a href="' . wp_login_url() . '">' . wp_login_url() . '</a>' ) . PHP_EOL;
+			$welcome_mail_body .= sprintf( __( 'Loginurl: %s', 'support-ticket' ), '<a href="' . wp_login_url() . '">' . wp_login_url() . '</a>' ) . PHP_EOL;
 			// translators: %s is the user name.
-			$welcome_mail_body .= sprintf( __( 'Username: %s', 'sts' ), $credentials['user_login'] ) . PHP_EOL;
+			$welcome_mail_body .= sprintf( __( 'Username: %s', 'support-ticket' ), $credentials['user_login'] ) . PHP_EOL;
 			// translators: %s is the password.
-			$welcome_mail_body .= sprintf( __( 'Password: %s', 'sts' ), $credentials['user_password'] ) . PHP_EOL . PHP_EOL;
-			$welcome_mail_body .= __( 'Thank you.', 'sts' );
+			$welcome_mail_body .= sprintf( __( 'Password: %s', 'support-ticket' ), $credentials['user_password'] ) . PHP_EOL . PHP_EOL;
+			$welcome_mail_body .= __( 'Thank you.', 'support-ticket' );
 
 			/**
 			* Filter the welcome email text
@@ -240,7 +240,7 @@ function sts_action_ticket_create() {
 	$post_id = wp_insert_post( $args );
 
 	if ( is_wp_error( $post_id ) ) {
-		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-message', esc_html__( 'Could not create ticket.', 'sts' ) );
+		$_SESSION['tickets']['error'] = new WP_Error( 'ticket-message', esc_html__( 'Could not create ticket.', 'support-ticket' ) );
 		return false;
 	}
 
@@ -281,7 +281,7 @@ function sts_action_ticket_create() {
 		$subject = $args['post_title'];
 
 		$text  = $args['post_content'] . PHP_EOL . PHP_EOL;
-		$text .= sprintf( __( 'Please click the link to reply:', 'sts' ) ) . ' ';
+		$text .= sprintf( __( 'Please click the link to reply:', 'support-ticket' ) ) . ' ';
 
 		$view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $post_id );
 

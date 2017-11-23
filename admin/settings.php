@@ -16,12 +16,12 @@ wp_enqueue_script( 'wp-lists' );
 wp_enqueue_script( 'postbox' );
 
 ?><div id="sts-wrap" class="wrap">
-	<h2><?php esc_html_e( 'Settings', 'sts' ); ?></h2>
+	<h2><?php esc_html_e( 'Settings', 'support-ticket' ); ?></h2>
 	<?php
 	$sts_settings->render_error();
 	if ( isset( $_GET['updated'] ) ) : // Input var okay.
 	?>
-	<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Settings updated.', 'sts' ); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Settings updated.', 'support-ticket' ); ?></p></div>
 	<?php
 	endif;
 	?>

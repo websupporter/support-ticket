@@ -16,10 +16,10 @@ $action = ( isset( $_GET['action'] ) ) ? sanitize_text_field( wp_unslash( $_GET[
 
 		<h2>
 			<img src="<?php echo esc_url( STS_URL ); ?>assetts/logo-small.svg" height="25px" />
-			<?php esc_html_e( 'Tickets', 'sts' ); ?>
+			<?php esc_html_e( 'Tickets', 'support-ticket' ); ?>
 		</h2>
 		<?php if ( isset( $_GET['updated'] ) ) : // Input var okay. ?>
-			<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Updated.', 'sts' ); ?></p></div>
+			<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Updated.', 'support-ticket' ); ?></p></div>
 		<?php endif; ?>
 		<?php
 

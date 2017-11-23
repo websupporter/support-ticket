@@ -1,12 +1,12 @@
 <?php
 if ( ! isset( $_GET['ID'] ) || ! is_numeric( wp_unslash( $_GET['ID'] ) ) ) { // Input var okay.
-	wp_die( esc_html__( 'Something went wrong :/', 'sts' ) );
+	wp_die( esc_html__( 'Something went wrong :/', 'support-ticket' ) );
 }
 
 $ticket_id = (int) wp_unslash( $_GET['ID'] ); // Input var okay.
 
 if ( ! sts_current_user_can_read_ticket( $ticket_id ) ) {
-	wp_die( esc_html__( 'Something went wrong :/', 'sts' ) );
+	wp_die( esc_html__( 'Something went wrong :/', 'support-ticket' ) );
 }
 
 
@@ -49,10 +49,10 @@ if (
 
 ?>
 <?php if ( isset( $_GET['updated'] ) ) : // Input var okay ?>
-<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Ticket updated.', 'sts' ); ?></p></div>
+<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Ticket updated.', 'support-ticket' ); ?></p></div>
 <?php endif; ?>
 <?php if ( isset( $_GET['ticket-new'] ) ) : // Input var okay ?>
-<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Ticket created.', 'sts' ); ?></p></div>
+<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Ticket created.', 'support-ticket' ); ?></p></div>
 <?php endif; ?>
 <form method="post">
 	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
@@ -81,7 +81,7 @@ if (
 	?>
 	<h1>
 		<img src="<?php echo esc_url( STS_URL ); ?>assetts/logo-small.svg" height="25px" />
-		<?php esc_html_e( 'Ticket not found :/', 'sts' ); ?>
+		<?php esc_html_e( 'Ticket not found :/', 'support-ticket' ); ?>
 	</h1>
 	<?php
 	else :

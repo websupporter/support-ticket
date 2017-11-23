@@ -38,7 +38,7 @@ function sts_ticket_create( $args ) {
 		if ( is_file( $shortcode_file ) ) {
 			require( $shortcode_file );
 		} else {
-			return esc_html__( 'Shortcode file not found :/', 'sts' );
+			return esc_html__( 'Shortcode file not found :/', 'support-ticket' );
 		}
 	} else {
 		$shortcode_file = dirname( __FILE__ ) . '/shortcodes/ticket-create-done.php';
@@ -56,7 +56,7 @@ function sts_ticket_create( $args ) {
 		if ( is_file( $shortcode_file ) ) {
 			require_once( $shortcode_file );
 		} else {
-			return esc_html__( 'Shortcode file not found :/', 'sts' );
+			return esc_html__( 'Shortcode file not found :/', 'support-ticket' );
 		}
 	}
 	$content = ob_get_contents();

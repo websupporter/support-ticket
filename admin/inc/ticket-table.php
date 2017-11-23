@@ -45,11 +45,11 @@ function sts_ticket_table_columns( $columns ) {
 		return array_merge(
 			$columns, array(
 				'cb'      => '<input type="checkbox" />',
-				'subject' => __( 'Subject', 'sts' ),
-				'ID'      => __( 'ID', 'sts' ),
-				'date'    => __( 'Date', 'sts' ),
-				'from'    => __( 'From', 'sts' ),
-				'status'  => __( 'Status', 'sts' ),
+				'subject' => __( 'Subject', 'support-ticket' ),
+				'ID'      => __( 'ID', 'support-ticket' ),
+				'date'    => __( 'Date', 'support-ticket' ),
+				'from'    => __( 'From', 'support-ticket' ),
+				'status'  => __( 'Status', 'support-ticket' ),
 			)
 		);
 }
@@ -69,7 +69,7 @@ function sts_ticket_table_column_render( $current, $item, $column_name ) {
 	switch ( $column_name ) {
 		case 'unread':
 			if ( 'unread' == sts_get_the_ticket_read( $item->ID ) && current_user_can( 'read_assigned_tickets' ) ) {
-				return '<a href="admin.php?page=sts&action=single&ID=' . $item->ID . '"><span title="' . __( 'Unread', 'sts' ) . '" class="ticket-unread">' . __( 'Unread', 'sts' ) . '</span></a>';
+				return '<a href="admin.php?page=sts&action=single&ID=' . $item->ID . '"><span title="' . __( 'Unread', 'support-ticket' ) . '" class="ticket-unread">' . __( 'Unread', 'support-ticket' ) . '</span></a>';
 			}
 			return '';
 		case 'ID':
@@ -84,7 +84,7 @@ function sts_ticket_table_column_render( $current, $item, $column_name ) {
 
 			$user = get_userdata( $item->post_author );
 			if ( ! $user ) {
-				return __( 'User not found :/', 'sts' );
+				return __( 'User not found :/', 'support-ticket' );
 			}
 			return $user->data->display_name . ' &lt;' . $user->data->user_email . '&gt;';
 		case 'date':
@@ -133,7 +133,7 @@ function sts_tickets_table_postargs( $args ) {
 	add_action( 'sts-extra-tablenav', 'sts_table_add_status_filter' );
 function sts_table_add_status_filter( $which ) {
 
-		echo '<label class="screen-reader-text" for="status-filter">' . __( 'Filter by ticket status', 'sts' ) . '</label>';
+		echo '<label class="screen-reader-text" for="status-filter">' . __( 'Filter by ticket status', 'support-ticket' ) . '</label>';
 		echo '<select id="status-filter" name="status">';
 		$status_array         = sts_get_status_arr();
 		$current_status_index = -1;
@@ -141,7 +141,7 @@ function sts_table_add_status_filter( $which ) {
 		$current_status_index = (int) $_GET['status'];
 	}
 
-		echo '<option value="-1" ' . selected( -1, $current_status_index, false ) . '>' . __( 'Every status', 'sts' ) . '</option>';
+		echo '<option value="-1" ' . selected( -1, $current_status_index, false ) . '>' . __( 'Every status', 'support-ticket' ) . '</option>';
 	foreach ( $status_array as $status_index => $status ) {
 		echo '<option ' . selected( $status_index, $current_status_index, false ) . ' value="' . $status_index . '">' . $status . '</option>';
 

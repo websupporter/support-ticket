@@ -18,7 +18,7 @@
 	<p>
 		<?php
 		// translators: %s is the name of the person, we greet.
-				echo esc_html( sprintf( __( 'Hello %s', 'sts' ), $user->data->display_name ) );
+				echo esc_html( sprintf( __( 'Hello %s', 'support-ticket' ), $user->data->display_name ) );
 		?>
 	</p>
 
@@ -34,14 +34,14 @@
 		echo esc_html(
 			sprintf(
 				// translators: %s is the email address.
-				__( 'It seems, you have already an account registered with your mail adress %s', 'sts' ),
+				__( 'It seems, you have already an account registered with your mail adress %s', 'support-ticket' ),
 				$_SESSION['ticket']['ticket-create']['email']
 			)
 		);
 		?>
 	</p>
 	<p><a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>">
-		<?php esc_html_e( 'Please log in before you proceed.', 'sts' ); ?>
+		<?php esc_html_e( 'Please log in before you proceed.', 'support-ticket' ); ?>
 		</a>
 	</p>
 
@@ -69,6 +69,6 @@
 			</tbody>
 		</table>
 	<?php endif; ?>
-	<p><button><?php esc_html_e( 'Send', 'sts' ); ?></button></p>
+	<p><button><?php esc_html_e( 'Send', 'support-ticket' ); ?></button></p>
 	<?php endif; ?>
 </form>

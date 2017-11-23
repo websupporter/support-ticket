@@ -13,7 +13,7 @@ endif;
 <div id="sts-wrap" class="wrap">
 	<h2>
 		<img src="<?php echo esc_url( STS_URL ); ?>assetts/logo-small.svg" height="25px" />
-		<?php esc_html_e( 'Create a new ticket', 'sts' ); ?>
+		<?php esc_html_e( 'Create a new ticket', 'support-ticket' ); ?>
 	</h2>
 	<form method="post" class="ticket create" enctype="multipart/form-data">
 		<?php if ( isset( $_SESSION['tickets']['error'] ) && is_wp_error( $_SESSION['tickets']['error'] ) ) : ?>
@@ -30,7 +30,7 @@ endif;
 		?>
 		<section>
 			<label>&ensp;</label>
-			<button class="button button-primary button-large"><?php esc_html_e( 'Send', 'sts' ); ?></button>
+			<button class="button button-primary button-large"><?php esc_html_e( 'Send', 'support-ticket' ); ?></button>
 		</section>
 	</form>
 </div>

@@ -3,11 +3,11 @@
  * Plugin Name: Support Ticket
  * Author: David Remer
  * Plugin URI: http://wpsupportticket.com/
- * Author URI: http://websupporter.net/
- * Version: 1.0.7
+ * Author URI: https://websupporter.net/
+ * Version: 1.1.0
  * Description: Easy to use support ticket system for WordPress.
  * License: GPLv2 or later
- * Text Domain: sts
+ * Text Domain: support-ticket
 */
 
 /*
@@ -56,7 +56,7 @@ function sts_init() {
 	}
 
 	$args = array(
-		'label'        => __( 'Ticket', 'sts' ),
+		'label'        => __( 'Ticket', 'support-ticket' ),
 		'hierarchical' => true,
 	);
 
@@ -88,7 +88,7 @@ function sts_init() {
 add_action( 'plugins_loaded', 'sts_textdomain' );
 function sts_textdomain() {
 	$plugin_dir = basename( STS_ROOT ) . '/assetts/language/';
-	load_plugin_textdomain( 'sts', false, $plugin_dir );
+	load_plugin_textdomain( 'support-ticket', false, $plugin_dir );
 }
 
 require_once __DIR__ . '/legacy.php';

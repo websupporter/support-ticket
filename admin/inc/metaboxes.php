@@ -2,7 +2,7 @@
 add_action( 'add_meta_boxes', 'sts_add_meta_boxes' );
 function sts_add_meta_boxes() {
 	//Single Ticket Metaboxes
-	if ( ! isset( $_GET['ID'] ) || ! isset( $_GET['page'] ) || ! in_array( wp_unslash( $_GET['page'] ), array( 'sts', 'sts-settings' ) ) ) {
+	if ( ! isset( $_GET['ID'] ) || ! isset( $_GET['page'] ) || ! in_array( wp_unslash( $_GET['page'] ), array( 'support-ticket', 'sts-settings' ) ) ) {
 		return;
 	}
 
@@ -11,27 +11,27 @@ function sts_add_meta_boxes() {
 	if ( isset( $_GET['action'] ) && 'single' === $_GET['action'] ) {
 
 		// translators: %d is the ID of the ticket.
-		add_meta_box( 'ticket-message', sprintf( __( 'Ticket #%d', 'sts' ), $id ), 'sts_metabox_message_render', 'ticket-boxes', 'normal' );
+		add_meta_box( 'ticket-message', sprintf( __( 'Ticket #%d', 'support-ticket' ), $id ), 'sts_metabox_message_render', 'ticket-boxes', 'normal' );
 
 		$metafields = get_option( 'sts-metafields', array() );
 		if ( count( $metafields ) > 0 ) {
-			add_meta_box( 'ticket-metafields', __( 'Metafields', 'sts' ), 'sts_metabox_metafields_render', 'ticket-boxes', 'normal' );
+			add_meta_box( 'ticket-metafields', __( 'Metafields', 'support-ticket' ), 'sts_metabox_metafields_render', 'ticket-boxes', 'normal' );
 		}
 
-		add_meta_box( 'ticket-answer', __( 'Answer', 'sts' ), 'sts_metabox_answer_render', 'ticket-boxes', 'normal' );
-		add_meta_box( 'ticket-status', __( 'Status', 'sts' ), 'sts_metabox_status_render', 'ticket-boxes', 'side' );
+		add_meta_box( 'ticket-answer', __( 'Answer', 'support-ticket' ), 'sts_metabox_answer_render', 'ticket-boxes', 'normal' );
+		add_meta_box( 'ticket-status', __( 'Status', 'support-ticket' ), 'sts_metabox_status_render', 'ticket-boxes', 'side' );
 
 		if ( current_user_can( 'update_tickets' ) ) {
-			add_meta_box( 'ticket-privatenote', __( 'Private Note', 'sts' ), 'sts_metabox_privatenote_render', 'ticket-boxes', 'side' );
+			add_meta_box( 'ticket-privatenote', __( 'Private Note', 'support-ticket' ), 'sts_metabox_privatenote_render', 'ticket-boxes', 'side' );
 		}
 	} elseif ( 'sts-settings' === $page ) {
 		//Settings Metaboxes
-		add_meta_box( 'ticket-setting-email-notification', __( 'Email notification', 'sts' ), 'sts_settings_metabox_email_notification_render', 'ticket-settings-email', 'normal' );
-		add_meta_box( 'ticket-setting-user-agent', __( 'Ticket agents', 'sts' ), 'sts_settings_metabox_user_agent_render', 'ticket-settings-user', 'normal' );
-		add_meta_box( 'ticket-setting-user-roles', __( 'Roles & Capabilities', 'sts' ), 'sts_settings_metabox_user_roles_render', 'ticket-settings-user', 'normal' );
-		add_meta_box( 'ticket-setting-email-sender', __( 'Email Sender', 'sts' ), 'sts_settings_metabox_email_sender_render', 'ticket-settings-email', 'normal' );
-		add_meta_box( 'ticket-setting-email-wrapper', __( 'Email wrapper', 'sts' ), 'sts_settings_metabox_email_wrapper_render', 'ticket-settings-email', 'normal' );
-		add_meta_box( 'ticket-setting-ticket-wrapper', __( 'Additional ticket fields', 'sts' ), 'sts_settings_metabox_metafields_render', 'ticket-settings-ticket', 'normal' );
+		add_meta_box( 'ticket-setting-email-notification', __( 'Email notification', 'support-ticket' ), 'sts_settings_metabox_email_notification_render', 'ticket-settings-email', 'normal' );
+		add_meta_box( 'ticket-setting-user-agent', __( 'Ticket agents', 'support-ticket' ), 'sts_settings_metabox_user_agent_render', 'ticket-settings-user', 'normal' );
+		add_meta_box( 'ticket-setting-user-roles', __( 'Roles & Capabilities', 'support-ticket' ), 'sts_settings_metabox_user_roles_render', 'ticket-settings-user', 'normal' );
+		add_meta_box( 'ticket-setting-email-sender', __( 'Email Sender', 'support-ticket' ), 'sts_settings_metabox_email_sender_render', 'ticket-settings-email', 'normal' );
+		add_meta_box( 'ticket-setting-email-wrapper', __( 'Email wrapper', 'support-ticket' ), 'sts_settings_metabox_email_wrapper_render', 'ticket-settings-email', 'normal' );
+		add_meta_box( 'ticket-setting-ticket-wrapper', __( 'Additional ticket fields', 'support-ticket' ), 'sts_settings_metabox_metafields_render', 'ticket-settings-ticket', 'normal' );
 
 	}
 }
@@ -50,11 +50,11 @@ function sts_settings_metabox_user_roles_render( $args ) {
 	<table class="wp-list-table widefat fixed striped">
 		<thead>
 			<tr>
-				<th><?php _e( 'Role', 'sts' ); ?></th>
-				<th><?php _e( 'Create Ticket', 'sts' ); ?></th>
-				<th><?php _e( 'Read assigned tickets', 'sts' ); ?></th>
-				<th><?php _e( 'Assign tickets to agents', 'sts' ); ?></th>
-				<th><?php _e( 'Delete tickets', 'sts' ); ?></th>
+				<th><?php _e( 'Role', 'support-ticket' ); ?></th>
+				<th><?php _e( 'Create Ticket', 'support-ticket' ); ?></th>
+				<th><?php _e( 'Read assigned tickets', 'support-ticket' ); ?></th>
+				<th><?php _e( 'Assign tickets to agents', 'support-ticket' ); ?></th>
+				<th><?php _e( 'Delete tickets', 'support-ticket' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -176,7 +176,7 @@ function sts_metabox_metafields_render( $post ) {
 	?>
 	<table class="wp-list-table widefat fixed striped">
 		<thead>
-			<tr><th><?php _e( 'Name', 'sts' ); ?></th><th><?php _e( 'Value', 'sts' ); ?></th></tr>
+			<tr><th><?php _e( 'Name', 'support-ticket' ); ?></th><th><?php _e( 'Value', 'support-ticket' ); ?></th></tr>
 		</thead>
 		<tbody>
 			<?php foreach ( $metafields as $field ) : ?>
@@ -270,8 +270,8 @@ function sts_settings_metabox_metafields_render( $args ) {
 			<li class="editable">
 				<input name="ticket[fields][id][]" value="<?php echo $field['id']; ?>" type="hidden"/><textarea name="ticket[fields][fields][]" style="display:none;"><?php echo json_encode( $field ); ?></textarea>
 				<?php echo $field['label']; ?>
-				<div title="<?php _e( 'Trash', 'sts' ); ?>" class="sts-delete dashicons dashicons-trash"></div>
-				<div title="<?php _e( 'Edit', 'sts' ); ?>" class="sts-edit-field dashicons dashicons-edit"></div>
+				<div title="<?php _e( 'Trash', 'support-ticket' ); ?>" class="sts-delete dashicons dashicons-trash"></div>
+				<div title="<?php _e( 'Edit', 'support-ticket' ); ?>" class="sts-edit-field dashicons dashicons-edit"></div>
 			</li>
 			<?php
 			endif;
@@ -279,68 +279,68 @@ function sts_settings_metabox_metafields_render( $args ) {
 		?>
 	</ul>
 	<hr />
-	<a id="btn-sts-create-new-ticket-field" title="<?php _e( 'Add a new form field', 'sts' ); ?>" href="#TB_inline?width=250&height=auto&inlineId=sts-create-new-ticket-field" class="thickbox button button-large"><div class="dashicons dashicons-plus"></div> <?php _e( 'Create new field', 'sts' ); ?></a>
+	<a id="btn-sts-create-new-ticket-field" title="<?php _e( 'Add a new form field', 'support-ticket' ); ?>" href="#TB_inline?width=250&height=auto&inlineId=sts-create-new-ticket-field" class="thickbox button button-large"><div class="dashicons dashicons-plus"></div> <?php _e( 'Create new field', 'support-ticket' ); ?></a>
 	<a id="btn-sts-edit-ticket-field" href="#TB_inline?width=250&height=auto&inlineId=sts-edit-ticket-field" class="thickbox"></a>
 	<div id="sts-edit-ticket-field" style="display:none;">
 			<input type="hidden" id="edit_metakey" value="" />
 			<input type="hidden" id="edit_tag" value="" />
 			<input type="hidden" id="edit_li_index" value="" />
 			<p>
-				<label for="edit_label"><?php _e( 'Label', 'sts' ); ?>:</label>
+				<label for="edit_label"><?php _e( 'Label', 'support-ticket' ); ?>:</label>
 				<br />
 				<input type="text" id="edit_label" value="" />
 			</p>
 			<p>
-				<label for="edit_metakey_display"><?php _e( 'Meta key', 'sts' ); ?>:</label>
+				<label for="edit_metakey_display"><?php _e( 'Meta key', 'support-ticket' ); ?>:</label>
 				<br />
 				<span id="edit_metakey_display"></span>
 			</p>
 			<p>
-				<label for="edit_tag_display"><?php _e( 'Type', 'sts' ); ?>:</label>
+				<label for="edit_tag_display"><?php _e( 'Type', 'support-ticket' ); ?>:</label>
 				<br />
 				<span id="edit_tag_display"></span>
 			</p>
 			<div id="sts-formfield-choices-edit-wrapper" style="display:none;">
 				<p>
-					<label for="edit_choices"><?php _e( 'Choices', 'sts' ); ?>:</label>
+					<label for="edit_choices"><?php _e( 'Choices', 'support-ticket' ); ?>:</label>
 					<br />
 					<textarea id="edit_choices"></textarea>
 					<br />
-					<small><?php _e( 'Use a new line for each choice.', 'sts' ); ?></small>
+					<small><?php _e( 'Use a new line for each choice.', 'support-ticket' ); ?></small>
 				</p>
 			</div>
-			<button class="button default" id="do-sts-edit-ticket-field"><?php _e( 'Edit', 'sts' ); ?></button>
+			<button class="button default" id="do-sts-edit-ticket-field"><?php _e( 'Edit', 'support-ticket' ); ?></button>
 	</div>
 
 	<div id="sts-create-new-ticket-field" style="display:none;">
 			<p>
-				<label for="label"><?php _e( 'Label', 'sts' ); ?>:</label>
+				<label for="label"><?php _e( 'Label', 'support-ticket' ); ?>:</label>
 				<br />
 				<input type="text" id="label" value="" />
 			</p>
 			<p>
-				<label for="metakey"><?php _e( 'Meta key', 'sts' ); ?>:</label>
+				<label for="metakey"><?php _e( 'Meta key', 'support-ticket' ); ?>:</label>
 				<br />
 				<input type="text" id="metakey" value="" />
 			</p>
 			<p>
-				<label for="type"><?php _e( 'Type', 'sts' ); ?>:</label>
+				<label for="type"><?php _e( 'Type', 'support-ticket' ); ?>:</label>
 				<br />
 				<select type="text" id="tag">
-					<option value="input"><?php _e( 'Input field', 'sts' ); ?></option>
-					<option value="select"><?php _e( 'Selectbox', 'sts' ); ?></option>
+					<option value="input"><?php _e( 'Input field', 'support-ticket' ); ?></option>
+					<option value="select"><?php _e( 'Selectbox', 'support-ticket' ); ?></option>
 				</select>
 			</p>
 			<div id="sts-formfield-choices-wrapper" style="display:none;">
 				<p>
-					<label for="choices"><?php _e( 'Choices', 'sts' ); ?>:</label>
+					<label for="choices"><?php _e( 'Choices', 'support-ticket' ); ?>:</label>
 					<br />
 					<textarea id="choices"></textarea>
 					<br />
-					<small><?php _e( 'Use a new line for each choice.', 'sts' ); ?></small>
+					<small><?php _e( 'Use a new line for each choice.', 'support-ticket' ); ?></small>
 				</p>
 			</div>
-			<button class="button default" id="do-sts-create-new-ticket-field"><?php _e( 'Add', 'sts' ); ?></button>
+			<button class="button default" id="do-sts-create-new-ticket-field"><?php _e( 'Add', 'support-ticket' ); ?></button>
 	</div>
 	<?php
 }
@@ -389,7 +389,7 @@ function sts_settings_metabox_user_agent_render( $args ) {
 
 	?>
 	<section>
-		<label for="standard-ticket-agent"><?php _e( 'New tickets are assigned to', 'sts' ); ?></label>
+		<label for="standard-ticket-agent"><?php _e( 'New tickets are assigned to', 'support-ticket' ); ?></label>
 		<select id="standard-ticket-agent" type="checkbox" name="user[standard-agent]">
 			<?php
 			foreach ( $agents as $s ) :
@@ -455,11 +455,11 @@ function sts_settings_metabox_email_sender_render( $args ) {
 
 	?>
 	<section>
-		<label for="standard-email-from-name"><?php _e( 'Sender Name', 'sts' ); ?></label>
+		<label for="standard-email-from-name"><?php _e( 'Sender Name', 'support-ticket' ); ?></label>
 		<input type="text" id="standard-email-from-name" name="email[from_name]" value="<?php echo sanitize_text_field( $from_name ); ?>" />
 	</section>
 	<section>
-		<label for="standard-email-from-email"><?php _e( 'Sender Email', 'sts' ); ?></label>
+		<label for="standard-email-from-email"><?php _e( 'Sender Email', 'support-ticket' ); ?></label>
 		<input type="email" id="standard-email-from-email" name="email[from_email]" value="<?php echo sanitize_text_field( $from_email ); ?>" />
 	</section>
 	<?php
@@ -484,7 +484,7 @@ function sts_settings_metabox_email_wrapper_render( $args ) {
 
 	?>
 	<section>
-		<label for="standard-email-wrapper"><?php _e( 'Email Wrapper', 'sts' ); ?></label>
+		<label for="standard-email-wrapper"><?php _e( 'Email Wrapper', 'support-ticket' ); ?></label>
 		<textarea id="standard-email-wrapper" name="email[wrapper]"><?php echo $wrapper; ?></textarea>
 		<p>
 			<small>
@@ -562,15 +562,15 @@ function sts_settings_metabox_email_notification_render( $args ) {
 	}
 ?>
 <section>
-	<label for="notify-ticketowner-on-answer"><?php _e( 'Notify ticket owner on answer', 'sts' ); ?></label>
+	<label for="notify-ticketowner-on-answer"><?php _e( 'Notify ticket owner on answer', 'support-ticket' ); ?></label>
 	<input id="notify-ticketowner-on-answer" type="checkbox" name="email[notifiy-ticketowner]" value="1" <?php echo $owner_checked; ?> />
 </section>
 <section>
-	<label for="notify-agent-on-answer"><?php _e( 'Notify agent owner on answer', 'sts' ); ?></label>
+	<label for="notify-agent-on-answer"><?php _e( 'Notify agent owner on answer', 'support-ticket' ); ?></label>
 	<input id="notify-agent-on-answer" type="checkbox" name="email[notifiy-agent]" value="1" <?php echo $agent_checked; ?> />
 </section>
 <section>
-	<label for="notifiy-on-status-update"><?php _e( 'Notify ticket owner on status update', 'sts' ); ?></label>
+	<label for="notifiy-on-status-update"><?php _e( 'Notify ticket owner on status update', 'support-ticket' ); ?></label>
 	<input id="notifiy-on-status-update" type="checkbox" name="email[notifiy-on-status-update]" value="1" <?php echo $on_status_update_checked; ?> />
 </section>
 <?php
@@ -666,13 +666,13 @@ function sts_metabox_status_render( $post ) {
 	<p>
 	<?php
 		// translators: %s is the current status.
-		printf( __( 'Current status: %s', 'sts' ), $current_status );
+		printf( __( 'Current status: %s', 'support-ticket' ), $current_status );
 	?>
 	</p>
 	<p>
 	<?php
 		// translators: %s is the name of the current agent.
-		printf( __( 'Current agent: %s', 'sts' ), $current_agent->display_name );
+		printf( __( 'Current agent: %s', 'support-ticket' ), $current_agent->display_name );
 		?>
 		</p>
 	<?php
@@ -680,7 +680,7 @@ function sts_metabox_status_render( $post ) {
 	?>
 	<?php if ( current_user_can( 'update_tickets' ) ) : ?>
 	<p>
-		<label for="ticket-status"><?php _e( 'Update status', 'sts' ); ?>:</label>
+		<label for="ticket-status"><?php _e( 'Update status', 'support-ticket' ); ?>:</label>
 		<select id="ticket-status" name="t[ticket-status]">
 			<?php foreach ( $status_array as $status_index => $status ) : ?>
 			<option <?php selected( $status_index, $current_status_index ); ?> value="<?php echo $status_index; ?>">
@@ -694,7 +694,7 @@ function sts_metabox_status_render( $post ) {
 if ( current_user_can( 'assign_agent_to_ticket' ) ) :
 ?>
 		<p>
-			<label for="ticket-agent"><?php _e( 'Current agent', 'sts' ); ?>:</label>
+			<label for="ticket-agent"><?php _e( 'Current agent', 'support-ticket' ); ?>:</label>
 			<select id="ticket-agent" name="t[ticket-agent]">
 			<?php foreach ( $agents as $agent ) : ?>
 			<?php if ( is_string( $agent ) ) : ?>
@@ -708,7 +708,7 @@ if ( current_user_can( 'assign_agent_to_ticket' ) ) :
 		</select>
 	</p>
 	<?php endif; ?>
-	<button class="button button-primary button-large"><?php _e( 'Update', 'sts' ); ?></button>
+	<button class="button button-primary button-large"><?php _e( 'Update', 'support-ticket' ); ?></button>
 	<?php
 	endif;
 }
@@ -770,7 +770,7 @@ function sts_send_notification_email_to_ticket_owner( $ticket_id, $answer_id, $p
 	$ticket_owner = get_user_by( 'id', $ticket->post_author );
 	$subject      = $answer->post_title;
 	$text         = $answer->post_content . PHP_EOL . PHP_EOL;
-	$text        .= sprintf( __( 'Please click the link to reply:', 'sts' ) ) . ' ';
+	$text        .= sprintf( __( 'Please click the link to reply:', 'support-ticket' ) ) . ' ';
 	$view_ticket  = admin_url( 'admin.php?page=sts&action=single&ID=' . $ticket->ID . '#answer-' . $answer->ID );
 
 	/**
@@ -838,7 +838,7 @@ function sts_send_notification_email_to_agent( $ticket_id, $answer_id, $post_dat
 
 	$subject     = $answer->post_title;
 	$text        = $answer->post_content . PHP_EOL . PHP_EOL;
-	$text       .= sprintf( __( 'Please click the link to reply:', 'sts' ) ) . ' ';
+	$text       .= sprintf( __( 'Please click the link to reply:', 'support-ticket' ) ) . ' ';
 	$view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $ticket_id . '#answer-' . $answer->ID );
 	/**
 	 * Filters the URL where the ticket can be read
@@ -878,7 +878,7 @@ function sts_admin_send_ticket_answer( $post_data, $post_id ) {
 	$id     = (int) wp_unslash( $_GET['ID'] );
 	$answer = trim( $post_data['answer'] );
 	// translators: %d is the number of the ticket.
-	$subject = sprintf( __( 'Re: [Ticket #%d]', 'sts' ), $id ) . ' ' . trim( $post_data['subject'] );
+	$subject = sprintf( __( 'Re: [Ticket #%d]', 'support-ticket' ), $id ) . ' ' . trim( $post_data['subject'] );
 
 	if ( empty( $answer ) ) {
 		return;
@@ -919,7 +919,7 @@ function sts_metabox_message_render( $post ) {
 				<p class="date">
 					<?php
 					// translators: %s is the name of the author.
-					printf( __( 'by %s', 'sts' ), get_the_author() );
+					printf( __( 'by %s', 'support-ticket' ), get_the_author() );
 					?>
 					,
 					<?php the_date(); ?>, <?php the_time(); ?>
@@ -953,7 +953,7 @@ function sts_metabox_message_render( $post ) {
 							<span>
 								<?php
 								// translators: %s is the user name.
-								printf( __( 'by %s', 'sts' ), $user->data->display_name );
+								printf( __( 'by %s', 'support-ticket' ), $user->data->display_name );
 								?>
 								,
 								<?php echo get_the_time( get_option( 'date_format' ), $post->ID ) . ', ' . get_the_time( get_option( 'time_format' ), $post->ID ); ?>
@@ -987,20 +987,20 @@ function sts_metabox_answer_render( $post ) {
 	?>
 		<div class="ticket-answer">
 			<section>
-				<label for="answer-subject"><?php _e( 'Subject', 'sts' ); ?></label>
+				<label for="answer-subject"><?php _e( 'Subject', 'support-ticket' ); ?></label>
 				<div class="input-pre">
 					<span>Re: [Ticket #<?php echo $_GET['ID']; ?>]</span>
 					<input id="answer-subject" name="t[subject]" type="text" />
 				</div>
 			</section>
 			<section>
-				<label for="answer-answer"><?php _e( 'Message', 'sts' ); ?></label>
+				<label for="answer-answer"><?php _e( 'Message', 'support-ticket' ); ?></label>
 				<div>
 					<textarea id="answer-answer" name="t[answer]"></textarea>
 				</div>
 			</section>
 			<section>
-				<button class="button button-primary button-large"><?php _e( 'Answer', 'sts' ); ?></button>
+				<button class="button button-primary button-large"><?php _e( 'Answer', 'support-ticket' ); ?></button>
 			</section>
 		</div>
 	<?php
@@ -1018,8 +1018,8 @@ function sts_metabox_privatenote_render( $post ) {
 	?>
 		<div class="ticket-privatenote">
 			<textarea name="t[privatenote]"><?php echo get_post_meta( $post->ID, 'ticket-privatenote', true ); ?></textarea>
-			<small><?php _e( 'Private notes can only be seen by other agents and admins. Not by the ticket owner himself.', 'sts' ); ?></small>
-			<button class="button button-primary button-large"><?php _e( 'Update', 'sts' ); ?></button>
+			<small><?php _e( 'Private notes can only be seen by other agents and admins. Not by the ticket owner himself.', 'support-ticket' ); ?></small>
+			<button class="button button-primary button-large"><?php _e( 'Update', 'support-ticket' ); ?></button>
 		</div>
 	<?php
 }

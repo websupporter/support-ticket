@@ -22,10 +22,10 @@ function sts_adminscripts( $hook ) {
 	wp_enqueue_script( 'sts-admin-script', STS_URL . 'admin/script.js', array( 'jquery', 'jquery-ui-tabs', 'jquery-ui-sortable' ) );
 
 	$sts_localize = array(
-		'trash'      => esc_html__( 'Trash', 'sts' ),
-		'edit'       => esc_html__( 'Edit', 'sts' ),
-		'inputfield' => esc_html__( 'Input field', 'sts' ),
-		'selectbox'  => esc_html__( 'Selectbox', 'sts' ),
+		'trash'      => esc_html__( 'Trash', 'support-ticket' ),
+		'edit'       => esc_html__( 'Edit', 'support-ticket' ),
+		'inputfield' => esc_html__( 'Input field', 'support-ticket' ),
+		'selectbox'  => esc_html__( 'Selectbox', 'support-ticket' ),
 	);
 
 	wp_localize_script( 'sts-admin-script', 'stsLocalize', $sts_localize );
@@ -84,13 +84,13 @@ function wp_sf_adminpage() {
 		$unread = $all[0]->alltickets - $res[0]->readtickets;
 	}
 
-	$tickets_title = esc_html__( 'Tickets', 'sts' );
+	$tickets_title = esc_html__( 'Tickets', 'support-ticket' );
 	if ( $unread > 0 ) {
 		$tickets_title .= ' (' . $unread . ')';
 	}
-	add_menu_page( $tickets_title, $tickets_title, 'read_own_tickets', 'sts', 'sts_admin_outpout_index' );
-	add_submenu_page( 'sts', esc_html__( 'New Ticket', 'sts' ), esc_html__( 'New Ticket', 'sts' ), 'read_own_tickets', 'sts-new', 'sts_admin_outpout_new_ticket' );
-	add_submenu_page( 'sts', esc_html__( 'Settings', 'sts' ), esc_html__( 'Settings', 'sts' ), 'manage_options', 'sts-settings', 'sts_admin_outpout_settings' );
+	add_menu_page( $tickets_title, $tickets_title, 'read_own_tickets', 'support-ticket', 'sts_admin_outpout_index' );
+	add_submenu_page( 'support-ticket', esc_html__( 'New Ticket', 'support-ticket' ), esc_html__( 'New Ticket', 'support-ticket' ), 'read_own_tickets', 'sts-new', 'sts_admin_outpout_new_ticket' );
+	add_submenu_page( 'support-ticket', esc_html__( 'Settings', 'support-ticket' ), esc_html__( 'Settings', 'support-ticket' ), 'manage_options', 'sts-settings', 'sts_admin_outpout_settings' );
 }
 add_action( 'admin_menu', 'wp_sf_adminpage' );
 
@@ -142,11 +142,11 @@ function sts_admin_init() {
 		)
 		&& 'bulk-action' === sanitize_text_field( wp_unslash( $_POST['sts-action'] ) ) // Input var okay.
 	) {
-		wp_die( esc_html__( 'Something went wrong :/', 'sts' ) );
+		wp_die( esc_html__( 'Something went wrong :/', 'support-ticket' ) );
 	}
 
 	if ( 'delete' === sanitize_text_field( wp_unslash( $_POST['action'] ) ) && ! current_user_can( 'delete_other_tickets' ) ) { // Input var okay.
-		wp_die( esc_html__( 'Something went wrong :/', 'sts' ) );
+		wp_die( esc_html__( 'Something went wrong :/', 'support-ticket' ) );
 	}
 
 	foreach ( wp_unslash( $_POST['ticket'] ) as $raw_ticket ) { // Input var okay.

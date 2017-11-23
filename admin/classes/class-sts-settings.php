@@ -78,7 +78,7 @@ class Sts_Settings {
 						<?php wp_nonce_field( 'ticket-settings-' . $c['id'], 't-nonce' ); ?>
 						<?php do_meta_boxes( 'ticket-settings-' . $c['id'], 'normal', new stdClass() ); ?>
 						<?php if ( sts_has_meta_boxes( 'ticket-settings-' . $c['id'], 'normal' ) ) : ?>
-							<button class="button button-primary button-large"><?php _e( 'Update', 'sts' ); ?></button>
+							<button class="button button-primary button-large"><?php _e( 'Update', 'support-ticket' ); ?></button>
 						<?php endif; ?>
 					</form>
 					<?php echo $c['after_form']; ?>
@@ -90,7 +90,7 @@ class Sts_Settings {
 
 	public function update() {
 		if ( ! wp_verify_nonce( $_POST['t-nonce'], 'ticket-settings-' . $_POST['t-subaction'] ) ) {
-			wp_die( __( 'Something went wrong :/', 'sts' ) );
+			wp_die( __( 'Something went wrong :/', 'support-ticket' ) );
 		}
 
 		/**

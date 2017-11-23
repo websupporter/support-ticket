@@ -3,7 +3,7 @@ Contributors: websupporter
 Tags: support,ticket,contact,crm,helpdesk,help
 Requires at least: 4.0
 Tested up to: 4.5
-Stable tag: 1.0.7
+Stable tag: 1.1
 License: GPLv2 or later
 
 The support ticket solution for WordPress
@@ -38,6 +38,12 @@ No questions asked yet :D Lets see.
 No notices yet.
 
 == Changelog ==
+
+Version 1.1
+
+* Follow phpcs standards
+* `sts_get_statusArr()` and `sts_get_statusClassArr()` are depreceated. Use `sts_get_status_arr()` and `sts_get_status_class_arr()` instead.
+
 Version 1.0.7
 
 * Option to notify ticket owner on status update
