@@ -43,7 +43,7 @@ function sts_the_status( $post_id = null ) {
  * Returns if a ticket has been read by an agent
  *
  * @since 1.0.0
- * @param int $post_id	Post ID
+ * @param int $post_id  Post ID
  *
  * @return string read/unread
  */

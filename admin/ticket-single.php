@@ -1,5 +1,5 @@
 <?php
-if( ! isset( $_GET['ID'] ) || ! is_numeric( wp_unslash( $_GET['ID'] ) ) ) { // Input var okay.
+if ( ! isset( $_GET['ID'] ) || ! is_numeric( wp_unslash( $_GET['ID'] ) ) ) { // Input var okay.
 	wp_die( esc_html__( 'Something went wrong :/', 'sts' ) );
 }
 
@@ -21,7 +21,7 @@ wp_enqueue_script( 'postbox' );
 if (
 	isset( $_POST['t-action'] ) // Input var okay.
 	&& 'ticket-admin-update' === sanitize_text_field( wp_unslash( $_POST['t-action'] ) ) // Input var okay.
-) {
+ ) {
 	if (
 	isset( $_POST['t'] ) // Input var okay.
 	&& isset( $_POST['t-nonce'] ) // Input var okay.
@@ -42,7 +42,8 @@ if (
 		/* ToDo: proper sanitization should be done on the global scope, not by single actions */
 		$post_data = apply_filters( 'sts-ticket-admin-update-postdata', wp_unslash( $_POST['t'] ), $ticket_id );
 		do_action( 'ticket-admin-update', $post_data, $ticket_id );
-		?><script>location.href='?page=sts&action=single&ID=<?php echo (int) $ticket_id; ?>&updated=1'</script>'<?php
+		?><script>location.href='?page=sts&action=single&ID=<?php echo (int) $ticket_id; ?>&updated=1'</script>'
+		<?php
 	}
 	exit;
 }
@@ -62,9 +63,9 @@ if (
 	
 	<?php
 	$args = array(
-		'post_type'			=> 'ticket',
-		'post_status'		=> array( 'draft' ),
-		'p'					=> $ticket_id,
+		'post_type'   => 'ticket',
+		'post_status' => array( 'draft' ),
+		'p'           => $ticket_id,
 	);
 
 	if ( ! current_user_can( 'read_other_tickets' ) && ! current_user_can( 'read_assigned_tickets' ) ) {

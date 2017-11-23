@@ -32,12 +32,12 @@ function sts_has_meta_boxes( $screen = null, $context = 'normal' ) {
 *
 * @since 1.0.0
 *
-* @return array 	Array of users
+* @return array     Array of users
 */
 function sts_get_possible_agents() {
 
 	$possible_roles = array();
-	$roles = get_editable_roles();
+	$roles          = get_editable_roles();
 	foreach ( $roles as $role_key => $role ) {
 		if (
 			isset( $role['capabilities']['read_assigned_tickets'] )
@@ -49,9 +49,9 @@ function sts_get_possible_agents() {
 
 	$agents = array();
 	foreach ( $possible_roles as $role ) {
-		$args = array( 'role' => $role );
+		$args       = array( 'role' => $role );
 		$user_query = new WP_User_Query( $args );
-		$agents = array_merge( $user_query->results, $agents );
+		$agents     = array_merge( $user_query->results, $agents );
 	}
 
 	//Remove double users
@@ -93,10 +93,10 @@ function sts_mail( $to, $subject, $body, $headers = array(), $attachments = arra
 
 	//Adding the From Header
 	$headers_default = array(
-		'From: "' . get_bloginfo( 'name' ) . '" <' . get_bloginfo( 'admin_email' ) . '>'
+		'From: "' . get_bloginfo( 'name' ) . '" <' . get_bloginfo( 'admin_email' ) . '>',
 	);
-	$settings = get_option( 'sts-core-settings' );
-	$from_string = 'From:';
+	$settings        = get_option( 'sts-core-settings' );
+	$from_string     = 'From:';
 	if ( isset( $settings['email']['from_name'] ) ) {
 		$from_string .= ' ' . $settings['email']['from_name'];
 	}
@@ -121,7 +121,7 @@ function sts_mail( $to, $subject, $body, $headers = array(), $attachments = arra
 		 * @return array $wrapper The HTML template to apply.
 		 */
 		$wrapper = apply_filters( 'sts-email-wrapper', $settings['email']['wrapper'] );
-		$body = preg_replace( '^#content#^', $body, $wrapper );
+		$body    = preg_replace( '^#content#^', $body, $wrapper );
 	}
 
 	/**
@@ -191,12 +191,12 @@ function sts_translate_status( $status_index, $type = 'normal' ) {
 /**
  * Renders the Form field
  *
- * @since 	1.0.0
+ * @since   1.0.0
  *
- * @param	array   $field The field array.
- * @param 	string  $location The location where it will be displayed.
- * @param 	boolean $echo If it will be echoed immediately.
- * @param	array   $args The arguments
+ * @param   array   $field The field array.
+ * @param   string  $location The location where it will be displayed.
+ * @param   boolean $echo If it will be echoed immediately.
+ * @param   array   $args The arguments
  *                        type => 'section'
  *                                renders <section>
  *                             => 'table'
@@ -307,44 +307,44 @@ function sts_get_create_ticket_form_fields( $location ) {
 	$fields = array();
 	if ( ! is_user_logged_in() || 'edit' === $location ) {
 		$fields[] = array(
-			'label'		=> __( 'Name', 'sts' ),
-			'id'		=> 'ticket-user',
-			'tag'		=> 'input',
-			'type'		=> 'text',
-			'name'		=> 'user',
-			'value'		=> '',
-			'error'		=> false,
-			'required'	=> true,
+			'label'    => __( 'Name', 'sts' ),
+			'id'       => 'ticket-user',
+			'tag'      => 'input',
+			'type'     => 'text',
+			'name'     => 'user',
+			'value'    => '',
+			'error'    => false,
+			'required' => true,
 		);
 		$fields[] = array(
-			'label'		=> __( 'Email', 'sts' ),
-			'id'		=> 'ticket-email',
-			'tag'		=> 'input',
-			'type'		=> 'email',
-			'name'		=> 'email',
-			'value'		=> '',
-			'error'		=> false,
-			'required'	=> true,
+			'label'    => __( 'Email', 'sts' ),
+			'id'       => 'ticket-email',
+			'tag'      => 'input',
+			'type'     => 'email',
+			'name'     => 'email',
+			'value'    => '',
+			'error'    => false,
+			'required' => true,
 		);
 	}
 	$fields[] = array(
-		'label'		=> __( 'Subject', 'sts' ),
-		'id'		=> 'ticket-subject',
-		'tag'		=> 'input',
-		'type'		=> 'text',
-		'name'		=> 'subject',
-		'value'		=> '',
-		'error'		=> false,
-		'required'	=> false,
+		'label'    => __( 'Subject', 'sts' ),
+		'id'       => 'ticket-subject',
+		'tag'      => 'input',
+		'type'     => 'text',
+		'name'     => 'subject',
+		'value'    => '',
+		'error'    => false,
+		'required' => false,
 	);
 	$fields[] = array(
-		'label'		=> __( 'Message', 'sts' ),
-		'id'		=> 'ticket-message',
-		'tag'		=> 'textarea',
-		'name'		=> 'message',
-		'value'		=> '',
-		'error'		=> false,
-		'required'	=> false,
+		'label'    => __( 'Message', 'sts' ),
+		'id'       => 'ticket-message',
+		'tag'      => 'textarea',
+		'name'     => 'message',
+		'value'    => '',
+		'error'    => false,
+		'required' => false,
 	);
 
 	/**
@@ -352,9 +352,9 @@ function sts_get_create_ticket_form_fields( $location ) {
 	*
 	* @since 1.0.0
 	*
-	* @param (array) 	the fields
-	* @param (string) 	location
-	* @return (array) 	the fields
+	* @param (array)    the fields
+	* @param (string)   location
+	* @return (array)   the fields
 	*/
 	$fields = apply_filters( 'sts-create-ticket-formfields', $fields, $location );
 
@@ -412,7 +412,7 @@ function sts_current_user_can_read_ticket( $post_id = null ) {
 		);
 	}
 
-	$query = new WP_Query( $args );
+	$query    = new WP_Query( $args );
 	$can_read = $query->have_posts();
 	wp_reset_query();
 
@@ -437,11 +437,13 @@ function sts_get_statusArr() {
 	 *
 	 * @return array The status array.
 	 */
-	return apply_filters( 'sts-status-array', array(
-		esc_html__( 'Open', 'sts' ),
-		esc_html__( 'Pending', 'sts' ),
-		esc_html__( 'Close', 'sts' ),
-	) );
+	return apply_filters(
+		'sts-status-array', array(
+			esc_html__( 'Open', 'sts' ),
+			esc_html__( 'Pending', 'sts' ),
+			esc_html__( 'Close', 'sts' ),
+		)
+	);
 }
 
 /**
@@ -463,9 +465,11 @@ function sts_get_statusClassArr() {
 	 *
 	 * @return array The status array.
 	 */
-	return apply_filters( 'sts-status-array', array(
-		'open',
-		'pending',
-		'close',
-	) );
+	return apply_filters(
+		'sts-status-array', array(
+			'open',
+			'pending',
+			'close',
+		)
+	);
 }

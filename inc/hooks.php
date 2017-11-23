@@ -11,7 +11,7 @@ function sts_on_plugin_activation() {
 		'ticket-user',
 		__( 'Ticket User', 'sts' ),
 		array(
-			'read' => true,
+			'read'             => true,
 			'read_own_tickets' => true,
 		)
 	);
@@ -22,11 +22,11 @@ function sts_on_plugin_activation() {
 		'ticket-agent',
 		__( 'Ticket Agent', 'sts' ),
 		array(
-			'read' => true,
-			'read_own_tickets' => true,
+			'read'                  => true,
+			'read_own_tickets'      => true,
 			'read_assigned_tickets' => true,
-			'read_other_tickets' => false,
-			'update_tickets' => true,
+			'read_other_tickets'    => false,
+			'update_tickets'        => true,
 		)
 	);
 
@@ -61,20 +61,20 @@ function sts_metafields( $fields ) {
 		}
 
 		$single = array(
-			'label'		=> $field['label'],
-			'id'		=> $field['id'],
-			'tag'		=> $field['tag'],
-			'name'		=> $field['metakey'],
-			'metakey'	=> $field['metakey'],
-			'type'		=> $type,
-			'value'		=> '',
-			'error'		=> false,
-			'required'	=> false,
+			'label'    => $field['label'],
+			'id'       => $field['id'],
+			'tag'      => $field['tag'],
+			'name'     => $field['metakey'],
+			'metakey'  => $field['metakey'],
+			'type'     => $type,
+			'value'    => '',
+			'error'    => false,
+			'required' => false,
 		);
 
 		if ( 'select' === $field['tag'] ) {
 			$choices_arr = $field['choices'];
-			$choices = array();
+			$choices     = array();
 			foreach ( $choices_arr as $key => $val ) {
 				$choices[ $val ] = $val;
 			}
@@ -162,8 +162,8 @@ function sts_send_status_update_mail( $post_id, $post_data ) {
 	 */
 	$subject = apply_filters( 'sts-status-update-mail-subject', sprintf( __( 'The status of your ticket #%s has changed', 'sts' ), $post_id ), $post_id, $post_data );
 
-	$text = __( 'Hello', 'sts' ) . PHP_EOL . sprintf( __( 'your ticket is now set to "%s"', 'sts' ), $status ) . PHP_EOL . PHP_EOL;
-	$text .= sprintf( __( 'You can read your ticket here:', 'sts' ) ) . ' ';
+	$text        = __( 'Hello', 'sts' ) . PHP_EOL . sprintf( __( 'your ticket is now set to "%s"', 'sts' ), $status ) . PHP_EOL . PHP_EOL;
+	$text       .= sprintf( __( 'You can read your ticket here:', 'sts' ) ) . ' ';
 	$view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $post->ID );
 
 	/**
@@ -192,7 +192,7 @@ function sts_send_status_update_mail( $post_id, $post_data ) {
 	 */
 	$text = apply_filters( 'sts-status-update-mail-body', $text, $post->ID, $post_data );
 
-	$headers = array();
+	$headers     = array();
 	$attachments = array();
 	sts_mail( $ticket_owner->data->user_email, $subject, $text, $headers, $attachments );
 }
@@ -226,7 +226,7 @@ function sts_notify_new_agent( $post_id, $post_data ) {
 	 */
 	$subject = apply_filters( 'sts-notify-new-agent-subject', sprintf( __( 'You have been assigned to the ticket #%s', 'sts' ), $post_id ), $post_id, $post_data );
 
-	$text = __( 'Hello', 'sts' ) . PHP_EOL . sprintf( __( 'you have been assigned to the ticket #%1$s "%2$s"', 'sts' ), $post_id, get_the_title( $post_id ) ) . PHP_EOL . PHP_EOL;
+	$text  = __( 'Hello', 'sts' ) . PHP_EOL . sprintf( __( 'you have been assigned to the ticket #%1$s "%2$s"', 'sts' ), $post_id, get_the_title( $post_id ) ) . PHP_EOL . PHP_EOL;
 	$text .= sprintf( __( 'You can read the ticket here:', 'sts' ) ) . ' ';
 
 	$view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $post_id );
@@ -245,8 +245,6 @@ function sts_notify_new_agent( $post_id, $post_data ) {
 
 	$text .= '<a href="' . $view_ticket . '">' . $view_ticket . '</a>';
 
-
-
 	/**
 	 * Filters the text message
 	 *
@@ -260,7 +258,7 @@ function sts_notify_new_agent( $post_id, $post_data ) {
 	 */
 	$text = apply_filters( 'sts-notify-new-agent-body', $text, $post_id, $post_data );
 
-	$headers = array();
+	$headers     = array();
 	$attachments = array();
 	sts_mail( $agent->data->user_email, $subject, $text, $headers, $attachments );
 }

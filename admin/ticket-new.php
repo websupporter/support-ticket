@@ -16,7 +16,7 @@ endif;
 		<?php esc_html_e( 'Create a new ticket', 'sts' ); ?>
 	</h2>
 	<form method="post" class="ticket create" enctype="multipart/form-data">
-		<?php if( isset( $_SESSION['tickets']['error'] ) && is_wp_error( $_SESSION['tickets']['error'] ) ): ?>
+		<?php if ( isset( $_SESSION['tickets']['error'] ) && is_wp_error( $_SESSION['tickets']['error'] ) ) : ?>
 		<div class="error"><p><?php echo $_SESSION['tickets']['error']->get_error_message(); ?></p></div>
 		<?php endif; ?>
 

@@ -23,7 +23,8 @@ $action = ( isset( $_GET['action'] ) ) ? sanitize_text_field( wp_unslash( $_GET[
 
 		add_filter( 'list_table_primary_column', 'sts_standard_table_column', 10, 2 );
 		$table = new STS_Tickets_Table();
-		$table->prepare_items(); ?>
+		$table->prepare_items();
+		?>
 		<?php $table->display(); ?>
 		</form>
 	<?php endif; ?>

@@ -1,0 +1,17 @@
+{
+    "name": "websupporter/support-ticket",
+    "description": "Support Ticket plugin for WordPress",
+    "type": "wordpress-plugin",
+    "license": "GPL2",
+    "authors": [
+        {
+            "name": "websupporter",
+            "email": "webmaster@websupporter.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "wp-coding-standards/wpcs": "dev-master"
+    }
+}

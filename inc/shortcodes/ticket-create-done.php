@@ -1,7 +1,7 @@
 <?php
 
-$user = wp_get_current_user();
-$ticket_id = ( isset( $_GET['ticket-id'] ) ) ? (int) sanitize_text_field( wp_unslash( $_GET['ticket-id'] ) ) : 0; // Input var okay.
+$user        = wp_get_current_user();
+$ticket_id   = ( isset( $_GET['ticket-id'] ) ) ? (int) sanitize_text_field( wp_unslash( $_GET['ticket-id'] ) ) : 0; // Input var okay.
 $view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $ticket_id );
 
 /**
@@ -9,8 +9,8 @@ $view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $ticket_id );
  *
  * @since 1.0.0
  *
- * @param 	(string) 	$view_ticket 	the URL
- * @return 	(string) 	$view_ticket 	the URL
+ * @param   (string)    $view_ticket    the URL
+ * @return  (string)    $view_ticket    the URL
  */
 $view_ticket = apply_filters( 'sts-view-ticket-url', $view_ticket, $ticket_id );
 ?>

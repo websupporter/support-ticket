@@ -66,8 +66,8 @@ function sts_init() {
 	*
 	* @since 1.0.5
 	*
-	* @param 	(array) 	$args 	the argument array
-	* @return 	(array) 	$args 	the argument array
+	* @param    (array)     $args   the argument array
+	* @return   (array)     $args   the argument array
 	*/
 	$args = apply_filters( 'sfs-custom-posttype-args', $args );
 	register_post_type( 'ticket', $args );
@@ -83,7 +83,7 @@ function sts_init() {
 /**
 * Register the text domain
 *
-* @since 	1.0.0
+* @since    1.0.0
 */
 add_action( 'plugins_loaded', 'sts_textdomain' );
 function sts_textdomain() {

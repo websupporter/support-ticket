@@ -4,7 +4,7 @@
  * Register Scripts & Styles
  * Adds the scripts and styles for the backend end
  *
- * @since 	1.0.0
+ * @since   1.0.0
  * @wp-hook admin_enqueue_scripts
  */
 function sts_adminscripts( $hook ) {
@@ -47,7 +47,8 @@ function wp_sf_adminpage() {
 	//Find no of unread tickets of user
 	$unread = 0;
 	if ( current_user_can( 'read_assigned_tickets' ) ) {
-		$sql = $wpdb->prepare( '
+		$sql = $wpdb->prepare(
+			'
 			select 
 				count( a.post_id ) as alltickets
 			from
@@ -60,7 +61,8 @@ function wp_sf_adminpage() {
 		);
 		$all = $wpdb->get_results( $sql );
 
-		$sql = $wpdb->prepare( '
+		$sql = $wpdb->prepare(
+			'
 			select 
 				count( r.post_id )  as readtickets
 			from
@@ -76,7 +78,7 @@ function wp_sf_adminpage() {
 			get_current_user_id()
 		);
 
-		$res = $wpdb->get_results( $sql );
+		$res    = $wpdb->get_results( $sql );
 		$unread = $all[0]->alltickets - $res[0]->readtickets;
 	}
 

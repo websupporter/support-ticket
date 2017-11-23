@@ -4,7 +4,7 @@
  * Register ticket create shortcode
  * Outputs the shortcode [ticket_create]
  *
- * @since 	1.0.0
+ * @since   1.0.0
  */
 add_shortcode( 'ticket_create', 'sts_ticket_create' );
 function sts_ticket_create( $args ) {
@@ -13,7 +13,7 @@ function sts_ticket_create( $args ) {
 	$default = array(
 		'type' => 'section',
 	);
-	$args = wp_parse_args( $args, $default );
+	$args    = wp_parse_args( $args, $default );
 
 	if ( isset( $_SESSION['ticket']['ticket-create'] ) ) {
 		$_POST['t'] = $_SESSION['ticket']['ticket-create'];
@@ -30,8 +30,8 @@ function sts_ticket_create( $args ) {
 		*
 		* @since 1.0.0
 		*
-		* @param string $shortcode_file 	filename of the shortcode file
-		* @return string $shortcode_file 	filename of the shortcode file
+		* @param string $shortcode_file     filename of the shortcode file
+		* @return string $shortcode_file    filename of the shortcode file
 		*/
 		$shortcode_file = apply_filters( 'sts-create-ticket-shortcodefile', $shortcode_file );
 

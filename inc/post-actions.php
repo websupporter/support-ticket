@@ -2,7 +2,7 @@
 if (
 	isset( $_POST['t-action'] ) // Input var okay.
 	&& 'ticket-create' === sanitize_text_field( wp_unslash( $_POST['t-action'] ) ) // Input var okay.
-) {
+ ) {
 	sts_action_ticket_create();
 }
 
@@ -32,8 +32,8 @@ function sts_action_ticket_create() {
 	*
 	* @since 1.0.0
 	*
-	* @param (array) 	$_POST['t'] 	post data
-	* @param (array) 	$post_data 		post data
+	* @param (array)    $_POST['t']     post data
+	* @param (array)    $post_data      post data
 	*/
 	$raw_post_data = apply_filters( 'sts-create-new-ticket-post', wp_unslash( $_POST['t'] ) ); // Input var okay.
 
@@ -66,15 +66,14 @@ function sts_action_ticket_create() {
 		return false;
 	}
 
-
 	/**
 	* Filter if an error occured during the process.
 	*
 	* @since 1.0.0
 	*
-	* @param (bool) 	error = false
-	* @param (array) 	post data
-	* @return (mixed) 	false or wp_error object
+	* @param (bool)     error = false
+	* @param (array)    post data
+	* @return (mixed)   false or wp_error object
 	*/
 	$check = apply_filters( 'sts-create-new-ticket-errors', false, $post_data );
 	if ( is_wp_error( $check ) ) {
@@ -96,8 +95,8 @@ function sts_action_ticket_create() {
 			*
 			* @since 1.0.0
 			*
-			* @param (string) 	user name
-			* @return (string) 	user name
+			* @param (string)   user name
+			* @return (string)  user name
 			*/
 			$username = apply_filters( 'sts-createuser-username', $post_data['email'] );
 			/**
@@ -105,11 +104,11 @@ function sts_action_ticket_create() {
 			*
 			* @since 1.0.0
 			*
-			* @param (string) 	user password
-			* @return (string) 	user password
+			* @param (string)   user password
+			* @return (string)  user password
 			*/
 			$random_password = apply_filters( 'sts-createuser-password', $random_password );
-			$user_id = wp_create_user( $username , $random_password, $post_data['email'] );
+			$user_id         = wp_create_user( $username, $random_password, $post_data['email'] );
 
 			if ( is_wp_error( $user_id ) ) {
 				$_SESSION['tickets']['error'] = new WP_Error( 'ticket-message', esc_html__( 'Could not create user.', 'sts' ) );
@@ -117,9 +116,9 @@ function sts_action_ticket_create() {
 			}
 
 			$usermeta = array(
-				'ID'			=> $user_id,
-				'user_nicename'	=> $post_data['user'],
-				'display_name'	=> $post_data['user'],
+				'ID'            => $user_id,
+				'user_nicename' => $post_data['user'],
+				'display_name'  => $post_data['user'],
 			);
 
 			/**
@@ -127,28 +126,27 @@ function sts_action_ticket_create() {
 			*
 			* @since 1.0.0
 			*
-			* @param (array) 	meta data
-			* @return (array) 	meta data
+			* @param (array)    meta data
+			* @return (array)   meta data
 			*/
 			$usermeta = apply_filters( 'sts-createuser-usermeta', $usermeta );
 			wp_update_user( $usermeta );
-
 
 			/**
 			* Action after the user has been created
 			*
 			* @since 1.0.0
 			*
-			* @param (int) 		user ID
-			* @param (array) 	usermeta
-			* @param (array) 	post data
+			* @param (int)      user ID
+			* @param (array)    usermeta
+			* @param (array)    post data
 			*/
 			do_action( 'sts-createuser-after', $user_id, $usermeta, $post_data );
 
 			$credentials = array(
-				'user_login'	=> $username,
-				'user_password'	=> $random_password,
-				'remember'		=> false,
+				'user_login'    => $username,
+				'user_password' => $random_password,
+				'remember'      => false,
 			);
 
 			/**
@@ -156,33 +154,32 @@ function sts_action_ticket_create() {
 			*
 			* @since 1.0.0
 			*
-			* @param (boolean) 	use secure cookie = false
-			* @return (boolean) 	use secure cookie
+			* @param (boolean)  use secure cookie = false
+			* @return (boolean)     use secure cookie
 			*/
 			$secure_cookie = apply_filters( 'sts-loginuser-securecookie', false );
-			$user = wp_signon( $credentials, $secure_cookie );
-
+			$user          = wp_signon( $credentials, $secure_cookie );
 
 			$welcome_mail_subject = sprintf( __( 'Welcome to %s', 'sts' ), get_bloginfo( 'name' ) );
-			$welcome_mail_body = sprintf( __( 'Hello %s,', 'sts' ), $usermeta['display_name'] ) . PHP_EOL;
-			$welcome_mail_body .= sprintf( __( "you've just registered on %s and submitted a ticket.", 'sts' ), get_bloginfo( 'name' ) ) . PHP_EOL;
-			$welcome_mail_body .= __( 'You can login using the following informations:', 'sts' ) . PHP_EOL;
-			$welcome_mail_body .= sprintf( __( 'Loginurl: %s', 'sts' ), '<a href="' . wp_login_url() . '">' . wp_login_url() . '</a>' ) . PHP_EOL;
-			$welcome_mail_body .= sprintf( __( 'Username: %s', 'sts' ), $credentials['user_login'] ) . PHP_EOL;
-			$welcome_mail_body .= sprintf( __( 'Password: %s', 'sts' ), $credentials['user_password'] ) . PHP_EOL . PHP_EOL;
-			$welcome_mail_body .= __( 'Thank you.', 'sts' );
+			$welcome_mail_body    = sprintf( __( 'Hello %s,', 'sts' ), $usermeta['display_name'] ) . PHP_EOL;
+			$welcome_mail_body   .= sprintf( __( "you've just registered on %s and submitted a ticket.", 'sts' ), get_bloginfo( 'name' ) ) . PHP_EOL;
+			$welcome_mail_body   .= __( 'You can login using the following informations:', 'sts' ) . PHP_EOL;
+			$welcome_mail_body   .= sprintf( __( 'Loginurl: %s', 'sts' ), '<a href="' . wp_login_url() . '">' . wp_login_url() . '</a>' ) . PHP_EOL;
+			$welcome_mail_body   .= sprintf( __( 'Username: %s', 'sts' ), $credentials['user_login'] ) . PHP_EOL;
+			$welcome_mail_body   .= sprintf( __( 'Password: %s', 'sts' ), $credentials['user_password'] ) . PHP_EOL . PHP_EOL;
+			$welcome_mail_body   .= __( 'Thank you.', 'sts' );
 
 			/**
 			* Filter the welcome email text
 			*
 			* @since 1.0.0
 			*
-			* @param (string) 	$welcome_mail_body 	the email text
-			* @param (array) 	$credentials 		the login credentials
-			* @param (int) 		$user_id 			the user id
-			* @param (array) 	$usermeta 			the user meta
-			* @param (array) 	$post_data 			the post data
-			* @return (string) 	$welcome_mail_body 	the email text
+			* @param (string)   $welcome_mail_body  the email text
+			* @param (array)    $credentials        the login credentials
+			* @param (int)      $user_id            the user id
+			* @param (array)    $usermeta           the user meta
+			* @param (array)    $post_data          the post data
+			* @return (string)  $welcome_mail_body  the email text
 			*/
 			$welcome_mail_body = apply_filters( 'sts-userregister-welcome-email-body', $welcome_mail_body, $credentials, $user_id, $usermeta, $post_data );
 
@@ -191,12 +188,12 @@ function sts_action_ticket_create() {
 			*
 			* @since 1.0.0
 			*
-			* @param (string) 	$welcome_mail_body 	the email subject
-			* @param (array) 	$credentials 		the login credentials
-			* @param (int) 		$user_id 			the user id
-			* @param (array) 	$usermeta 			the user meta
-			* @param (array) 	$post_data 			the post data
-			* @return (string) 	$welcome_mail_body 	the email subject
+			* @param (string)   $welcome_mail_body  the email subject
+			* @param (array)    $credentials        the login credentials
+			* @param (int)      $user_id            the user id
+			* @param (array)    $usermeta           the user meta
+			* @param (array)    $post_data          the post data
+			* @return (string)  $welcome_mail_body  the email subject
 			*/
 			$welcome_mail_subject = apply_filters( 'sts-userregister-welcome-email-subject', $welcome_mail_subject, $credentials, $user_id, $usermeta, $post_data );
 
@@ -206,7 +203,7 @@ function sts_action_ticket_create() {
 
 			//Save all entered data in the session, so we can recall them later.
 			$_SESSION['ticket']['ticket-create'] = $_POST['t'];
-			$_SESSION['ticket']['action'] = 'ask-login';
+			$_SESSION['ticket']['action']        = 'ask-login';
 			return false;
 		}
 	}
@@ -236,7 +233,7 @@ function sts_action_ticket_create() {
 	* @param array $post data
 	* @return array $args
 	*/
-	$args = apply_filters( 'sts-createticket-args', $args, $post_data );
+	$args    = apply_filters( 'sts-createticket-args', $args, $post_data );
 	$post_id = wp_insert_post( $args );
 
 	if ( is_wp_error( $post_id ) ) {
@@ -246,7 +243,7 @@ function sts_action_ticket_create() {
 
 	add_post_meta( $post_id, 'ticket-status', '0' );
 
-	$settings = get_option( 'sts-core-settings' );
+	$settings     = get_option( 'sts-core-settings' );
 	$ticket_agent = 1;
 	if ( isset( $settings['user']['standard-agent'] ) ) {
 		$ticket_agent = (int) $settings['user']['standard-agent'];
@@ -297,7 +294,7 @@ function sts_action_ticket_create() {
 
 		$text .= '<a href="' . $view_ticket . '">' . $view_ticket . '</a>';
 
-		$headers = array();
+		$headers     = array();
 		$attachments = array();
 		sts_mail( $agent->data->user_email, $subject, $text, $headers, $attachments );
 	}
