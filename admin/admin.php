@@ -88,9 +88,9 @@ function wp_sf_adminpage() {
 	if ( $unread > 0 ) {
 		$tickets_title .= ' (' . $unread . ')';
 	}
-	add_menu_page( $tickets_title, $tickets_title, 'read_own_tickets', 'support-ticket', 'sts_admin_outpout_index' );
-	add_submenu_page( 'support-ticket', esc_html__( 'New Ticket', 'support-ticket' ), esc_html__( 'New Ticket', 'support-ticket' ), 'read_own_tickets', 'sts-new', 'sts_admin_outpout_new_ticket' );
-	add_submenu_page( 'support-ticket', esc_html__( 'Settings', 'support-ticket' ), esc_html__( 'Settings', 'support-ticket' ), 'manage_options', 'sts-settings', 'sts_admin_outpout_settings' );
+	add_menu_page( $tickets_title, $tickets_title, 'read_own_tickets', 'sts', 'sts_admin_outpout_index' );
+	add_submenu_page( 'sts', esc_html__( 'New Ticket', 'support-ticket' ), esc_html__( 'New Ticket', 'support-ticket' ), 'read_own_tickets', 'sts-new', 'sts_admin_outpout_new_ticket' );
+	add_submenu_page( 'sts', esc_html__( 'Settings', 'support-ticket' ), esc_html__( 'Settings', 'support-ticket' ), 'manage_options', 'sts-settings', 'sts_admin_outpout_settings' );
 }
 add_action( 'admin_menu', 'wp_sf_adminpage' );
 
