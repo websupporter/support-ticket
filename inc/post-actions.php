@@ -1,8 +1,5 @@
 <?php
-if (
-	isset( $_POST['t-action'] ) // Input var okay.
-	&& 'ticket-create' === sanitize_text_field( wp_unslash( $_POST['t-action'] ) ) // Input var okay.
- ) {
+if ( isset( $_POST['t-action'] ) && 'ticket-create' === sanitize_text_field( wp_unslash( $_POST['t-action'] ) ) ) { // Input var okay.
 	sts_action_ticket_create();
 }
 
@@ -160,14 +157,20 @@ function sts_action_ticket_create() {
 			$secure_cookie = apply_filters( 'sts-loginuser-securecookie', false );
 			$user          = wp_signon( $credentials, $secure_cookie );
 
+			// translators: %s is the name of the blog.
 			$welcome_mail_subject = sprintf( __( 'Welcome to %s', 'sts' ), get_bloginfo( 'name' ) );
-			$welcome_mail_body    = sprintf( __( 'Hello %s,', 'sts' ), $usermeta['display_name'] ) . PHP_EOL;
-			$welcome_mail_body   .= sprintf( __( "you've just registered on %s and submitted a ticket.", 'sts' ), get_bloginfo( 'name' ) ) . PHP_EOL;
-			$welcome_mail_body   .= __( 'You can login using the following informations:', 'sts' ) . PHP_EOL;
-			$welcome_mail_body   .= sprintf( __( 'Loginurl: %s', 'sts' ), '<a href="' . wp_login_url() . '">' . wp_login_url() . '</a>' ) . PHP_EOL;
-			$welcome_mail_body   .= sprintf( __( 'Username: %s', 'sts' ), $credentials['user_login'] ) . PHP_EOL;
-			$welcome_mail_body   .= sprintf( __( 'Password: %s', 'sts' ), $credentials['user_password'] ) . PHP_EOL . PHP_EOL;
-			$welcome_mail_body   .= __( 'Thank you.', 'sts' );
+			// translators: %s is the name of the person, we greet.
+			$welcome_mail_body = sprintf( __( 'Hello %s,', 'sts' ), $usermeta['display_name'] ) . PHP_EOL;
+			// translators: %s is the name of the blog.
+			$welcome_mail_body .= sprintf( __( "you've just registered on %s and submitted a ticket.", 'sts' ), get_bloginfo( 'name' ) ) . PHP_EOL;
+			$welcome_mail_body .= __( 'You can login using the following informations:', 'sts' ) . PHP_EOL;
+			// translators: %s is the login link.
+			$welcome_mail_body .= sprintf( __( 'Loginurl: %s', 'sts' ), '<a href="' . wp_login_url() . '">' . wp_login_url() . '</a>' ) . PHP_EOL;
+			// translators: %s is the user name.
+			$welcome_mail_body .= sprintf( __( 'Username: %s', 'sts' ), $credentials['user_login'] ) . PHP_EOL;
+			// translators: %s is the password.
+			$welcome_mail_body .= sprintf( __( 'Password: %s', 'sts' ), $credentials['user_password'] ) . PHP_EOL . PHP_EOL;
+			$welcome_mail_body .= __( 'Thank you.', 'sts' );
 
 			/**
 			* Filter the welcome email text

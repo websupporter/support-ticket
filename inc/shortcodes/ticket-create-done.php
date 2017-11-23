@@ -14,10 +14,27 @@ $view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $ticket_id );
  */
 $view_ticket = apply_filters( 'sts-view-ticket-url', $view_ticket, $ticket_id );
 ?>
-<p><?php echo esc_html( sprintf( __( 'Hello %s', 'sts' ), $user->data->display_name ) ); ?>,</p>
+<p>
+<?php
+echo esc_html(
+	sprintf(
+		// translators: %s is the name of the person to greet.
+		__( 'Hello %s,', 'sts' ),
+		$user->data->display_name
+	)
+);
+	?>
+	</p>
 <p>
 	<?php esc_html_e( 'We have received your ticket and will contact you as soon as possible.', 'sts' ); ?>
-	<?php echo esc_html( sprintf( __( 'Your ticket is filed as #%d.', 'sts' ), $ticket_id ) ); ?>
+	<?php
+	echo esc_html(
+		sprintf(
+			// translators: %d is the ID of the ticket.
+			__( 'Your ticket is filed as #%d.', 'sts' ), $ticket_id
+		)
+	);
+	?>
 	<a href="<?php echo esc_url( $view_ticket ); ?>">
 		<?php esc_html_e( 'Click here to see your ticket.', 'sts' ); ?>
 	</a>

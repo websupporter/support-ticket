@@ -140,7 +140,7 @@ function sts_send_status_update_mail( $post_id, $post_data ) {
 
 	$query->the_post();
 
-	$status = sts_get_statusArr();
+	$status = sts_get_status_arr();
 	if ( ! isset( $status[ $post_data['ticket-status'] ] ) ) {
 		return;
 	}
@@ -160,9 +160,18 @@ function sts_send_status_update_mail( $post_id, $post_data ) {
 	 *
 	 * @return string $subject the subject
 	 */
-	$subject = apply_filters( 'sts-status-update-mail-subject', sprintf( __( 'The status of your ticket #%s has changed', 'sts' ), $post_id ), $post_id, $post_data );
+	$subject = apply_filters(
+		'sts-status-update-mail-subject',
+		// translators: %s is the ID of the ticket.
+		sprintf( __( 'The status of your ticket #%s has changed', 'sts' ), $post_id ),
+		$post_id,
+		$post_data
+	);
 
-	$text        = __( 'Hello', 'sts' ) . PHP_EOL . sprintf( __( 'your ticket is now set to "%s"', 'sts' ), $status ) . PHP_EOL . PHP_EOL;
+	$text = __( 'Hello', 'sts' ) . PHP_EOL .
+				// translators: %s is the status of the ticket.
+				sprintf( __( 'your ticket is now set to "%s"', 'sts' ), $status ) .
+				PHP_EOL . PHP_EOL;
 	$text       .= sprintf( __( 'You can read your ticket here:', 'sts' ) ) . ' ';
 	$view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $post->ID );
 
@@ -224,9 +233,18 @@ function sts_notify_new_agent( $post_id, $post_data ) {
 	 *
 	 * @return string $subject The subject.
 	 */
-	$subject = apply_filters( 'sts-notify-new-agent-subject', sprintf( __( 'You have been assigned to the ticket #%s', 'sts' ), $post_id ), $post_id, $post_data );
+	$subject = apply_filters(
+		'sts-notify-new-agent-subject',
+		// translators: The placeholder is the ID of the ticket.
+		sprintf( __( 'You have been assigned to the ticket #%s', 'sts' ), $post_id ),
+		$post_id,
+		$post_data
+	);
 
-	$text  = __( 'Hello', 'sts' ) . PHP_EOL . sprintf( __( 'you have been assigned to the ticket #%1$s "%2$s"', 'sts' ), $post_id, get_the_title( $post_id ) ) . PHP_EOL . PHP_EOL;
+	$text = __( 'Hello', 'sts' ) . PHP_EOL .
+			// translators: %1$s is post ID, %2$s is the title of the ticket.
+			sprintf( __( 'you have been assigned to the ticket #%1$s "%2$s"', 'sts' ), $post_id, get_the_title( $post_id ) ) .
+			PHP_EOL . PHP_EOL;
 	$text .= sprintf( __( 'You can read the ticket here:', 'sts' ) ) . ' ';
 
 	$view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $post_id );
@@ -243,7 +261,7 @@ function sts_notify_new_agent( $post_id, $post_data ) {
 	 */
 	$view_ticket = apply_filters( 'sts-view-ticket-url', $view_ticket, $post_id );
 
-	$text .= '<a href="' . $view_ticket . '">' . $view_ticket . '</a>';
+	$text .= '<a href="' . esc_url( $view_ticket ) . '">' . esc_html( $view_ticket ) . '</a>';
 
 	/**
 	 * Filters the text message

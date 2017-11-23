@@ -90,3 +90,5 @@ function sts_textdomain() {
 	$plugin_dir = basename( STS_ROOT ) . '/assetts/language/';
 	load_plugin_textdomain( 'sts', false, $plugin_dir );
 }
+
+require_once __DIR__ . '/legacy.php';

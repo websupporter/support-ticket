@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/classes/class-sts-tickets-table.php';
+
 $action = ( isset( $_GET['action'] ) ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : ''; // Input var okay.
 ?>
 <div id="sts-wrap" class="wrap <?php echo esc_attr( 'ticket-' . $action ); ?>">

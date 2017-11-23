@@ -16,7 +16,10 @@
 		$user = wp_get_current_user();
 	?>
 	<p>
-		<?php echo esc_html( sprintf( __( 'Hello %s', 'sts' ), $user->data->display_name ) ); ?>
+		<?php
+		// translators: %s is the name of the person, we greet.
+				echo esc_html( sprintf( __( 'Hello %s', 'sts' ), $user->data->display_name ) );
+		?>
 	</p>
 
 	<?php
@@ -30,6 +33,7 @@
 	<?php
 		echo esc_html(
 			sprintf(
+				// translators: %s is the email address.
 				__( 'It seems, you have already an account registered with your mail adress %s', 'sts' ),
 				$_SESSION['ticket']['ticket-create']['email']
 			)
@@ -40,7 +44,7 @@
 		<?php esc_html_e( 'Please log in before you proceed.', 'sts' ); ?>
 		</a>
 	</p>
-	
+
 	<?php
 	endif;
 

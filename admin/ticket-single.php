@@ -20,8 +20,7 @@ wp_enqueue_script( 'postbox' );
 
 if (
 	isset( $_POST['t-action'] ) // Input var okay.
-	&& 'ticket-admin-update' === sanitize_text_field( wp_unslash( $_POST['t-action'] ) ) // Input var okay.
- ) {
+	&& 'ticket-admin-update' === sanitize_text_field( wp_unslash( $_POST['t-action'] ) ) ) { // Input var okay.
 	if (
 	isset( $_POST['t'] ) // Input var okay.
 	&& isset( $_POST['t-nonce'] ) // Input var okay.
@@ -59,9 +58,9 @@ if (
 	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 	<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 	<input type="hidden" name="t-action" value="ticket-admin-update" />
-	<?php wp_nonce_field( 'ticket-admin-update-' . get_current_user_id(), 't-nonce' ); ?>
-	
 	<?php
+	wp_nonce_field( 'ticket-admin-update-' . get_current_user_id(), 't-nonce' );
+
 	$args = array(
 		'post_type'   => 'ticket',
 		'post_status' => array( 'draft' ),

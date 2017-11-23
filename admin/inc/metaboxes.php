@@ -2,12 +2,16 @@
 add_action( 'add_meta_boxes', 'sts_add_meta_boxes' );
 function sts_add_meta_boxes() {
 	//Single Ticket Metaboxes
-	if ( ! isset( $_GET['page'] ) || ! in_array( $_GET['page'], array( 'sts', 'sts-settings' ) ) ) {
+	if ( ! isset( $_GET['ID'] ) || ! isset( $_GET['page'] ) || ! in_array( wp_unslash( $_GET['page'] ), array( 'sts', 'sts-settings' ) ) ) {
 		return;
 	}
 
-	if ( isset( $_GET['action'] ) && $_GET['action'] == 'single' ) {
-		add_meta_box( 'ticket-message', sprintf( __( 'Ticket #%d', 'sts' ), (int) $_GET['ID'] ), 'sts_metabox_message_render', 'ticket-boxes', 'normal' );
+	$id   = (int) wp_unslash( $_GET['ID'] );
+	$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+	if ( isset( $_GET['action'] ) && 'single' === $_GET['action'] ) {
+
+		// translators: %d is the ID of the ticket.
+		add_meta_box( 'ticket-message', sprintf( __( 'Ticket #%d', 'sts' ), $id ), 'sts_metabox_message_render', 'ticket-boxes', 'normal' );
 
 		$metafields = get_option( 'sts-metafields', array() );
 		if ( count( $metafields ) > 0 ) {
@@ -20,7 +24,7 @@ function sts_add_meta_boxes() {
 		if ( current_user_can( 'update_tickets' ) ) {
 			add_meta_box( 'ticket-privatenote', __( 'Private Note', 'sts' ), 'sts_metabox_privatenote_render', 'ticket-boxes', 'side' );
 		}
-	} elseif ( $_GET['page'] == 'sts-settings' ) {
+	} elseif ( 'sts-settings' === $page ) {
 		//Settings Metaboxes
 		add_meta_box( 'ticket-setting-email-notification', __( 'Email notification', 'sts' ), 'sts_settings_metabox_email_notification_render', 'ticket-settings-email', 'normal' );
 		add_meta_box( 'ticket-setting-user-agent', __( 'Ticket agents', 'sts' ), 'sts_settings_metabox_user_agent_render', 'ticket-settings-user', 'normal' );
@@ -60,7 +64,7 @@ function sts_settings_metabox_user_roles_render( $args ) {
 				<th>
 				<?php
 					$checked = '';
-				if ( isset( $role['capabilities']['read_own_tickets'] ) && $role['capabilities']['read_own_tickets'] == 1 ) {
+				if ( isset( $role['capabilities']['read_own_tickets'] ) && 1 === (int) $role['capabilities']['read_own_tickets'] ) {
 					$checked = 'checked="checked"';
 				}
 					?>
@@ -69,7 +73,7 @@ function sts_settings_metabox_user_roles_render( $args ) {
 				<th>
 				<?php
 					$checked = '';
-				if ( isset( $role['capabilities']['read_assigned_tickets'] ) && $role['capabilities']['read_assigned_tickets'] == 1 ) {
+				if ( isset( $role['capabilities']['read_assigned_tickets'] ) && 1 === (int) $role['capabilities']['read_assigned_tickets'] ) {
 					$checked = 'checked="checked"';
 				}
 					?>
@@ -78,7 +82,7 @@ function sts_settings_metabox_user_roles_render( $args ) {
 				<th>
 				<?php
 					$checked = '';
-				if ( isset( $role['capabilities']['assign_agent_to_ticket'] ) && $role['capabilities']['assign_agent_to_ticket'] == 1 ) {
+				if ( isset( $role['capabilities']['assign_agent_to_ticket'] ) && 1 === (int) $role['capabilities']['assign_agent_to_ticket'] ) {
 					$checked = 'checked="checked"';
 				}
 					?>
@@ -87,7 +91,7 @@ function sts_settings_metabox_user_roles_render( $args ) {
 				<th>
 				<?php
 					$checked = '';
-				if ( isset( $role['capabilities']['delete_other_tickets'] ) && $role['capabilities']['delete_other_tickets'] == 1 ) {
+				if ( isset( $role['capabilities']['delete_other_tickets'] ) && 1 === (int) $role['capabilities']['delete_other_tickets'] ) {
 					$checked = 'checked="checked"';
 				}
 					?>
@@ -113,10 +117,10 @@ function sts_settings_metabox_user_roles_render( $args ) {
  **/
 add_filter( 'sts-settings-update-user', 'sts_settings_user_update_roles' );
 function sts_settings_user_update_roles( $return ) {
-	$roles   = get_editable_roles();
-	$roleArr = array();
+	$roles    = get_editable_roles();
+	$role_arr = array();
 	foreach ( $roles as $role_key => $role ) {
-		$roleArr[ $role_key ] = array(
+		$role_arr[ $role_key ] = array(
 			'read_own_tickets'       => false,
 			'read_assigned_tickets'  => false,
 			'read_other_tickets'     => false,
@@ -128,19 +132,19 @@ function sts_settings_user_update_roles( $return ) {
 
 	foreach ( $_POST['user']['roles'] as $cap => $roles_with_cap ) {
 		foreach ( $roles_with_cap as $role_name => $val ) {
-			if ( $val == 1 ) {
-				$roleArr[ $role_name ][ $cap ] = true;
-				if ( $cap == 'read_assigned_tickets' ) {
-					$roleArr[ $role_name ]['update_tickets'] = true;
+			if ( 1 === (int) $val ) {
+				$role_arr[ $role_name ][ $cap ] = true;
+				if ( 'read_assigned_tickets' === $cap ) {
+					$role_arr[ $role_name ]['update_tickets'] = true;
 				}
-				if ( $cap == 'read_assigned_tickets' ) {
-					$roleArr[ $role_name ]['read_other_tickets'] = true;
+				if ( 'read_assigned_tickets' === $cap ) {
+					$role_arr[ $role_name ]['read_other_tickets'] = true;
 				}
 			}
 		}
 	}
 
-	foreach ( $roleArr as $role => $caps ) {
+	foreach ( $role_arr as $role => $caps ) {
 		$role = get_role( strtolower( $role ) );
 		foreach ( $caps as $cap => $has_cap ) {
 			$role->add_cap( $cap, $has_cap );
@@ -152,9 +156,9 @@ function sts_settings_user_update_roles( $return ) {
 	 *
 	 * @since 1.0.5
 	 *
-	 * @param   (array) $roleArr    The roles Array
+	 * @param   (array) $role_arr    The roles Array
 	 **/
-	do_action( 'sts-after-roles-updated', $roleArr );
+	do_action( 'sts-after-roles-updated', $role_arr );
 	return $return;
 }
 
@@ -216,7 +220,7 @@ function sts_settings_ticket_fields( $return ) {
 			$single     = json_decode( stripslashes( $field_settings[ $key ] ) );
 			$single->id = $val;
 
-			if ( $single->tag == 'input' ) {
+			if ( 'input' === $single->tag ) {
 				$single->type = 'text';
 			}
 
@@ -507,19 +511,19 @@ add_filter( 'sts-settings-update-email', 'sts_settings_email_update' );
 function sts_settings_email_update( $return ) {
 	$settings     = get_option( 'sts-core-settings' );
 	$notification = 0;
-	if ( isset( $_POST['email']['notifiy-ticketowner'] ) && $_POST['email']['notifiy-ticketowner'] == '1' ) {
+	if ( isset( $_POST['email']['notifiy-ticketowner'] ) && 1 === (int) wp_unslash( $_POST['email']['notifiy-ticketowner'] ) ) {
 		$notification = 1;
 	}
 	$settings['email']['notifiy-ticketowner'] = $notification;
 
 	$notification = 0;
-	if ( isset( $_POST['email']['notifiy-agent'] ) && $_POST['email']['notifiy-agent'] == '1' ) {
+	if ( isset( $_POST['email']['notifiy-agent'] ) && 1 === (int) wp_unslash( $_POST['email']['notifiy-agent'] ) ) {
 		$notification = 1;
 	}
 	$settings['email']['notifiy-agent'] = $notification;
 
 	$notification = 0;
-	if ( isset( $_POST['email']['notifiy-on-status-update'] ) && $_POST['email']['notifiy-on-status-update'] == '1' ) {
+	if ( isset( $_POST['email']['notifiy-on-status-update'] ) && 1 === (int) wp_unslash( $_POST['email']['notifiy-on-status-update'] ) ) {
 		$notification = 1;
 	}
 	$settings['email']['notifiy-on-status-update'] = $notification;
@@ -545,15 +549,15 @@ function sts_settings_email_update( $return ) {
 function sts_settings_metabox_email_notification_render( $args ) {
 	$settings      = get_option( 'sts-core-settings' );
 	$owner_checked = '';
-	if ( isset( $settings['email']['notifiy-ticketowner'] ) && $settings['email']['notifiy-ticketowner'] == 1 ) {
+	if ( isset( $settings['email']['notifiy-ticketowner'] ) && 1 === (int) $settings['email']['notifiy-ticketowner'] ) {
 		$owner_checked = 'checked="checked"';
 	}
 	$agent_checked = '';
-	if ( isset( $settings['email']['notifiy-agent'] ) && $settings['email']['notifiy-agent'] == 1 ) {
+	if ( isset( $settings['email']['notifiy-agent'] ) && 1 === (int) $settings['email']['notifiy-agent'] ) {
 		$agent_checked = 'checked="checked"';
 	}
 	$on_status_update_checked = '';
-	if ( isset( $settings['email']['notifiy-on-status-update'] ) && $settings['email']['notifiy-on-status-update'] == 1 ) {
+	if ( isset( $settings['email']['notifiy-on-status-update'] ) && 1 === (int) $settings['email']['notifiy-on-status-update'] ) {
 		$on_status_update_checked = 'checked="checked"';
 	}
 ?>
@@ -637,7 +641,7 @@ function sts_admin_update_status( $post_data, $post_id ) {
 function sts_metabox_status_render( $post ) {
 	$current_status_index = (int) get_post_meta( get_the_ID(), 'ticket-status', true );
 	$current_status       = sts_translate_status( $current_status_index );
-	$status_array         = sts_get_statusArr();
+	$status_array         = sts_get_status_arr();
 
 	$standard_agent = 1;
 	$settings       = get_option( 'sts-core-settings' );
@@ -659,8 +663,18 @@ function sts_metabox_status_render( $post ) {
 
 	if ( ! current_user_can( 'update_tickets' ) && ! current_user_can( 'assign_agent_to_ticket' ) ) :
 	?>
-	<p><?php printf( __( 'Current status: %s', 'sts' ), $current_status ); ?></p>
-	<p><?php printf( __( 'Current agent: %s', 'sts' ), $current_agent->display_name ); ?></p>
+	<p>
+	<?php
+		// translators: %s is the current status.
+		printf( __( 'Current status: %s', 'sts' ), $current_status );
+	?>
+	</p>
+	<p>
+	<?php
+		// translators: %s is the name of the current agent.
+		printf( __( 'Current agent: %s', 'sts' ), $current_agent->display_name );
+		?>
+		</p>
 	<?php
 	else :
 	?>
@@ -818,7 +832,7 @@ function sts_send_notification_email_to_agent( $ticket_id, $answer_id, $post_dat
 
 	$agent = get_user_by( 'id', get_post_meta( $ticket_id, 'ticket-agent', true ) );
 
-	if ( $answer->post_author == get_current_user_id() ) {
+	if ( (int) get_current_user_id() === (int) $answer->post_author ) {
 		return;
 	}
 
@@ -858,11 +872,13 @@ function sts_send_notification_email_to_agent( $ticket_id, $answer_id, $post_dat
  **/
 add_action( 'ticket-admin-update', 'sts_admin_send_ticket_answer', 10, 2 );
 function sts_admin_send_ticket_answer( $post_data, $post_id ) {
-	if ( ! isset( $post_data['answer'] ) ) {
+	if ( ! isset( $post_data['answer'] ) || ! isset( $_GET['ID'] ) ) {
 		return;
 	}
-	$answer  = trim( $post_data['answer'] );
-	$subject = sprintf( __( 'Re: [Ticket #%d]', 'sts' ), $_GET['ID'] ) . ' ' . trim( $post_data['subject'] );
+	$id     = (int) wp_unslash( $_GET['ID'] );
+	$answer = trim( $post_data['answer'] );
+	// translators: %d is the number of the ticket.
+	$subject = sprintf( __( 'Re: [Ticket #%d]', 'sts' ), $id ) . ' ' . trim( $post_data['subject'] );
 
 	if ( empty( $answer ) ) {
 		return;
@@ -872,7 +888,7 @@ function sts_admin_send_ticket_answer( $post_data, $post_id ) {
 		'post_title'   => $subject,
 		'post_type'    => 'ticket',
 		'post_content' => $answer,
-		'post_parent'  => $_GET['ID'],
+		'post_parent'  => $id,
 	);
 	$post_id = wp_insert_post( $args );
 
@@ -885,7 +901,7 @@ function sts_admin_send_ticket_answer( $post_data, $post_id ) {
 	* @param (int)      Answer ID
 	* @param (array)    POST data
 	*/
-	do_action( 'sts-after-ticket-answer-save', $_GET['ID'], $post_id, $post_data );
+	do_action( 'sts-after-ticket-answer-save', $id, $post_id, $post_data );
 }
 
 /**
@@ -901,7 +917,11 @@ function sts_metabox_message_render( $post ) {
 	?>
 			<div class="ticket-content">
 				<p class="date">
-					<?php printf( __( 'by %s', 'sts' ), get_the_author() ); ?>,
+					<?php
+					// translators: %s is the name of the author.
+					printf( __( 'by %s', 'sts' ), get_the_author() );
+					?>
+					,
 					<?php the_date(); ?>, <?php the_time(); ?>
 				</p>
 				<?php
@@ -931,7 +951,11 @@ function sts_metabox_message_render( $post ) {
 " id="answer-<?php echo $post->ID; ?>">
 						<h3>
 							<span>
-								<?php printf( __( 'by %s', 'sts' ), $user->data->display_name ); ?>,
+								<?php
+								// translators: %s is the user name.
+								printf( __( 'by %s', 'sts' ), $user->data->display_name );
+								?>
+								,
 								<?php echo get_the_time( get_option( 'date_format' ), $post->ID ) . ', ' . get_the_time( get_option( 'time_format' ), $post->ID ); ?>
 							</span>
 							<?php echo get_the_title( $post->ID ); ?>

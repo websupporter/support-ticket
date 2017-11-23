@@ -1,5 +1,6 @@
 <?php
 require_once( dirname( __FILE__ ) . '/inc/metaboxes.php' );
+require_once( dirname( __FILE__ ) . '/classes/class-sts-settings.php' );
 require_once( dirname( __FILE__ ) . '/inc/functions-settings.php' );
 add_thickbox();
 do_action( 'add_meta_boxes' );

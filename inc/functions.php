@@ -176,9 +176,9 @@ function sts_set_html_content_type( $type ) {
 function sts_translate_status( $status_index, $type = 'normal' ) {
 
 	if ( 'class' === $type ) {
-		$status = sts_get_statusClassArr();
+		$status = sts_get_status_class_arr();
 	} else {
-		$status = sts_get_statusArr();
+		$status = sts_get_status_arr();
 	}
 
 	if ( isset( $status[ (int) $status_index ] ) ) {
@@ -426,7 +426,7 @@ function sts_current_user_can_read_ticket( $post_id = null ) {
 *
 * @return array Status
 */
-function sts_get_statusArr() {
+function sts_get_status_arr() {
 
 	/**
 	 * Filter the available ticket status options
@@ -450,11 +450,11 @@ function sts_get_statusArr() {
 * Get The Status Array untranslated
 * We need these for the table classes in the ticket overview
 *
-* @since 1.0.0
+* @since 1.1.0
 *
 * @return array Status
 */
-function sts_get_statusClassArr() {
+function sts_get_status_class_arr() {
 
 	/**
 	 * Filter the available ticket status options

@@ -2,5 +2,7 @@
 <ruleset name="Support Ticket">
     <config name="installed_paths" value="../../wp-coding-standards/wpcs" />
     <rule ref="vendor/wp-coding-standards/wpcs/WordPress-Core" >
+
+        <exclude name="WordPress.NamingConventions.ValidHookName" />
     </rule>
 </ruleset>

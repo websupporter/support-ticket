@@ -47,22 +47,25 @@ function wp_sf_adminpage() {
 	//Find no of unread tickets of user
 	$unread = 0;
 	if ( current_user_can( 'read_assigned_tickets' ) ) {
-		$sql = $wpdb->prepare(
-			'
+
+		$all = $wpdb->get_results(
+			$wpdb->prepare(
+				'
 			select 
 				count( a.post_id ) as alltickets
 			from
 				' . $wpdb->postmeta . ' as a
 			where (
 				a.meta_key = "ticket-agent" &&
-				a.meta_value = "%d"
+				a.meta_value = %d
 			)',
-			get_current_user_id()
+				get_current_user_id()
+			)
 		);
-		$all = $wpdb->get_results( $sql );
 
-		$sql = $wpdb->prepare(
-			'
+		$res    = $wpdb->get_results(
+			$wpdb->prepare(
+				'
 			select 
 				count( r.post_id )  as readtickets
 			from
@@ -70,15 +73,14 @@ function wp_sf_adminpage() {
 				' . $wpdb->postmeta . ' as a
 			where (
 				a.meta_key = "ticket-agent" &&
-				a.meta_value = "%d" &&
+				a.meta_value = %d &&
 				a.post_id = r.post_id &&
 				r.meta_key = "ticket-read" &&
 				r.meta_value = 1
 			)',
-			get_current_user_id()
+				get_current_user_id()
+			)
 		);
-
-		$res    = $wpdb->get_results( $sql );
 		$unread = $all[0]->alltickets - $res[0]->readtickets;
 	}
 
@@ -109,6 +111,7 @@ function sts_admin_outpout_settings() {
 
 function sts_admin_thankyou() {
 
+	// translators: %s is the name of the plugin.
 	return '<span id="footer-thankyou">' . wp_kses_post( sprintf( __( 'Thank you for using %s.' ), '<a href="http://wpsupportticket.com">Support Ticket Plugin</a>' ) ) . '</span>';
 }
 
