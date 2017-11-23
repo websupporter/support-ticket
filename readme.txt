@@ -44,6 +44,7 @@ Version 1.1
 * Follow phpcs standards.
 * Rename text domain to follow WordPress standards.
 * `sts_get_statusArr()` and `sts_get_statusClassArr()` are deprecated. Use `sts_get_status_arr()` and `sts_get_status_class_arr()` instead.
+* minor bugfix where the pagination of the ticket table was out of sync with the no of tickets acutally shown.
 
 Version 1.0.7
 
