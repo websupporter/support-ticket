@@ -32,13 +32,13 @@ define( 'STS_ROOT', dirname( STS_FILE ) . '/' );
 define( 'STS_URL', plugins_url( '/', __FILE__ ) );
 
 //Include Files
-require_once( STS_ROOT . 'inc/functions.php' );
-require_once( STS_ROOT . 'inc/hooks.php' );
-require_once( STS_ROOT . 'inc/template-tags.php' );
-require_once( STS_ROOT . 'inc/shortcodes.php' );
+require_once STS_ROOT . 'inc/functions.php';
+require_once STS_ROOT . 'inc/hooks.php';
+require_once STS_ROOT . 'inc/template-tags.php';
+require_once STS_ROOT . 'inc/shortcodes.php';
 
 if ( is_admin() ) {
-	require_once( STS_ROOT . 'admin/admin.php' );
+	require_once STS_ROOT . 'admin/admin.php';
 }
 
 
@@ -74,7 +74,7 @@ function sts_init() {
 
 	//POST actions
 	if ( isset( $_POST['t-action'] ) ) { // Input var okay.
-		require_once( STS_ROOT . 'inc/post-actions.php' );
+		require_once STS_ROOT . 'inc/post-actions.php';
 	}
 
 }

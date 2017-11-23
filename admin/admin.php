@@ -96,17 +96,17 @@ add_action( 'admin_menu', 'wp_sf_adminpage' );
 
 function sts_admin_outpout_index() {
 
-	require_once( dirname( __FILE__ ) . '/index.php' );
+	require_once dirname( __FILE__ ) . '/index.php';
 }
 
 function sts_admin_outpout_new_ticket() {
 
-	require_once( dirname( __FILE__ ) . '/ticket-new.php' );
+	require_once dirname( __FILE__ ) . '/ticket-new.php';
 }
 
 function sts_admin_outpout_settings() {
 
-	require_once( dirname( __FILE__ ) . '/settings.php' );
+	require_once dirname( __FILE__ ) . '/settings.php';
 }
 
 function sts_admin_thankyou() {

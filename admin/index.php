@@ -8,10 +8,10 @@ $action = ( isset( $_GET['action'] ) ) ? sanitize_text_field( wp_unslash( $_GET[
 	$sts_actions = array( 'single' );
 	if ( in_array( $action, $sts_actions, true ) ) :
 		if ( 'single' === $action ) :
-			require_once( 'ticket-single.php' );
+			require_once 'ticket-single.php';
 		endif;
 	else :
-		require_once( dirname( __FILE__ ) . '/inc/ticket-table.php' );
+		require_once dirname( __FILE__ ) . '/inc/ticket-table.php';
 		?>
 
 		<h2>
