@@ -2,13 +2,13 @@
 add_action( 'add_meta_boxes', 'sts_add_meta_boxes' );
 function sts_add_meta_boxes() {
 	//Single Ticket Metaboxes
-	if ( ! isset( $_GET['ID'] ) || ! isset( $_GET['page'] ) || ! in_array( wp_unslash( $_GET['page'] ), array( 'support-ticket', 'sts-settings' ) ) ) {
+	if ( ! isset( $_GET['page'] ) || ! in_array( wp_unslash( $_GET['page'] ), array( 'support-ticket', 'sts-settings' ) ) ) {
 		return;
 	}
 
-	$id   = (int) wp_unslash( $_GET['ID'] );
+	$id   = ( ! isset( $_GET['ID'] ) ) ? 0 : (int) wp_unslash( $_GET['ID'] );
 	$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
-	if ( isset( $_GET['action'] ) && 'single' === $_GET['action'] ) {
+	if ( isset( $_GET['action'] ) && 'single' === wp_unslash( $_GET['action'] ) ) {
 
 		// translators: %d is the ID of the ticket.
 		add_meta_box( 'ticket-message', sprintf( __( 'Ticket #%d', 'support-ticket' ), $id ), 'sts_metabox_message_render', 'ticket-boxes', 'normal' );
