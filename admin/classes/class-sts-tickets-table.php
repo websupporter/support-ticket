@@ -1,6 +1,7 @@
 <?php
 
 class STS_Tickets_Table extends WP_List_Table {
+
 	function get_bulk_actions() {
 		$actions = array();
 		if ( current_user_can( 'delete_other_tickets' ) ) {
@@ -45,11 +46,23 @@ class STS_Tickets_Table extends WP_List_Table {
 			$paged = (int) $_GET['paged'];
 		}
 
+		$tickets_per_page = (int) get_option( 'posts_per_page', 10 );
+		/**
+		 * Filter how many tickets should be shown per page.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param (int)    $tickets_per_page
+		 * @return (int)   $tickets_per_page
+		 */
+		$tickets_per_page = (int) apply_filters( 'sts-tickets-per-page', $tickets_per_page );
+
 		$args = array(
-			'post_type'   => 'ticket',
-			'post_status' => 'any',
-			'post_parent' => 0,
-			'paged'       => $paged,
+			'post_type'      => 'ticket',
+			'post_status'    => 'any',
+			'post_parent'    => 0,
+			'posts_per_page' => $tickets_per_page,
+			'paged'          => $paged,
 		);
 
 		/**
@@ -72,9 +85,7 @@ class STS_Tickets_Table extends WP_List_Table {
 				),
 			);
 		}
-		#echo '<pre>';print_r( $args );echo '</pre>';
 		$query = new WP_Query( $args );
-		#echo '<pre>';print_r( $query );echo '</pre>';
 		while ( $query->have_posts() ) {
 			$query->the_post();
 			$data[] = $post;
@@ -83,7 +94,7 @@ class STS_Tickets_Table extends WP_List_Table {
 		$this->set_pagination_args(
 			array(
 				'total_items' => $query->found_posts,
-				'per_page'    => 10,
+				'per_page'    => $tickets_per_page,
 			)
 		);
 
