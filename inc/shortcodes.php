@@ -19,11 +19,11 @@ function sts_ticket_create( $args ) {
 		$_POST['t'] = $_SESSION['ticket']['ticket-create'];
 	}
 
-	ob_start();
+	$renderer = new Sts_Renderer();
 	if ( ! isset( $_GET['ticket-created'] ) ) { // Input var okay.
 		$fields = sts_get_create_ticket_form_fields( 'shortcode' );
 
-		$shortcode_file = dirname( __FILE__ ) . '/shortcodes/ticket-create.php';
+		$shortcode_file = $renderer->templates_dir() . '/shortcodes/ticket-create.php';
 
 		/**
 		* Filter the file path to the shortcode
@@ -34,14 +34,9 @@ function sts_ticket_create( $args ) {
 		* @return string $shortcode_file    filename of the shortcode file
 		*/
 		$shortcode_file = apply_filters( 'sts-create-ticket-shortcodefile', $shortcode_file );
-
-		if ( is_file( $shortcode_file ) ) {
-			require $shortcode_file;
-		} else {
-			return esc_html__( 'Shortcode file not found :/', 'support-ticket' );
-		}
 	} else {
-		$shortcode_file = dirname( __FILE__ ) . '/shortcodes/ticket-create-done.php';
+		$fields = [];
+		$shortcode_file = $renderer->templates_dir() . '/shortcodes/ticket-create-done.php';
 
 		/**
 		* Filter the file path to the shortcode for a submitted ticket.
@@ -52,14 +47,10 @@ function sts_ticket_create( $args ) {
 		* @return string $shortcode_file filename of the shortcode file
 		*/
 		$shortcode_file = apply_filters( 'sts-create-ticket-done-shortcodefile', $shortcode_file );
-
-		if ( is_file( $shortcode_file ) ) {
-			require_once $shortcode_file;
-		} else {
-			return esc_html__( 'Shortcode file not found :/', 'support-ticket' );
-		}
 	}
-	$content = ob_get_contents();
-	ob_end_clean();
-	return $content;
+
+	return $renderer->render( $shortcode_file, [
+		'args'   => $args,
+		'fields' => $fields,
+	] );
 }

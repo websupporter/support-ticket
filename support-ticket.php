@@ -93,5 +93,6 @@ function sts_textdomain() {
 
 require_once __DIR__ . '/classes/class-sts-metabox-repository.php';
 require_once __DIR__ . '/classes/class-sts-metabox.php';
+require_once __DIR__ . '/classes/class-sts-renderer.php';
 require_once __DIR__ . '/legacy.php';
 require_once __DIR__ . '/inc/metaboxes.php';
