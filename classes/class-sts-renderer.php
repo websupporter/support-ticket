@@ -8,6 +8,7 @@ class Sts_Renderer {
 			return '';
 		}
 
+		//@codingStandardsIgnoreLine
 		extract( $data, EXTR_SKIP );
 		ob_start();
 		require $template;

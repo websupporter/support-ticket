@@ -35,7 +35,7 @@ function sts_ticket_create( $args ) {
 		*/
 		$shortcode_file = apply_filters( 'sts-create-ticket-shortcodefile', $shortcode_file );
 	} else {
-		$fields = [];
+		$fields         = [];
 		$shortcode_file = $renderer->templates_dir() . '/shortcodes/ticket-create-done.php';
 
 		/**
@@ -49,8 +49,10 @@ function sts_ticket_create( $args ) {
 		$shortcode_file = apply_filters( 'sts-create-ticket-done-shortcodefile', $shortcode_file );
 	}
 
-	return $renderer->render( $shortcode_file, [
-		'args'   => $args,
-		'fields' => $fields,
-	] );
+	return $renderer->render(
+		$shortcode_file, [
+			'args'   => $args,
+			'fields' => $fields,
+		]
+	);
 }
