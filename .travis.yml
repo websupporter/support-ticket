@@ -18,7 +18,8 @@ sudo: required
 dist: precise
 addons:
   apt:
-    - apache2
+    packages:
+      - apache2
   chrome: stable
 before_install: phpenv config-rm xdebug.ini
 
