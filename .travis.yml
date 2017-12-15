@@ -29,6 +29,7 @@ install:
   - mkdir ./public
   - cd plugin-tmp
   - composer install --no-interaction
+  - php -r 'require "vendor/joomla-projects/selenium-server-standalone/Selenium.php"; $selenium = new Selenium(["browser" => "chrome", "selenium_params" => [" -Dselenium.LOGGER.level=OFF"] ]); $selenium->run();'
   - cd ../
 
 before_script:
@@ -44,12 +45,6 @@ before_script:
 
 
   - gunzip tests/behat/data/tickets.sql.gz
-
-  - wget -c -nc --retry-connrefused --tries=0 http://goo.gl/EoH85x -O selenium-server-standalone.jar
-
-  # start selenium
-  - echo "Run selenium server - background process"
-  - nohup bash -c "java -jar selenium-server-standalone.jar &" && sleep 1; cat nohup.out
 
   - sed -i "s|full-path-to-repo|$TRAVIS_BUILD_DIR|g" plugin-tmp/behat.yml
 

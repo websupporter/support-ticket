@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "70333b11ecb9e9718b38ea2672b98ed7",
+    "content-hash": "64648f557908b21a4e5966aaaf7edebd",
     "packages": [],
     "packages-dev": [
         {
@@ -806,6 +806,51 @@
                 "webtest"
             ],
             "time": "2017-06-30T04:02:48+00:00"
+        },
+        {
+            "name": "joomla-projects/selenium-server-standalone",
+            "version": "v3.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-projects/selenium-server-standalone.git",
+                "reference": "2906dd977712e046485539db01966a1f2ad1da6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-projects/selenium-server-standalone/zipball/2906dd977712e046485539db01966a1f2ad1da6f",
+                "reference": "2906dd977712e046485539db01966a1f2ad1da6f",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/selenium-server-standalone"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Selenium.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sven Eisenschmidt",
+                    "email": "sven.eisenschmidt@gmail.com"
+                },
+                {
+                    "name": "Javier Gómez",
+                    "email": "javier.gomez@community.joomla.org"
+                }
+            ],
+            "description": "Composer distribution of Selenium Server Standalone, the browser automation framework. Adds a executable to your composer bin directory.",
+            "homepage": "https://github.com/joomla-projects/selenium-server-standalone",
+            "keywords": [
+                "selenium",
+                "testing"
+            ],
+            "time": "2017-11-06T11:50:20+00:00"
         },
         {
             "name": "ocramius/package-versions",
