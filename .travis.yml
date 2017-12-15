@@ -17,6 +17,7 @@ install:
   - mkdir plugin-tmp/
   - cp ./* ./plugin-tmp -r || true
   - mkdir ./public
+  - cd plugin-tmp
   - composer install --no-interaction
 
 before_script:
@@ -66,7 +67,7 @@ before_script:
   - ln -s ../../plugin-tmp/ ./wp-content/plugins/support-ticket
   - wp config create --dbname=wordpress_db --dbuser=wordpress_user --dbpass=wordpress_db_password
   - wp db import ../../tests/behat/data/tickets.sql
-  - cd ../../
+  - cd ../../plugin-tmp/
 
 script:
   - ./vendor/bin/phpcs ./ --standard=./phpcs.xml
