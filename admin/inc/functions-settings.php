@@ -12,7 +12,7 @@ function sts_setting_core_content( $sts_setting_content ) {
 	$sts_setting_content[] = array(
 		'id'          => 'welcome',
 		'title'       => __( 'Welcome', 'support-ticket' ),
-		'before_form' => '<p style="text-align:center"><img width="50%" src="' . STS_URL . 'assets/logo-large.svg" alt="" /></p><hr /><p style="text-align:center"><strong>' . __( 'Welcome to WP Support Ticket!', 'support-ticket' ) . '</strong><br />' . __( 'On this page, you can configure the plugin, so it fits your needs.', 'support-ticket' ) . '</p>',
+		'before_form' => '<p style="text-align:center"><img width="50%" src="' . STS_URL . 'assets/img/logo-large.svg" alt="" /></p><hr /><p style="text-align:center"><strong>' . __( 'Welcome to WP Support Ticket!', 'support-ticket' ) . '</strong><br />' . __( 'On this page, you can configure the plugin, so it fits your needs.', 'support-ticket' ) . '</p>',
 		'after_form'  => '',
 	);
 	$sts_setting_content[] = array(

@@ -12,7 +12,7 @@ endif;
 ?>
 <div id="sts-wrap" class="wrap">
 	<h2>
-		<img src="<?php echo esc_url( STS_URL ); ?>assets/logo-small.svg" height="25px" />
+		<img src="<?php echo esc_url( STS_URL ); ?>assets/img/logo-small.svg" height="25px" />
 		<?php esc_html_e( 'Create a new ticket', 'support-ticket' ); ?>
 	</h2>
 	<form method="post" class="ticket create" enctype="multipart/form-data">

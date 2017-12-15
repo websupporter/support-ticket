@@ -15,7 +15,7 @@ $action = ( isset( $_GET['action'] ) ) ? sanitize_text_field( wp_unslash( $_GET[
 		?>
 
 		<h2>
-			<img src="<?php echo esc_url( STS_URL ); ?>assets/logo-small.svg" height="25px" />
+			<img src="<?php echo esc_url( STS_URL ); ?>assets/img/logo-small.svg" height="25px" />
 			<?php esc_html_e( 'Tickets', 'support-ticket' ); ?>
 		</h2>
 		<?php if ( isset( $_GET['updated'] ) ) : // Input var okay. ?>
