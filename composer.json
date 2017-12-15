@@ -13,5 +13,14 @@
     "require": {},
     "require-dev": {
         "wp-coding-standards/wpcs": "dev-master"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@phpcs"
+        ],
+        "post-update-cmd": [
+            "@phpcs"
+        ],
+        "phpcs": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs"
     }
 }
