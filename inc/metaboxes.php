@@ -553,7 +553,7 @@ function sts_settings_metabox_email_wrapper_render( $args ) {
 	if ( isset( $settings['email']['wrapper'] ) ) {
 		$wrapper = $settings['email']['wrapper'];
 	} else {
-		$wrapper = preg_replace( '^#logo#^', STS_URL . 'assetts/logo.png', file_get_contents( STS_ROOT . 'assetts/email-wrapper.html' ) );
+		$wrapper = preg_replace( '^#logo#^', STS_URL . 'assets/logo.png', file_get_contents( STS_ROOT . 'assets/email-wrapper.html' ) );
 	}
 
 	?>

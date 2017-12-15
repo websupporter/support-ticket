@@ -87,7 +87,7 @@ function sts_init() {
 */
 add_action( 'plugins_loaded', 'sts_textdomain' );
 function sts_textdomain() {
-	$plugin_dir = basename( STS_ROOT ) . '/assetts/language/';
+	$plugin_dir = basename( STS_ROOT ) . '/assets/language/';
 	load_plugin_textdomain( 'support-ticket', false, $plugin_dir );
 }
 

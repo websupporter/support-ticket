@@ -78,7 +78,7 @@ if (
 	if ( ! $query->have_posts() ) :
 	?>
 	<h1>
-		<img src="<?php echo esc_url( STS_URL ); ?>assetts/logo-small.svg" height="25px" />
+		<img src="<?php echo esc_url( STS_URL ); ?>assets/logo-small.svg" height="25px" />
 		<?php esc_html_e( 'Ticket not found :/', 'support-ticket' ); ?>
 	</h1>
 	<?php
@@ -92,7 +92,7 @@ if (
 		}
 	?>
 	<h2>
-		<img src="<?php echo esc_url( STS_URL ); ?>assetts/logo-small.svg" height="25px" />
+		<img src="<?php echo esc_url( STS_URL ); ?>assets/logo-small.svg" height="25px" />
 		<?php the_title(); ?>
 	</h2>
 	<div id="poststuff">

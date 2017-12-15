@@ -126,6 +126,10 @@
 	max-width: calc( 100% - 170px );
 }
 
+#sts-wrap section input#answer-subject {
+	width: 300px;
+}
+
 #sts-wrap section input[type="checkbox"],
 #sts-wrap section input[type="radio"] {
     width: auto;
