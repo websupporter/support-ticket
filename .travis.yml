@@ -19,6 +19,7 @@ install:
   - mkdir ./public
   - cd plugin-tmp
   - composer install --no-interaction
+  - cd ../
 
 before_script:
   - "export DISPLAY=:99.0"
