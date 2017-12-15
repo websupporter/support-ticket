@@ -65,13 +65,12 @@ before_script:
   - mkdir tickets
   - cd tickets
   - wp core download
-  - ln -s ../../plugin-tmp/ ./wp-content/plugins/support-ticket
+  - ln -s ../../plugin-tmp ./wp-content/plugins/support-ticket
   - ls ./wp-content/plugins/
   - ls ./wp-content/plugins/support-ticket
   - wp config create --dbname=wordpress_db --dbuser=wordpress_user --dbpass=wordpress_db_password
   - wp db import ../../tests/behat/data/tickets.sql
   - wp plugin list
-  - wp plugin activate support-ticket
   - cd ../../plugin-tmp/
 
 script:
