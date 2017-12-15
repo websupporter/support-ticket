@@ -78,7 +78,7 @@ class Sts_Settings {
 						<?php wp_nonce_field( 'ticket-settings-' . $c['id'], 't-nonce' ); ?>
 						<?php do_meta_boxes( 'ticket-settings-' . $c['id'], 'normal', new stdClass() ); ?>
 						<?php if ( sts_has_meta_boxes( 'ticket-settings-' . $c['id'], 'normal' ) ) : ?>
-							<button class="button button-primary button-large"><?php _e( 'Update', 'support-ticket' ); ?></button>
+							<button id="update-<?php echo esc_attr( $c['id'] ); ?>" class="button button-primary button-large"><?php _e( 'Update', 'support-ticket' ); ?></button>
 						<?php endif; ?>
 					</form>
 					<?php echo $c['after_form']; ?>

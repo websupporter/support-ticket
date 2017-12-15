@@ -9,10 +9,13 @@
             "email": "webmaster@websupporter.net"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {},
     "require-dev": {
-        "wp-coding-standards/wpcs": "dev-master"
+        "wp-coding-standards/wpcs": "dev-master",
+        "paulgibbs/behat-wordpress-extension": "dev-master",
+        "behat/mink-goutte-driver": "^1.2@dev",
+        "behat/mink-selenium2-driver": "^1.3@dev"
     },
     "scripts": {
         "post-install-cmd": [

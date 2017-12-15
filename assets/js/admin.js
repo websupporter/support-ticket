@@ -89,8 +89,8 @@ jQuery( document ).ready( function(){
 
 		var json = JSON.stringify( data );
 		li += '<input name="ticket[fields][id][]" value="' + data.metakey + '" type="hidden"/><textarea name="ticket[fields][fields][]" style="display:none;">' + json + '</textarea>' + data.label;
-		li += '<div title="' + stsLocalize.trash + '" class="sts-delete dashicons dashicons-trash"></div>';
-		li += '<div title="' + stsLocalize.edit + '" class="sts-edit-field dashicons dashicons-edit"></div>';
+		li += '<a href="#" title="' + stsLocalize.trash + '" class="sts-delete dashicons dashicons-trash"></a>';
+		li += '<a href="#" title="' + stsLocalize.edit + '" class="sts-edit-field dashicons dashicons-edit"></a>';
 		li += '</li>';
 		jQuery( li ).appendTo( '.ticket-field-list' );
 		jQuery( '.ticket-field-list' ).sortable();
@@ -98,7 +98,8 @@ jQuery( document ).ready( function(){
 	});
 
 	//Fill the Edit Field Form and display it
-	jQuery( '.ticket-field-list' ).on( 'click', '.sts-edit-field', function(){
+	jQuery( '.ticket-field-list' ).on( 'click', '.sts-edit-field', function( event ){
+		event.preventDefault();
 		var li = jQuery( this ).parent();
 		var index = jQuery( '.ticket-field-list li' ).index( li );
 
@@ -160,7 +161,8 @@ jQuery( document ).ready( function(){
 	});
 
 	//Remove a metafield
-	jQuery( '.ticket-field-list' ).on( 'click', '.sts-delete', function(){
+	jQuery( '.ticket-field-list' ).on( 'click', '.sts-delete', function( event ){
+		event.preventDefault();
 		jQuery( this ).parent().remove();
 	});
 

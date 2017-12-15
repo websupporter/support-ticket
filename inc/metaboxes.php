@@ -127,6 +127,7 @@ function sts_settings_metabox_user_roles_render( $args ) {
 				<th><?php _e( 'Role', 'support-ticket' ); ?></th>
 				<th><?php _e( 'Create Ticket', 'support-ticket' ); ?></th>
 				<th><?php _e( 'Read assigned tickets', 'support-ticket' ); ?></th>
+				<th><?php _e( 'Read others tickets', 'support-ticket' ); ?></th>
 				<th><?php _e( 'Assign tickets to agents', 'support-ticket' ); ?></th>
 				<th><?php _e( 'Delete tickets', 'support-ticket' ); ?></th>
 			</tr>
@@ -145,13 +146,22 @@ function sts_settings_metabox_user_roles_render( $args ) {
 					<input type="checkbox" name="user[roles][read_own_tickets][<?php echo $role_key; ?>]" value="1" <?php echo $checked; ?> />
 				</th>
 				<th>
-				<?php
+					<?php
 					$checked = '';
-				if ( isset( $role['capabilities']['read_assigned_tickets'] ) && 1 === (int) $role['capabilities']['read_assigned_tickets'] ) {
-					$checked = 'checked="checked"';
-				}
+					if ( isset( $role['capabilities']['read_assigned_tickets'] ) && 1 === (int) $role['capabilities']['read_assigned_tickets'] ) {
+						$checked = 'checked="checked"';
+					}
 					?>
 					<input type="checkbox" name="user[roles][read_assigned_tickets][<?php echo $role_key; ?>]" value="1" <?php echo $checked; ?> />
+				</th>
+				<th>
+					<?php
+					$checked = '';
+					if ( isset( $role['capabilities']['read_other_tickets'] ) && 1 === (int) $role['capabilities']['read_other_tickets'] ) {
+						$checked = 'checked="checked"';
+					}
+					?>
+					<input type="checkbox" name="user[roles][read_other_tickets][<?php echo $role_key; ?>]" value="1" <?php echo $checked; ?> />
 				</th>
 				<th>
 				<?php
@@ -211,8 +221,9 @@ function sts_settings_user_update_roles( $return ) {
 				if ( 'read_assigned_tickets' === $cap ) {
 					$role_arr[ $role_name ]['update_tickets'] = true;
 				}
-				if ( 'read_assigned_tickets' === $cap ) {
-					$role_arr[ $role_name ]['read_other_tickets'] = true;
+				if ( 'read_other_tickets' === $cap ) {
+					$role_arr[ $role_name ]['read_assigned_tickets'] = true;
+					$role_arr[ $role_name ]['update_tickets']        = true;
 				}
 			}
 		}
@@ -344,8 +355,8 @@ function sts_settings_metabox_metafields_render( $args ) {
 			<li class="editable">
 				<input name="ticket[fields][id][]" value="<?php echo $field['id']; ?>" type="hidden"/><textarea name="ticket[fields][fields][]" style="display:none;"><?php echo json_encode( $field ); ?></textarea>
 				<?php echo $field['label']; ?>
-				<div title="<?php _e( 'Trash', 'support-ticket' ); ?>" class="sts-delete dashicons dashicons-trash"></div>
-				<div title="<?php _e( 'Edit', 'support-ticket' ); ?>" class="sts-edit-field dashicons dashicons-edit"></div>
+				<a href="#" title="<?php _e( 'Trash', 'support-ticket' ); ?>" class="sts-delete dashicons dashicons-trash"></a>
+				<a href="#" title="<?php _e( 'Edit', 'support-ticket' ); ?>" class="sts-edit-field dashicons dashicons-edit"></a>
 			</li>
 			<?php
 			endif;
