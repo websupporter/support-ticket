@@ -65,11 +65,6 @@ before_script:
   - wp core download
   - ln -s ../../plugin-tmp/ ./wp-content/plugins/support-ticket
   - wp config create --dbname=wordpress_db --dbuser=wordpress_user --dbpass=wordpress_db_password
-  - ls ../../
-  - ls ../../tests/
-  - ls ../../tests/behat/
-  - ls ../../tests/behat/data/
-  - gunzip ../../tests/behat/data/tickets.sql.gz
   - wp db import ../../tests/behat/data/tickets.sql
   - cd ../../
 
