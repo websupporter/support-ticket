@@ -63,6 +63,9 @@ before_script:
   - mkdir tickets
   - cd tickets
   - wp core download
+  - ls
+  - ls ../../
+  - ls ./wp-content/
   - ln -s ../../plugin-tmp/ ./wp-content/plugins/support-ticket/
   - wp config create --dbname=wordpress_db --dbuser=wordpress_user --dbpass=wordpress_db_password
   - gunzip ../../tests/behat/data/ticket.sql.gz
