@@ -18,8 +18,8 @@ function sts_adminscripts( $hook ) {
 		return;
 	}
 
-	wp_enqueue_style( 'sts-admin-style', STS_URL . 'admin/style.css' );
-	wp_enqueue_script( 'sts-admin-script', STS_URL . 'admin/script.js', array( 'jquery', 'jquery-ui-tabs', 'jquery-ui-sortable' ) );
+	wp_enqueue_style( 'sts-admin-style', STS_URL . 'assets/css/admin.css' );
+	wp_enqueue_script( 'sts-admin-script', STS_URL . 'assets/js/admin.js', array( 'jquery', 'jquery-ui-tabs', 'jquery-ui-sortable' ) );
 
 	$sts_localize = array(
 		'trash'      => esc_html__( 'Trash', 'support-ticket' ),
