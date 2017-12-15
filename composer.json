@@ -25,5 +25,10 @@
             "@phpcs"
         ],
         "phpcs": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs"
+    },
+    "config": {
+        "platform": {
+            "php": "7.0"
+        }
     }
 }
