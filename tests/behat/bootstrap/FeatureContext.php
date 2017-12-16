@@ -39,7 +39,14 @@ class FeatureContext extends RawWordpressContext {
 	 */
 	public function theInputFieldShouldContain( $arg1, $arg2 ) {
 		$this->assertSession()
-			->elementAttributeContains( 'css', $arg1, 'value', $arg2 );
+		     ->elementAttributeContains( 'css', $arg1, 'value', $arg2 );
+	}
+
+	/**
+	 * @Then I logout
+	 */
+	public function iLogOut() {
+		$this->logOut();
 	}
 
 	/**
