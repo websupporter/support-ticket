@@ -40,7 +40,7 @@ before_script:
 
 
   # start selenium
-  n- wget -c -nc --retry-connrefused --tries=0 http://goo.gl/EoH85x -O selenium-server-standalone.jar
+  - wget -c -nc --retry-connrefused --tries=0 http://goo.gl/EoH85x -O selenium-server-standalone.jar
   - echo "Run selenium server - background process"
   - nohup bash -c "java -jar selenium-server-standalone.jar &" && sleep 1; cat nohup.out
 
