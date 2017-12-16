@@ -12,7 +12,8 @@ Feature: Capabilities
     Then I should see "Sorry, you are not allowed to access this page."
     Given I am on "wp-admin/admin.php?page=sts-new"
     Then I should see "Sorry, you are not allowed to access this page."
-    Given I am on "wp-admin/admin.php?page=sts-settings#user"
+    Given I am on "wp-admin/admin.php?page=sts-settings"
+    Then I follow "User settings"
     Then I check "user[roles][read_own_tickets][administrator]"
     Then I press "update-user"
     Given I am on "wp-admin/admin.php?page=sts"
@@ -40,7 +41,8 @@ Feature: Capabilities
     Then I select "Delete" from "bulk-action-selector-top"
     Then I press "Apply"
 
-    Given I am on "wp-admin/admin.php?page=sts-settings#user"
+    Given I am on "wp-admin/admin.php?page=sts-settings"
+    Then I follow "User settings"
     Then I check "user[roles][read_other_tickets][administrator]"
     Then I check "user[roles][read_assigned_tickets][administrator]"
     Then I press "update-user"
@@ -57,7 +59,8 @@ Feature: Capabilities
 
     Given I am on "wp-admin/admin.php?page=sts&action=single&ID=16"
     Then element "select[name='t[ticket-agent]']" should not exist
-    Given I am on "wp-admin/admin.php?page=sts-settings#user"
+    Given I am on "wp-admin/admin.php?page=sts-settings"
+    Then I follow "User settings"
     Then I check "user[roles][assign_agent_to_ticket][administrator]"
     Then I press "update-user"
 
@@ -71,6 +74,7 @@ Feature: Capabilities
 
     Given I am on "wp-admin/admin.php?page=sts"
     Then element "#bulk-action-selector-top" should not exist
-    Given I am on "wp-admin/admin.php?page=sts-settings#user"
+    Given I am on "wp-admin/admin.php?page=sts-settings"
+    Then I follow "User settings"
     Then I check "user[roles][delete_other_tickets][administrator]"
     Then I press "update-user"

@@ -1,7 +1,7 @@
 Feature: Metafields
 
   @javascript
-  Scenario: Create fields
+  Scenario: Create/Update/Delete fields
     Given I am logged in with the name admin and the password abc
     Given I am on "wp-admin/admin.php?page=sts-settings"
     Then I follow "Ticket settings"
@@ -29,10 +29,8 @@ Feature: Metafields
     Then I should see "Select Label" in ".ticket-field-list"
     Then I should see "Field Label" in ".ticket-field-list"
 
-  @javascript
-  Scenario: Edit fields
-    Given I am logged in with the name admin and the password abc
-    Given I am on "wp-admin/admin.php?page=sts-settings#ticket"
+    Given I am on "wp-admin/admin.php?page=sts-settings"
+    Then I follow "Ticket settings"
     Then I follow "Edit"
     Then I should see "field-label" in "span#edit_metakey_display"
     Then I fill in "Field edit" for "edit_label"
@@ -45,9 +43,6 @@ Feature: Metafields
     Then I should not see "Field Label" in ".ticket-field-list"
     Then I should see "Field edit" in ".ticket-field-list"
 
-  @javascript
-  Scenario: Create a ticket with those fields
-    Given I am logged in with the name admin and the password abc
     Given I am on "new-ticket"
     Then I fill in "Metafields" for "ticket-subject"
     Then I fill in "This ticket has metafields" for "ticket-message"
@@ -65,10 +60,8 @@ Feature: Metafields
     Then I select "Delete" from "bulk-action-selector-top"
     Then I press "Apply"
 
-  @javascript
-  Scenario: Delete the meta fields
-    Given I am logged in with the name admin and the password abc
-    Given I am on "wp-admin/admin.php?page=sts-settings#ticket"
+    Given I am on "wp-admin/admin.php?page=sts-settings"
+    Then I follow "Ticket settings"
     Then I follow "Trash"
     Then I follow "Trash"
     Then I press "update-ticket"
