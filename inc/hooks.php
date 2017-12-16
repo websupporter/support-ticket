@@ -282,7 +282,11 @@ function sts_notify_new_agent( $post_id, $post_data ) {
 }
 add_action( 'sts-ticket-agent-updated', 'sts_notify_new_agent', 10, 2 );
 
-add_action( 'wp_logout', 'sts_unset_session' );
+/**
+ * Remove ticket session on logout.
+ *
+ * @since master
+ */
 function sts_unset_session() {
 
 	if ( isset( $_SESSION['ticket'] ) ) {
@@ -293,3 +297,4 @@ function sts_unset_session() {
 		unset( $_SESSION['tickets'] );
 	}
 }
+add_action( 'wp_logout', 'sts_unset_session' );
