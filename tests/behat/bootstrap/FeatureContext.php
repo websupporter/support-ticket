@@ -15,9 +15,13 @@ class FeatureContext extends RawWordpressContext {
 	/**
 	 * @BeforeStep
 	 */
-	public function beforeStep()
-	{
-		$this->getSession()->resizeWindow(1440, 900, 'current');
+	public function beforeStep() {
+
+		try {
+			$this->getSession()->resizeWindow( 1440, 900, 'current' );
+		} catch ( \Behat\Mink\Exception\UnsupportedDriverActionException $e ) {
+			// No window, no resize.
+		}
 	}
 
 	/**
