@@ -73,3 +73,21 @@ Feature: frontend
     Given I am logged in with the name "admin" and the password "abc"
     Given I am on "wp-admin/admin.php?page=sts"
     Then I should not see "this ticket has not been created."
+
+  Scenario: Logged out user should see default ticket submission form
+    Given I am on "new-ticket"
+    Then I fill in "Ticket User" for "ticket-user"
+    Then I fill in "ticket-user@wpsupportticket.com" for "ticket-email"
+    Then I fill in "Subject" for "ticket-subject"
+    Then I fill in "Message" for "ticket-message"
+    Then I press "Send"
+    Then I follow "Please log in before you proceed."
+    Then I fill in "ticket-user@wpsupportticket.com" for "user_login"
+    Then I fill in "abc" for "user_pass"
+    Then I press "Log In"
+    Then I logout
+    Given I am on "new-ticket"
+    Then I should see "Name"
+    Then I should see "Email"
+    Then I should see "Subject"
+    Then I should see "Message"
