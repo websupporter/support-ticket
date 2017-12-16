@@ -15,8 +15,7 @@
         "wp-coding-standards/wpcs": "dev-master",
         "paulgibbs/behat-wordpress-extension": "dev-master",
         "behat/mink-goutte-driver": "^1.2@dev",
-        "behat/mink-selenium2-driver": "^1.3@dev",
-        "joomla-projects/selenium-server-standalone": "^3.7"
+        "behat/mink-selenium2-driver": "^1.3@dev"
     },
     "scripts": {
         "post-install-cmd": [

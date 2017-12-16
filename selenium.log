@@ -1,0 +1,84 @@
+2017-12-16 01:02:57.656:INFO::main: Logging initialized @261ms to org.seleniumhq.jetty9.util.log.StdErrLog
+2017-12-16 01:02:57.835:INFO:osjs.Server:main: jetty-9.4.5.v20170502
+2017-12-16 01:02:57.865:WARN:osjs.SecurityHandler:main: ServletContext@o.s.j.s.ServletContextHandler@76b0bfab{/,null,STARTING} has uncovered http methods for path: /
+2017-12-16 01:02:57.873:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@76b0bfab{/,null,AVAILABLE}
+2017-12-16 01:02:57.894:INFO:osjs.AbstractConnector:main: Started ServerConnector@27f723{HTTP/1.1,[http/1.1]}{0.0.0.0:4444}
+2017-12-16 01:02:57.894:INFO:osjs.Server:main: Started @499ms
+2017-12-16 01:04:09.562:INFO:osjshC.ROOT:qtp864237698-11: org.openqa.selenium.remote.server.WebDriverServlet-13a5fe33: Initialising WebDriverServlet
+Starting ChromeDriver 2.33.506092 (733a02544d189eeb751fe0d7ddca79a0ee28cce4) on port 28781
+Only local connections are allowed.
+2017-12-16 01:21:08.055:INFO::main: Logging initialized @10330ms to org.seleniumhq.jetty9.util.log.StdErrLog
+2017-12-16 01:21:13.148:INFO:osjs.Server:main: jetty-9.4.5.v20170502
+2017-12-16 01:21:13.285:WARN:osjs.SecurityHandler:main: ServletContext@o.s.j.s.ServletContextHandler@76b0bfab{/,null,STARTING} has uncovered http methods for path: /
+2017-12-16 01:21:13.459:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@76b0bfab{/,null,AVAILABLE}
+Usage: <main class> [options]
+  Options:
+    --version, -version
+       Displays the version and exits.
+       Default: false
+    -browserTimeout
+       <Integer> in seconds : number of seconds a browser session is allowed to
+       hang while a WebDriver command is running (example: driver.get(url)). If the
+       timeout is reached while a WebDriver command is still processing, the session
+       will quit. Minimum value is 60. An unspecified, zero, or negative value means
+       wait indefinitely.
+       Default: 0
+    -debug
+       <Boolean> : enables LogLevel.FINE.
+       Default: false
+    -enablePassThrough
+       <Boolean>: Whether or not to use the experimental passthrough mode.
+       Defaults to true.
+       Default: true
+    -jettyThreads, -jettyMaxThreads
+       <Integer> : max number of threads for Jetty. An unspecified, zero, or
+       negative value means the Jetty default value (200) will be used.
+    -log
+       <String> filename : the filename to use for logging. If omitted, will log
+       to STDOUT
+    -port
+       <Integer> : the port number the server will use.
+       Default: 4444
+    -role
+       <String> options are [hub], [node], or [standalone].
+       Default: standalone
+    -timeout, -sessionTimeout
+       <Integer> in seconds : Specifies the timeout before the server
+       automatically kills a session that hasn't had any activity in the last X seconds. The
+       test slot will then be released for another test to use. This is typically
+       used to take care of client crashes. For grid hub/node roles, cleanUpCycle
+       must also be set.
+       Default: 1800
+
+java.lang.RuntimeException: java.net.BindException: Die Adresse wird bereits verwendet
+	at org.openqa.selenium.remote.server.SeleniumServer.boot(SeleniumServer.java:191)
+	at org.openqa.grid.selenium.GridLauncherV3$1.launch(GridLauncherV3.java:238)
+	at org.openqa.grid.selenium.GridLauncherV3.main(GridLauncherV3.java:99)
+Caused by: java.net.BindException: Die Adresse wird bereits verwendet
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:433)
+	at sun.nio.ch.Net.bind(Net.java:425)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at org.seleniumhq.jetty9.server.ServerConnector.open(ServerConnector.java:298)
+	at org.seleniumhq.jetty9.server.AbstractNetworkConnector.doStart(AbstractNetworkConnector.java:80)
+	at org.seleniumhq.jetty9.server.ServerConnector.doStart(ServerConnector.java:236)
+	at org.seleniumhq.jetty9.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.seleniumhq.jetty9.server.Server.doStart(Server.java:431)
+	at org.seleniumhq.jetty9.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.openqa.selenium.remote.server.SeleniumServer.boot(SeleniumServer.java:189)
+	... 2 more
+Starting ChromeDriver 2.33.506092 (733a02544d189eeb751fe0d7ddca79a0ee28cce4) on port 23368
+Only local connections are allowed.
+Starting ChromeDriver 2.33.506092 (733a02544d189eeb751fe0d7ddca79a0ee28cce4) on port 27795
+Only local connections are allowed.
+Starting ChromeDriver 2.33.506092 (733a02544d189eeb751fe0d7ddca79a0ee28cce4) on port 2620
+Only local connections are allowed.
+Starting ChromeDriver 2.33.506092 (733a02544d189eeb751fe0d7ddca79a0ee28cce4) on port 11093
+Only local connections are allowed.
+Starting ChromeDriver 2.33.506092 (733a02544d189eeb751fe0d7ddca79a0ee28cce4) on port 3006
+Only local connections are allowed.
+Starting ChromeDriver 2.33.506092 (733a02544d189eeb751fe0d7ddca79a0ee28cce4) on port 32179
+Only local connections are allowed.
+Starting ChromeDriver 2.33.506092 (733a02544d189eeb751fe0d7ddca79a0ee28cce4) on port 16811
+Only local connections are allowed.
