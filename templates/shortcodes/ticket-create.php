@@ -34,7 +34,7 @@
 		echo esc_html(
 			sprintf(
 				// translators: %s is the email address.
-				__( 'It seems, you have already an account registered with your mail adress %s', 'support-ticket' ),
+				__( 'It seems, you have already an account registered with your mail address %s', 'support-ticket' ),
 				$_SESSION['ticket']['ticket-create']['email']
 			)
 		);
