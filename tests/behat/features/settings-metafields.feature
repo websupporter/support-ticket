@@ -11,6 +11,7 @@ Feature: Metafields
     Then I fill in "field-label" for "metakey"
     Then I select "Input field" from "tag"
     Then I press "Add"
+    Then I wait 1 seconds
     Then I should see "Field Label" in ".ticket-field-list"
 
     Then I follow "Add a new form field"
@@ -21,6 +22,7 @@ Feature: Metafields
     Then I should see "Choices:"
     Then I fill in "choice a" for "choices"
     Then I press "Add"
+    Then I wait 1 seconds
     Then I should see "Select Label" in ".ticket-field-list"
 
     Then I wait 1 seconds
@@ -35,6 +37,7 @@ Feature: Metafields
     Then I should see "field-label" in "span#edit_metakey_display"
     Then I fill in "Field edit" for "edit_label"
     Then I press "Edit"
+    Then I wait 1 seconds
     Then I should see "Field edit" in ".ticket-field-list"
 
     Then I press "update-ticket"
