@@ -13,6 +13,14 @@ class FeatureContext extends RawWordpressContext {
 	use UserAwareContextTrait, CacheAwareContextTrait;
 
 	/**
+	 * @BeforeStep
+	 */
+	public function beforeStep()
+	{
+		$this->getSession()->resizeWindow(1440, 900, 'current');
+	}
+
+	/**
 	 * Initialise context.
 	 *
 	 * Every scenario gets its own context instance.
