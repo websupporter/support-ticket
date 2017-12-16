@@ -2,6 +2,7 @@
 use PaulGibbs\WordpressBehatExtension\Context\RawWordpressContext;
 use PaulGibbs\WordpressBehatExtension\Context\Traits\UserAwareContextTrait;
 use PaulGibbs\WordpressBehatExtension\Context\Traits\CacheAwareContextTrait;
+use Behat\Mink\Exception\DriverException;
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
@@ -63,6 +64,26 @@ class FeatureContext extends RawWordpressContext {
 	public function iAmLoggedInWithTheNameAndThePassword( $arg1, $arg2 ) {
 
 		$this->logIn( $arg1, $arg2 );
+	}
+
+	/**
+	 * Determine if the current user is logged in or not.
+	 * Overwrites the original loggedIn to put some waiting to it.
+	 *
+	 * @return bool
+	 */
+	public function loggedIn() {
+
+		sleep(1);
+		$page = $this->getSession()->getPage();
+		// Look for a selector to determine if the user is logged in.
+		try {
+			return $page->has('css', 'body.logged-in');
+		} catch (DriverException $e) {
+			// This may fail if the user has not loaded any site yet.
+		}
+
+		return false;
 	}
 
 	/**
