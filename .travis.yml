@@ -29,7 +29,6 @@ install:
   - mkdir ./public
   - cd plugin-tmp
   - composer install --no-interaction
-  - php -r 'require "vendor/joomla-projects/selenium-server-standalone/Selenium.php"; $selenium = new Selenium(["browser" => "firefox", "selenium_params" => [" -Dselenium.LOGGER.level=OFF"] ]); $selenium->run();'
   - cd ../
 
 before_script:
