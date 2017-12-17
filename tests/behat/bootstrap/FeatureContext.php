@@ -2,7 +2,9 @@
 use PaulGibbs\WordpressBehatExtension\Context\RawWordpressContext;
 use PaulGibbs\WordpressBehatExtension\Context\Traits\UserAwareContextTrait;
 use PaulGibbs\WordpressBehatExtension\Context\Traits\CacheAwareContextTrait;
-use Behat\Mink\Exception\DriverException;
+
+use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
@@ -40,7 +42,7 @@ class FeatureContext extends RawWordpressContext {
 	 */
 	public function theInputFieldShouldContain( $arg1, $arg2 ) {
 		$this->assertSession()
-		     ->elementAttributeContains( 'css', $arg1, 'value', $arg2 );
+			 ->elementAttributeContains( 'css', $arg1, 'value', $arg2 );
 	}
 
 	/**
@@ -59,15 +61,23 @@ class FeatureContext extends RawWordpressContext {
 	}
 
 	/**
-	 * @Given I am logged in with the name :arg1 and the password :arg2
+	 * @Given I am logged in with the name :username and the password :password
 	 */
-	public function iAmLoggedInWithTheNameAndThePassword( $arg1, $arg2 ) {
+	public function iAmLoggedInWithTheNameAndThePassword( $username, $password ) {
 
-		if ( $this->loggedIn() ) {
-			$this->logOut();
-			sleep( 1 );
-		}
-		$this->logIn( $arg1, $arg2 );
+		$this->visitPath( 'wp-login.php' );
+		$page = $this->getSession()->getPage();
+
+		$node = $page->findField( 'user_login' );
+		$node->setValue( '' );
+		$node->setValue( $username );
+
+		$node = $page->findField( 'user_pass' );
+		$node->setValue( '' );
+		$node->setValue( $password );
+
+		$page->findButton( 'wp-submit' )->click();
+
 	}
 
 	/**
