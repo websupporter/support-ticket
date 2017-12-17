@@ -63,27 +63,11 @@ class FeatureContext extends RawWordpressContext {
 	 */
 	public function iAmLoggedInWithTheNameAndThePassword( $arg1, $arg2 ) {
 
-		$this->logIn( $arg1, $arg2 );
-	}
-
-	/**
-	 * Determine if the current user is logged in or not.
-	 * Overwrites the original loggedIn to put some waiting to it.
-	 *
-	 * @return bool
-	 */
-	public function loggedIn() {
-
-		sleep(1);
-		$page = $this->getSession()->getPage();
-		// Look for a selector to determine if the user is logged in.
-		try {
-			return $page->has('css', 'body.logged-in');
-		} catch (DriverException $e) {
-			// This may fail if the user has not loaded any site yet.
+		if ( $this->loggedIn() ) {
+			$this->logOut();
+			sleep( 1 );
 		}
-
-		return false;
+		$this->logIn( $arg1, $arg2 );
 	}
 
 	/**
