@@ -63,21 +63,17 @@ class FeatureContext extends RawWordpressContext {
 	/**
 	 * @Given I am logged in with the name :username and the password :password
 	 */
-	public function iAmLoggedInWithTheNameAndThePassword( $username, $password ) {
+	public function iAmLoggedInWithTheNameAndThePassword( $username, $password, $counter = 0 ) {
 
-		$this->visitPath( 'wp-login.php' );
-		$page = $this->getSession()->getPage();
-
-		$node = $page->findField( 'user_login' );
-		$node->setValue( '' );
-		$node->setValue( $username );
-
-		$node = $page->findField( 'user_pass' );
-		$node->setValue( '' );
-		$node->setValue( $password );
-
-		$page->findButton( 'wp-submit' )->click();
-
+		// Workaround: We loop this, since this seems to fail randomly, when we log in several times in one feature.
+		try {
+			$this->logIn( $username, $password );
+		} catch ( ExpectationException $e ) {
+			$this->iAmLoggedInWithTheNameAndThePassword( $username, $password, $counter+1 );
+			if ( 10 === $counter ) {
+				throw $e;
+			}
+		}
 	}
 
 	/**
