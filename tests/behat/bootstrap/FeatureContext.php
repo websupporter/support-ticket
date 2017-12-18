@@ -3,6 +3,9 @@ use PaulGibbs\WordpressBehatExtension\Context\RawWordpressContext;
 use PaulGibbs\WordpressBehatExtension\Context\Traits\UserAwareContextTrait;
 use PaulGibbs\WordpressBehatExtension\Context\Traits\CacheAwareContextTrait;
 
+use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
+
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
 
@@ -39,7 +42,7 @@ class FeatureContext extends RawWordpressContext {
 	 */
 	public function theInputFieldShouldContain( $arg1, $arg2 ) {
 		$this->assertSession()
-		     ->elementAttributeContains( 'css', $arg1, 'value', $arg2 );
+			 ->elementAttributeContains( 'css', $arg1, 'value', $arg2 );
 	}
 
 	/**
@@ -58,11 +61,19 @@ class FeatureContext extends RawWordpressContext {
 	}
 
 	/**
-	 * @Given I am logged in with the name :arg1 and the password :arg2
+	 * @Given I am logged in with the name :username and the password :password
 	 */
-	public function iAmLoggedInWithTheNameAndThePassword( $arg1, $arg2 ) {
+	public function iAmLoggedInWithTheNameAndThePassword( $username, $password, $counter = 0 ) {
 
-		$this->logIn( $arg1, $arg2 );
+		// Workaround: We loop this, since this seems to fail randomly, when we log in several times in one feature.
+		try {
+			$this->logIn( $username, $password );
+		} catch ( ExpectationException $e ) {
+			$this->iAmLoggedInWithTheNameAndThePassword( $username, $password, $counter+1 );
+			if ( 10 === $counter ) {
+				throw $e;
+			}
+		}
 	}
 
 	/**
