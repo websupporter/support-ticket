@@ -26,9 +26,19 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-//Register Constansts
+/**
+ * The path to the root file.
+ */
 define( 'STS_FILE', __FILE__ );
+
+/**
+ * The root directory.
+ */
 define( 'STS_ROOT', dirname( STS_FILE ) . '/' );
+
+/**
+ * The URL to the plugin.
+ */
 define( 'STS_URL', plugins_url( '/', __FILE__ ) );
 
 //Include Files
