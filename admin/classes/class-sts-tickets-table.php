@@ -150,7 +150,7 @@ class STS_Tickets_Table extends WP_List_Table {
 			</form>
 
 			<form method="post">
-				<?php wp_nonce_field( 'sts-bluk-action', 't-nonce' ); ?>
+				<?php wp_nonce_field( 'sts-bulk-action', 't-nonce' ); ?>
 				<input type="hidden" name="sts-action" value="bulk-action" />
 				<div class="alignleft actions bulkactions">
 					<?php $this->bulk_actions( $which ); ?>

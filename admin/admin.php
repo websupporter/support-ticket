@@ -138,7 +138,7 @@ function sts_admin_init() {
 	if (
 		(
 			! isset( $_POST['t-nonce'] ) // Input var okay.
-			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['t-nonce'] ) ), 'sts-bluk-action' ) // Input var okay.
+			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['t-nonce'] ) ), 'sts-bulk-action' ) // Input var okay.
 		)
 		&& 'bulk-action' === sanitize_text_field( wp_unslash( $_POST['sts-action'] ) ) // Input var okay.
 	) {
