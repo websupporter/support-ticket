@@ -946,6 +946,8 @@ function sts_send_notification_email_to_agent( $ticket_id, $answer_id, $post_dat
 	wp_reset_query();
 }
 
+add_action( 'ticket-admin-update', 'sts_admin_send_ticket_answer', 10, 2 );
+
 /**
  * Answer a ticket
  *
@@ -955,7 +957,6 @@ function sts_send_notification_email_to_agent( $ticket_id, $answer_id, $post_dat
  * @param (int)     $post_id    the post ID
  * @return (void)
  **/
-add_action( 'ticket-admin-update', 'sts_admin_send_ticket_answer', 10, 2 );
 function sts_admin_send_ticket_answer( $post_data, $post_id ) {
 	if ( ! isset( $post_data['answer'] ) || ! isset( $_GET['ID'] ) ) {
 		return;
@@ -1069,6 +1070,7 @@ function sts_metabox_message_render( $post ) {
  * @return (void)
  **/
 function sts_metabox_answer_render( $post ) {
+
 	?>
 		<div class="ticket-answer">
 			<section>
