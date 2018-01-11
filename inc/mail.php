@@ -86,3 +86,149 @@ function sts_set_html_content_type( $type ) {
 
 	return 'text/html';
 }
+
+/**
+ * Notifiy the ticket owner in case of an answer
+ *
+ * @since 1.0.0
+ *
+ * @param (int)     $ticket_id  the ticket ID
+ * @param (int)     $answer_id  the answer ID
+ * @param (array)   $post_data  the post data
+ * @return (void)
+ **/
+add_action( 'sts-after-ticket-answer-save', 'sts_send_notification_email_to_ticket_owner', 10, 3 );
+function sts_send_notification_email_to_ticket_owner( $ticket_id, $answer_id, $post_data ) {
+	global $post;
+
+	//Check if we want to notify the ticket owner
+	$settings = get_option( 'sts-core-settings' );
+	if ( ! isset( $settings['email']['notifiy-ticketowner'] ) || 1 != $settings['email']['notifiy-ticketowner'] ) {
+		return;
+	}
+
+	//Get the ticket
+	$args = array(
+		'post_type'   => 'ticket',
+		'post_status' => array( 'draft' ),
+		'p'           => $ticket_id,
+	);
+
+	$query = new WP_Query( $args );
+	if ( ! $query->have_posts() ) {
+		return;
+	}
+
+	$query->the_post();
+	$ticket = $post;
+
+	//Get the answer
+	$args = array(
+		'post_type'   => 'ticket',
+		'post_status' => array( 'draft' ),
+		'p'           => $answer_id,
+	);
+
+	$query = new WP_Query( $args );
+	if ( ! $query->have_posts() ) {
+		return;
+	}
+
+	$query->the_post();
+	$answer = $post;
+	if ( $answer->post_author == $ticket->post_author ) {
+		return;
+	}
+
+	$ticket_owner = get_user_by( 'id', $ticket->post_author );
+	$subject      = $answer->post_title;
+	$text         = $answer->post_content . PHP_EOL . PHP_EOL;
+	$text        .= sprintf( __( 'Please click the link to reply:', 'support-ticket' ) ) . ' ';
+	$view_ticket  = admin_url( 'admin.php?page=sts&action=single&ID=' . $ticket->ID . '#answer-' . $answer->ID );
+
+	/**
+	 * Filters the URL where the ticket can be read
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param    (string)    $view_ticket    the URL
+	 * @return   (string)    $view_ticket    the URL
+	 */
+	$view_ticket = apply_filters( 'sts-view-ticket-url', $view_ticket, $ticket->ID );
+
+	$text .= '<a href="' . $view_ticket . '">' . $view_ticket . '</a>';
+
+	$headers     = array();
+	$attachments = array();
+
+	if ( ! sts_mail( $ticket_owner->data->user_email, $subject, $text, $headers, $attachments ) ) {
+		die( 'Nicht verschickt :/' );
+	}
+	wp_reset_query();
+}
+
+/**
+ * Notifiy the agent in case the ticket owner writes an answer
+ *
+ * @since 1.0.0
+ *
+ * @param (int)     $ticket_id  the ticket ID
+ * @param (int)     $answer_id  the answer ID
+ * @param (array)   $post_data  the post data
+ * @return (void)
+ **/
+add_action( 'sts-after-ticket-answer-save', 'sts_send_notification_email_to_agent', 10, 3 );
+function sts_send_notification_email_to_agent( $ticket_id, $answer_id, $post_data ) {
+	global $post;
+
+	//Check if we want to notify the ticket owner
+	$settings = get_option( 'sts-core-settings' );
+	if ( ! isset( $settings['email']['notifiy-agent'] ) || 1 != $settings['email']['notifiy-agent'] ) {
+		return;
+	}
+
+	//Get the answer
+	$args = array(
+		'post_type'   => 'ticket',
+		'post_status' => array( 'draft' ),
+		'p'           => $answer_id,
+	);
+
+	$query = new WP_Query( $args );
+	if ( ! $query->have_posts() ) {
+		return;
+	}
+
+	$query->the_post();
+	$answer = $post;
+
+	$agent = get_user_by( 'id', get_post_meta( $ticket_id, 'ticket-agent', true ) );
+
+	if ( (int) get_current_user_id() === (int) $answer->post_author ) {
+		return;
+	}
+
+	$subject     = $answer->post_title;
+	$text        = $answer->post_content . PHP_EOL . PHP_EOL;
+	$text       .= sprintf( __( 'Please click the link to reply:', 'support-ticket' ) ) . ' ';
+	$view_ticket = admin_url( 'admin.php?page=sts&action=single&ID=' . $ticket_id . '#answer-' . $answer->ID );
+	/**
+	 * Filters the URL where the ticket can be read
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param    (string)    $view_ticket    the URL
+	 * @return   (string)    $view_ticket    the URL
+	 */
+	$view_ticket = apply_filters( 'sts-view-ticket-url', $view_ticket, $ticket_id );
+
+	$text .= '<a href="' . $view_ticket . '">' . $view_ticket . '</a>';
+
+	$headers     = array();
+	$attachments = array();
+
+	if ( ! sts_mail( $agent->data->user_email, $subject, $text, $headers, $attachments ) ) {
+		die( 'Nicht verschickt :/' );
+	}
+	wp_reset_query();
+}
