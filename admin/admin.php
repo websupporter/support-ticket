@@ -145,31 +145,34 @@ function sts_admin_init() {
 		wp_die( esc_html__( 'Something went wrong :/', 'support-ticket' ) );
 	}
 
-	if ( 'delete' === sanitize_text_field( wp_unslash( $_POST['action'] ) ) && ! current_user_can( 'delete_other_tickets' ) ) { // Input var okay.
-		wp_die( esc_html__( 'Something went wrong :/', 'support-ticket' ) );
-	}
+	$action = sanitize_text_field( wp_unslash( $_POST['action'] ) );
 
-	foreach ( wp_unslash( $_POST['ticket'] ) as $raw_ticket ) { // Input var okay.
-		$ticket = (int) $raw_ticket;
-
-		$args = array(
-			'post_type'      => 'ticket',
-			'post_parent'    => $ticket,
-			'posts_per_page' => -1,
-		);
-
-		$query = new WP_Query( $args );
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				wp_delete_post( get_the_ID(), true );
-			}
+	if ( 'delete' === $action ) {
+		if ( ! current_user_can( 'delete_other_tickets' ) ) { // Input var okay.
+			wp_die( esc_html__( 'Something went wrong :/', 'support-ticket' ) );
 		}
-		wp_reset_query();
 
-		wp_delete_post( $ticket, true );
+		foreach ( wp_unslash( $_POST['ticket'] ) as $raw_ticket ) { // Input var okay.
+			$ticket = (int) $raw_ticket;
+
+			$args = array(
+				'post_type'      => 'ticket',
+				'post_parent'    => $ticket,
+				'posts_per_page' => - 1,
+			);
+
+			$query = new WP_Query( $args );
+			if ( $query->have_posts() ) {
+				while ( $query->have_posts() ) {
+					$query->the_post();
+					wp_delete_post( get_the_ID(), true );
+				}
+			}
+			wp_reset_query();
+
+			wp_delete_post( $ticket, true );
+		}
 	}
-
 	$url = add_query_arg( array( 'updated' => 1 ) );
 	wp_safe_redirect( $url );
 }
