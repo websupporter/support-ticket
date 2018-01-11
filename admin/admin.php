@@ -143,3 +143,46 @@ function sts_admin_init() {
 	wp_safe_redirect( $url );
 }
 add_action( 'admin_init', 'sts_admin_init' );
+
+/**
+ * Answer a ticket
+ *
+ * @since 1.0.0
+ *
+ * @param (array)   $post_data  the POST data
+ * @param (int)     $post_id    the post ID
+ * @return (void)
+ **/
+function sts_admin_send_ticket_answer( $post_data, $post_id ) {
+	if ( ! isset( $post_data['answer'] ) || ! isset( $_GET['ID'] ) ) {
+		return;
+	}
+	$id     = (int) wp_unslash( $_GET['ID'] );
+	$answer = trim( $post_data['answer'] );
+	// translators: %d is the number of the ticket.
+	$subject = sprintf( __( 'Re: [Ticket #%d]', 'support-ticket' ), $id ) . ' ' . trim( $post_data['subject'] );
+
+	if ( empty( $answer ) ) {
+		return;
+	}
+
+	$args    = array(
+		'post_title'   => $subject,
+		'post_type'    => 'ticket',
+		'post_content' => $answer,
+		'post_parent'  => $id,
+	);
+	$post_id = wp_insert_post( $args );
+
+	/**
+	 * After the ticket has been saved
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param (int)      Ticket ID
+	 * @param (int)      Answer ID
+	 * @param (array)    POST data
+	 */
+	do_action( 'sts-after-ticket-answer-save', $id, $post_id, $post_data );
+}
+add_action( 'ticket-admin-update', 'sts_admin_send_ticket_answer', 10, 2 );
