@@ -16,15 +16,15 @@ function sts_admin_update_status( $post_data, $post_id ) {
 	}
 
 	if ( current_user_can( 'update_tickets' )
-	     && isset( $post_data['ticket-status'] )
-	     && is_numeric( $post_data['ticket-status'] )
+		&& isset( $post_data['ticket-status'] )
+		&& is_numeric( $post_data['ticket-status'] )
 	) {
 		$status_update = update_post_meta( $post_id, 'ticket-status', $post_data['ticket-status'] );
 	}
 
 	if ( current_user_can( 'assign_agent_to_ticket' )
-	     && isset( $post_data['ticket-agent'] )
-	     && is_numeric( $post_data['ticket-agent'] )
+		&& isset( $post_data['ticket-agent'] )
+		&& is_numeric( $post_data['ticket-agent'] )
 	) {
 		$agent_update = update_post_meta( $post_id, 'ticket-agent', $post_data['ticket-agent'] );
 	}
@@ -57,36 +57,21 @@ function sts_admin_update_status( $post_data, $post_id ) {
 add_action( 'ticket-admin-update', 'sts_admin_update_status', 10, 2 );
 
 /**
- * Renders the status metabox
+ * Renders the status metabox.
  *
  * @since 1.0.0
- *
- * @param (object)  $post
- *
- * @return (void)
  **/
-function sts_metabox_status_render( $post ) {
+function sts_metabox_status_render() {
 	$current_status_index = (int) get_post_meta( get_the_ID(), 'ticket-status', true );
 	$current_status       = sts_translate_status( $current_status_index );
 	$status_array         = sts_get_status_arr();
-
-	$standard_agent = 1;
-	$settings       = get_option( 'sts-core-settings' );
-	if ( isset( $settings['user']['standard-agent'] ) ) {
-		$standard_agent = $settings['user']['standard-agent'];
+	$settings             = get_option( 'sts-core-settings' );
+	$current_agent_id     = (int) get_post_meta( get_the_ID(), 'ticket-agent', true );
+	if ( ! $current_agent_id ) {
+		$current_agent_id = ( isset( $settings['user']['standard-agent'] ) ) ? $settings['user']['standard-agent'] : 1;
 	}
-	$current_agent = (int) get_post_meta( get_the_ID(), 'ticket-agent', true );
-
-	if ( ! $current_agent ) {
-		$current_agent = $standard_agent;
-	}
-	$agents = sts_get_possible_agents();
-	foreach ( $agents as $agent ) {
-		if ( ! is_string( $agent ) && $agent->ID == $current_agent ) {
-			$current_agent = $agent;
-			break;
-		}
-	}
+	$current_agent = get_user_by( 'ID', $current_agent_id );
+	$agents        = sts_get_possible_agents();
 
 	if ( ! current_user_can( 'update_tickets' ) && ! current_user_can( 'assign_agent_to_ticket' ) ) :
 		?>
@@ -104,40 +89,36 @@ function sts_metabox_status_render( $post ) {
 		</p>
 		<?php
 	else :
-		?>
-		<?php if ( current_user_can( 'update_tickets' ) ) : ?>
-		<p>
-			<label for="ticket-status"><?php _e( 'Update status', 'support-ticket' ); ?>:</label>
-			<select id="ticket-status" name="t[ticket-status]">
-				<?php foreach ( $status_array as $status_index => $status ) : ?>
-					<option <?php selected( $status_index, $current_status_index ); ?>
-						value="<?php echo $status_index; ?>">
-						<?php echo $status; ?>
-					</option>
-				<?php endforeach; ?>
-			</select>
-		</p>
-		<?php
-	endif;
+		if ( current_user_can( 'update_tickets' ) ) :
+			sts_print_select(
+				'ticket-status',
+				't[ticket-status]',
+				__( 'Update status', 'support-ticket' ),
+				$current_status_index,
+				array_map( function( $label, $value ) {
+					return (object) array(
+						'value' => $value,
+						'label' => $label,
+					);
+				}, $status_array, array_keys( $status_array ) )
+			);
+		endif;
 		if ( current_user_can( 'assign_agent_to_ticket' ) ) :
-			?>
-			<p>
-				<label for="ticket-agent"><?php _e( 'Current agent', 'support-ticket' ); ?>:</label>
-				<select id="ticket-agent" name="t[ticket-agent]">
-					<?php foreach ( $agents as $agent ) : ?>
-						<?php if ( is_string( $agent ) ) : ?>
-							<option disabled>----</option>
-						<?php else : ?>
-							<option <?php selected( $current_agent->ID, $agent->ID ); ?>
-								value="<?php echo $agent->ID; ?>">
-								<?php echo $agent->display_name; ?>
-							</option>
-						<?php endif; ?>
-					<?php endforeach; ?>
-				</select>
-			</p>
-		<?php endif; ?>
+			sts_print_select(
+				'ticket-agent',
+				't[ticket-agent]',
+				__( 'Current agent', 'support-ticket' ),
+				$current_agent->ID,
+				array_map( function( $agent ) {
+					return (object) array(
+						'value' => $agent->ID,
+						'label' => $agent->display_name,
+					);
+				}, $agents )
+			);
+		endif;
+		?>
 		<button class="button button-primary button-large"><?php _e( 'Update', 'support-ticket' ); ?></button>
-		<?php
+	<?php
 	endif;
 }
