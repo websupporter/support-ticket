@@ -14,16 +14,16 @@ function sts_admin_update_status( $post_data, $post_id ) {
 		return;
 	}
 
-	if ( current_user_can( 'update_tickets' ) &&
-		 isset( $post_data['ticket-status'] ) &&
-		 is_numeric( $post_data['ticket-status'] )
+	if ( current_user_can( 'update_tickets' )
+		&& isset( $post_data['ticket-status'] )
+		&& is_numeric( $post_data['ticket-status'] )
 	) {
 		$status_update = update_post_meta( $post_id, 'ticket-status', $post_data['ticket-status'] );
 	}
 
-	if ( current_user_can( 'assign_agent_to_ticket' ) &&
-		 isset( $post_data['ticket-agent'] ) &&
-		 is_numeric( $post_data['ticket-agent'] )
+	if ( current_user_can( 'assign_agent_to_ticket' )
+		&& isset( $post_data['ticket-agent'] )
+		&& is_numeric( $post_data['ticket-agent'] )
 	) {
 		$agent_update = update_post_meta( $post_id, 'ticket-agent', $post_data['ticket-agent'] );
 	}
