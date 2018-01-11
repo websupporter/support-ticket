@@ -1,13 +1,13 @@
 <?php
-require_once __DIR__ . '/metaboxes/settings/email_sender.php';
-require_once __DIR__ . '/metaboxes/settings/user_agent.php';
-require_once __DIR__ . '/metaboxes/settings/user_roles.php';
+require_once __DIR__ . '/metaboxes/settings/email-sender.php';
+require_once __DIR__ . '/metaboxes/settings/user-agent.php';
+require_once __DIR__ . '/metaboxes/settings/user-roles.php';
 require_once __DIR__ . '/metaboxes/settings/email.php';
 require_once __DIR__ . '/metaboxes/settings/metafields.php';
 
 require_once __DIR__ . '/metaboxes/ticket/metafields.php';
 require_once __DIR__ . '/metaboxes/ticket/answer.php';
-require_once __DIR__ . '/metaboxes/ticket/private_note.php';
+require_once __DIR__ . '/metaboxes/ticket/private-note.php';
 require_once __DIR__ . '/metaboxes/ticket/message.php';
 require_once __DIR__ . '/metaboxes/ticket/status.php';
 

@@ -15,15 +15,15 @@ function sts_admin_update_status( $post_data, $post_id ) {
 	}
 
 	if ( current_user_can( 'update_tickets' ) &&
-	     isset( $post_data['ticket-status'] ) &&
-	     is_numeric( $post_data['ticket-status'] )
+		 isset( $post_data['ticket-status'] ) &&
+		 is_numeric( $post_data['ticket-status'] )
 	) {
 		$status_update = update_post_meta( $post_id, 'ticket-status', $post_data['ticket-status'] );
 	}
 
 	if ( current_user_can( 'assign_agent_to_ticket' ) &&
-	     isset( $post_data['ticket-agent'] ) &&
-	     is_numeric( $post_data['ticket-agent'] )
+		 isset( $post_data['ticket-agent'] ) &&
+		 is_numeric( $post_data['ticket-agent'] )
 	) {
 		$agent_update = update_post_meta( $post_id, 'ticket-agent', $post_data['ticket-agent'] );
 	}
@@ -115,12 +115,12 @@ function sts_metabox_status_render( $post ) {
 		</p>
 		<?php
 	endif;
-		if ( current_user_can( 'assign_agent_to_ticket' ) ) :
-			?>
-			<p>
-				<label for="ticket-agent"><?php _e( 'Current agent', 'support-ticket' ); ?>:</label>
-				<select id="ticket-agent" name="t[ticket-agent]">
-					<?php foreach ( $agents as $agent ) : ?>
+if ( current_user_can( 'assign_agent_to_ticket' ) ) :
+	?>
+	<p>
+		<label for="ticket-agent"><?php _e( 'Current agent', 'support-ticket' ); ?>:</label>
+		<select id="ticket-agent" name="t[ticket-agent]">
+			<?php foreach ( $agents as $agent ) : ?>
 						<?php if ( is_string( $agent ) ) : ?>
 							<option disabled>----</option>
 						<?php else : ?>
@@ -129,7 +129,7 @@ function sts_metabox_status_render( $post ) {
 							</option>
 						<?php endif; ?>
 					<?php endforeach; ?>
-				</select>
+		</select>
 			</p>
 		<?php endif; ?>
 		<button class="button button-primary button-large"><?php _e( 'Update', 'support-ticket' ); ?></button>
