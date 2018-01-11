@@ -419,3 +419,29 @@ function get_unread_tickets_for_user( $user_id ) {
 	);
 	return (int) $all[0]->alltickets - (int) $res[0]->readtickets;
 }
+
+
+/**
+ * Prints a select field.
+ *
+ * @param string     $id
+ * @param string     $name
+ * @param string     $label
+ * @param string     $value
+ * @param stdClass[] $options
+ */
+function sts_print_select( $id, $name, $label, $value, $options ) {
+	?>
+	<p>
+		<label for="<?php echo esc_attr( $id ); ?>"><?php echo esc_html( $label ); ?></label>
+		<select id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>">
+			<?php foreach ( $options as $option ) : ?>
+				<option <?php selected( $value, $option->value ); ?>
+					value="<?php echo esc_attr( $option->value ); ?>">
+					<?php echo $option->label; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+	</p>
+	<?php
+}
