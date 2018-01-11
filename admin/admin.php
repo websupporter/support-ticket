@@ -47,41 +47,7 @@ function wp_sf_adminpage() {
 	//Find no of unread tickets of user
 	$unread = 0;
 	if ( current_user_can( 'read_assigned_tickets' ) ) {
-
-		$all = $wpdb->get_results(
-			$wpdb->prepare(
-				'
-			select 
-				count( a.post_id ) as alltickets
-			from
-				' . $wpdb->postmeta . ' as a
-			where (
-				a.meta_key = "ticket-agent" &&
-				a.meta_value = %d
-			)',
-				get_current_user_id()
-			)
-		);
-
-		$res    = $wpdb->get_results(
-			$wpdb->prepare(
-				'
-			select 
-				count( r.post_id )  as readtickets
-			from
-				' . $wpdb->postmeta . ' as r,
-				' . $wpdb->postmeta . ' as a
-			where (
-				a.meta_key = "ticket-agent" &&
-				a.meta_value = %d &&
-				a.post_id = r.post_id &&
-				r.meta_key = "ticket-read" &&
-				r.meta_value = 1
-			)',
-				get_current_user_id()
-			)
-		);
-		$unread = $all[0]->alltickets - $res[0]->readtickets;
+		$unread = get_unread_tickets_for_user( get_current_user_id() );
 	}
 
 	$tickets_title = esc_html__( 'Tickets', 'support-ticket' );
