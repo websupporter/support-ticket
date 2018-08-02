@@ -76,12 +76,12 @@ if (
 
 	$query = new WP_Query( $args );
 	if ( ! $query->have_posts() ) :
-	?>
+		?>
 	<h1>
 		<img src="<?php echo esc_url( STS_URL ); ?>assets/img/logo-small.svg" height="25px" />
 		<?php esc_html_e( 'Ticket not found :/', 'support-ticket' ); ?>
 	</h1>
-	<?php
+		<?php
 	else :
 		$query->the_post();
 
@@ -90,7 +90,7 @@ if (
 		if ( get_current_user_id() === (int) get_post_meta( get_the_ID(), 'ticket-agent', true ) ) {
 			update_post_meta( get_the_ID(), 'ticket-read', 1 );
 		}
-	?>
+		?>
 	<h2>
 		<img src="<?php echo esc_url( STS_URL ); ?>assets/img/logo-small.svg" height="25px" />
 		<?php the_title(); ?>
