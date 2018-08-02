@@ -14,7 +14,7 @@
 	<?php
 	if ( is_user_logged_in() ) :
 		$user = wp_get_current_user();
-	?>
+		?>
 	<p>
 		<?php
 		// translators: %s is the name of the person, we greet.
@@ -22,15 +22,15 @@
 		?>
 	</p>
 
-	<?php
+		<?php
 	elseif (
 		isset( $_SESSION['ticket']['action'] )
 		&& 'ask-login' === $_SESSION['ticket']['action']
 	) :
-	?>
+		?>
 
 	<p>
-	<?php
+		<?php
 		echo esc_html(
 			sprintf(
 				// translators: %s is the email address.
@@ -45,7 +45,7 @@
 		</a>
 	</p>
 
-	<?php
+		<?php
 	endif;
 
 	if (
@@ -60,12 +60,12 @@
 		<table>
 			<tbody>
 	<?php endif; ?>
-	<?php
-	foreach ( $fields as $field ) :
+		<?php
+		foreach ( $fields as $field ) :
 			sts_render_form_field( $field, 'shortcode', true, $args );
-	?>
-	<?php endforeach; ?>
-	<?php if ( 'table' === $args['type'] ) : ?>
+			?>
+		<?php endforeach; ?>
+		<?php if ( 'table' === $args['type'] ) : ?>
 			</tbody>
 		</table>
 	<?php endif; ?>

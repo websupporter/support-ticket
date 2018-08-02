@@ -95,12 +95,14 @@ function sts_metabox_status_render() {
 				't[ticket-status]',
 				__( 'Update status', 'support-ticket' ),
 				$current_status_index,
-				array_map( function( $label, $value ) {
-					return (object) array(
-						'value' => $value,
-						'label' => $label,
-					);
-				}, $status_array, array_keys( $status_array ) )
+				array_map(
+					function( $label, $value ) {
+							return (object) array(
+								'value' => $value,
+								'label' => $label,
+							);
+					}, $status_array, array_keys( $status_array )
+				)
 			);
 		endif;
 		if ( current_user_can( 'assign_agent_to_ticket' ) ) :
@@ -109,16 +111,18 @@ function sts_metabox_status_render() {
 				't[ticket-agent]',
 				__( 'Current agent', 'support-ticket' ),
 				$current_agent->ID,
-				array_map( function( $agent ) {
-					return (object) array(
-						'value' => $agent->ID,
-						'label' => $agent->display_name,
-					);
-				}, $agents )
+				array_map(
+					function( $agent ) {
+							return (object) array(
+								'value' => $agent->ID,
+								'label' => $agent->display_name,
+							);
+					}, $agents
+				)
 			);
 		endif;
 		?>
 		<button class="button button-primary button-large"><?php _e( 'Update', 'support-ticket' ); ?></button>
-	<?php
+		<?php
 	endif;
 }

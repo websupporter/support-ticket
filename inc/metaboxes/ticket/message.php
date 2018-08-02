@@ -43,7 +43,7 @@ function sts_metabox_message_render( $post ) {
 					<?php
 					if ( $ticketauthor_id == $post->post_author ) {
 						echo 'by-ticketowner';}
-			?>
+					?>
 " id="answer-<?php echo $post->ID; ?>">
 				<h3>
 							<span>

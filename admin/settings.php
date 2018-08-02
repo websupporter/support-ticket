@@ -19,9 +19,9 @@ wp_enqueue_script( 'postbox' );
 	<?php
 	$sts_settings->render_error();
 	if ( isset( $_GET['updated'] ) ) : // Input var okay.
-	?>
+		?>
 	<div id="message" class="updated notice is-dismissible"><p><?php esc_html_e( 'Settings updated.', 'support-ticket' ); ?></p></div>
-	<?php
+		<?php
 	endif;
 	?>
 

@@ -23,7 +23,7 @@ echo esc_html(
 		$user->data->display_name
 	)
 );
-	?>
+?>
 	</p>
 <p>
 	<?php esc_html_e( 'We have received your ticket and will contact you as soon as possible.', 'support-ticket' ); ?>
